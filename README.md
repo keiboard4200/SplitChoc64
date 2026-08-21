@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC11
+# SplitChoc64 Ver012 — ZMK RC12
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -120,3 +120,21 @@ configure and does not redefine the macro globally.
 
 The analog-stick split proxy is also placed in a dedicated address container so
 root `/soc` addressing remains untouched.
+
+## RC12 — ADC address-cell correction
+
+RC11 accidentally removed the ADC controller's own child-address declaration
+while leaving an address declaration at the root. That made `channel@0` and
+`channel@1` inherit the SoC's 2-address + 1-size-cell format.
+
+RC12 restores the Zephyr ADC layout:
+
+```dts
+&adc {
+    #address-cells = <1>;
+    #size-cells = <0>;
+    ...
+};
+```
+
+and removes the root override. The RC11 local analog-stick driver patch remains.

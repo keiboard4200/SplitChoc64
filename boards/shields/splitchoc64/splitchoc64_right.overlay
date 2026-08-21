@@ -25,6 +25,8 @@
 
 &adc {
     status = "okay";
+    #address-cells = <1>;
+    #size-cells = <0>;
 
     channel@0 {
         reg = <0>;
@@ -48,8 +50,6 @@
 };
 
 / {
-    #address-cells = <1>;
-    #size-cells = <0>;
     joy_2765: analog_stick0 {
         compatible = "zmk,analog-stick";
         io-channels = <&adc 0>, <&adc 1>;
