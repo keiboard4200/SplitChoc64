@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC14
+# SplitChoc64 Ver012 — ZMK RC15
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -154,3 +154,10 @@ reserved layers are included for future Studio use.
 
 The `studio` metadata feature flag is intentionally not added yet; it should be
 added after the Studio-enabled GitHub Actions build is confirmed successful.
+
+## RC15 — JOY ON/OFF
+
+The 2765 is ON by default. `Fn + Grave` toggles the transparent `JOY OFF`
+layer (layer 2). While layer 2 is active, the LEFT central input listener runs
+a local discard processor that stops joystick X/Y events before HID output.
+`Fn + Menu` remains the ZMK Studio unlock shortcut.
