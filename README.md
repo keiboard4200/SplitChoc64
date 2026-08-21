@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC8
+# SplitChoc64 Ver012 — ZMK RC9
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -100,3 +100,10 @@ RC7 reached C compilation of `zmk-driver-analog-stick`. Current ZMK main uses
 `zmk_endpoints_send_mouse_report()` name. RC8 registers this repository as a
 CMake module and supplies a compile-time compatibility alias, leaving the
 third-party driver source untouched.
+
+## RC9 — Zephyr input callback compatibility
+
+RC8 passed the previous endpoint API error and progressed to `input_split.c`.
+The external driver uses the older two-argument `INPUT_CALLBACK_DEFINE(device,
+callback)` form, while the current Zephyr input API requires an explicit callback
+name as a third macro argument. RC9 adds a compile-time compatibility wrapper.
