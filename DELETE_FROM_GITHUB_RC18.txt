@@ -1,0 +1,10 @@
+IMPORTANT: GitHub browser folder upload does not delete files already present in the repository.
+
+Before/after uploading RC18, delete this legacy file from the GitHub repository if it exists:
+
+dts/bindings/zmk,input-processor-discard.yaml
+
+RC18 ZIP intentionally contains only:
+dts/bindings/input_processors/zmk,input-processor-discard.yaml
+
+If the legacy file remains in GitHub, Zephyr will still report the duplicate-compatible error.
