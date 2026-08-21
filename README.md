@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC15
+# SplitChoc64 Ver012 — ZMK RC16
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -161,3 +161,11 @@ The 2765 is ON by default. `Fn + Grave` toggles the transparent `JOY OFF`
 layer (layer 2). While layer 2 is active, the LEFT central input listener runs
 a local discard processor that stops joystick X/Y events before HID output.
 `Fn + Menu` remains the ZMK Studio unlock shortcut.
+
+## RC16 — JOY toggle binding discovery fix
+
+RC15 failed during devicetree processing because the custom
+`zmk,input-processor-discard` binding was not discovered. RC16 places that
+binding under `dts/bindings/input/`, where Zephyr's module binding discovery
+searches it. No RC14 Studio or RC13 joystick signal-path logic was otherwise
+changed.
