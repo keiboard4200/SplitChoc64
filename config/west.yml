@@ -11,6 +11,6 @@ manifest:
       import: app/west.yml
     - name: zmk-driver-analog-stick
       remote: wdtamagi
-      revision: main
+      revision: refs/heads/main
   self:
     path: config

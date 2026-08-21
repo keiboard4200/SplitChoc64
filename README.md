@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC9
+# SplitChoc64 Ver012 — ZMK RC10
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -101,9 +101,12 @@ RC7 reached C compilation of `zmk-driver-analog-stick`. Current ZMK main uses
 CMake module and supplies a compile-time compatibility alias, leaving the
 third-party driver source untouched.
 
-## RC9 — Zephyr input callback compatibility
+## RC10 — remove obsolete global input macro shim
 
-RC8 passed the previous endpoint API error and progressed to `input_split.c`.
-The external driver uses the older two-argument `INPUT_CALLBACK_DEFINE(device,
-callback)` form, while the current Zephyr input API requires an explicit callback
-name as a third macro argument. RC9 adds a compile-time compatibility wrapper.
+The upstream analog-stick driver now includes its own Zephyr 4.x
+`INPUT_CALLBACK_DEFINE()` compatibility logic. RC9's forced-include macro shim
+therefore became both unnecessary and harmful: because it was global, even the
+`settings_reset` target failed.
+
+RC10 removes that global shim and keeps only the endpoint helper-name
+compatibility alias.
