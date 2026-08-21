@@ -1,3 +1,7 @@
+#include <zephyr/dt-bindings/adc/adc.h>
+#include <zephyr/dt-bindings/adc/nrf-saadc.h>
+#include <dt-bindings/analog-stick/modes.h>
+
 #include "splitchoc64.dtsi"
 
 &kscan0 {
@@ -17,4 +21,53 @@
 &default_transform {
     /* LEFT uses six matrix columns, so RIGHT begins at global column 6. */
     col-offset = <6>;
+};
+
+&adc {
+    status = "okay";
+    #address-cells = <1>;
+    #size-cells = <0>;
+
+    channel@0 {
+        reg = <0>;
+        zephyr,gain = "ADC_GAIN_1_6";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,input-positive = <NRF_SAADC_AIN0>;
+        zephyr,resolution = <12>;
+        zephyr,oversampling = <4>;
+    };
+
+    channel@1 {
+        reg = <1>;
+        zephyr,gain = "ADC_GAIN_1_6";
+        zephyr,reference = "ADC_REF_INTERNAL";
+        zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
+        zephyr,input-positive = <NRF_SAADC_AIN1>;
+        zephyr,resolution = <12>;
+        zephyr,oversampling = <4>;
+    };
+};
+
+/ {
+    joy_2765: analog_stick0 {
+        compatible = "zmk,analog-stick";
+        io-channels = <&adc 0>, <&adc 1>;
+        x-min = <200>;
+        x-center = <2048>;
+        x-max = <3895>;
+        y-min = <200>;
+        y-center = <2048>;
+        y-max = <3895>;
+        deadzone-percent = <8>;
+        wait-period-idle = <100>;
+        wait-period-active = <8>;
+        inter-channel-settling-time = <40>;
+    };
+
+    joy_split: analog_stick_split0 {
+        compatible = "zmk,analog-stick-split";
+        device = <&joy_2765>;
+        reg = <0>;
+    };
 };

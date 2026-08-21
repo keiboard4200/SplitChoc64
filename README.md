@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC4
+# SplitChoc64 Ver012 — ZMK RC5
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -77,3 +77,7 @@ build:
 Without `board_root: .`, Zephyr loads the module itself but does not search this
 repository's `boards/shields/` directory, causing `No shield named
 'splitchoc64_left' found`.
+
+
+## RC5 — 2765
+Adds RIGHT-side 2765 X/Y via nRF52840 SAADC and split analog-stick support. Trackball work is deferred.

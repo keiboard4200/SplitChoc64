@@ -1,3 +1,5 @@
+#include <dt-bindings/analog-stick/modes.h>
+
 #include "splitchoc64.dtsi"
 
 &kscan0 {
@@ -10,4 +12,30 @@
         , <&gpio0 9 GPIO_ACTIVE_HIGH>
         , <&gpio0 10 GPIO_ACTIVE_HIGH>
         ;
+};
+
+/ {
+    joy_split: analog_stick_split0 {
+        compatible = "zmk,analog-stick-split";
+        reg = <0>;
+    };
+
+    joy_listener: analog_stick_listener0 {
+        compatible = "zmk,analog-stick-listener";
+        device = <&joy_split>;
+
+        base_mouse {
+            layers = <0>;
+            mode = <ANALOG_STICK_MODE_MOUSE>;
+            mouse-min-speed = <1>;
+            mouse-max-speed = <15>;
+        };
+
+        fn_mouse {
+            layers = <1>;
+            mode = <ANALOG_STICK_MODE_MOUSE>;
+            mouse-min-speed = <1>;
+            mouse-max-speed = <15>;
+        };
+    };
 };
