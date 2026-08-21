@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC16
+# SplitChoc64 Ver012 — ZMK RC17
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -169,3 +169,29 @@ RC15 failed during devicetree processing because the custom
 binding under `dts/bindings/input/`, where Zephyr's module binding discovery
 searches it. No RC14 Studio or RC13 joystick signal-path logic was otherwise
 changed.
+
+## RC17 — actual Devicetree binding discovery fix
+
+RC15 and RC16 repeatedly failed with:
+
+`joy_discard ... lacks binding`
+
+The binding YAML itself existed, but this repository's `zephyr/module.yml`
+declared only `board_root`. It never declared `dts_root`, so Zephyr did not
+search this module's `dts/bindings/` tree at all.
+
+RC17 adds:
+
+```yaml
+build:
+  cmake: .
+  settings:
+    board_root: .
+    dts_root: .
+```
+
+The custom binding is also placed under `dts/bindings/input_processors/` and
+includes `base.yaml`, matching normal ZMK module binding conventions.
+
+No JOY event-path logic, Studio configuration, RIGHT ADC configuration, or
+Fn+Grave toggle behavior was changed.
