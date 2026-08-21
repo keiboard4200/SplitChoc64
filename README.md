@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC5
+# SplitChoc64 Ver012 — ZMK RC6
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -81,3 +81,10 @@ repository's `boards/shields/` directory, causing `No shield named
 
 ## RC5 — 2765
 Adds RIGHT-side 2765 X/Y via nRF52840 SAADC and split analog-stick support. Trackball work is deferred.
+
+## RC6 fix
+
+GitHub Actions RC5 reached the custom shield and failed while parsing the
+`zmk,analog-stick-split` proxy's `reg = <0>` property. RC6 explicitly sets the
+root addressing for these virtual split-device nodes to one address cell and
+zero size cells, matching the analog-stick driver's split example.
