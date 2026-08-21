@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC13
+# SplitChoc64 Ver012 — ZMK RC14
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -145,3 +145,12 @@ The previous analog-stick module linked mouse-HID functions into the RIGHT split
 peripheral, where those host-facing symbols do not exist. RC13 changes architecture:
 RIGHT only produces standard relative input events and forwards them through ZMK's
 native `zmk,input-split`; LEFT alone owns the native `zmk,input-listener` and HID path.
+
+## RC14 — ZMK Studio
+
+RC14 keeps the RC13 JOY2765 implementation unchanged and adds ZMK Studio support
+to the LEFT/central firmware. Use Fn+Menu to unlock Studio. Two additional
+reserved layers are included for future Studio use.
+
+The `studio` metadata feature flag is intentionally not added yet; it should be
+added after the Studio-enabled GitHub Actions build is confirmed successful.
