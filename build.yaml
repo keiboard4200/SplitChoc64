@@ -1,0 +1,11 @@
+---
+include:
+  - board: xiao_ble//zmk
+    shield: splitchoc64_left
+    artifact-name: splitchoc64_left
+  - board: xiao_ble//zmk
+    shield: splitchoc64_right
+    artifact-name: splitchoc64_right
+  - board: xiao_ble//zmk
+    shield: settings_reset
+    artifact-name: settings_reset

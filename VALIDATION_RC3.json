@@ -1,0 +1,59 @@
+{
+  "source": "splitchoc64_Ver012.zip",
+  "zmk_revision": "main",
+  "board": "xiao_ble//zmk",
+  "left_keys": 29,
+  "right_keys": 35,
+  "total_keys": 64,
+  "matrix_rows": 5,
+  "left_local_cols": 6,
+  "right_local_cols": 8,
+  "right_col_offset": 6,
+  "diode_direction": "col2row",
+  "transform_positions": 64,
+  "transform_unique": 64,
+  "keymap_base_bindings": 64,
+  "keymap_fn_bindings": 64,
+  "row_counts": [
+    14,
+    14,
+    13,
+    12,
+    11
+  ],
+  "j3_j4_gpio_signals_reserved": 5,
+  "nfc_gpio_requirement_v0_3": true,
+  "static_checks": {
+    "64_transform_positions": true,
+    "no_duplicate_transform_positions": true,
+    "64_base_bindings": true,
+    "64_fn_bindings": true,
+    "logical_row_total": true,
+    "left_plus_right": true,
+    "right_offset_non_overlap": true,
+    "zephyr_module_marker": true,
+    "menu_keycode_current": true,
+    "sleep_not_forced": true
+  },
+  "limitations": [
+    "No real PCB or switch-matrix electrical test yet.",
+    "No real BLE split radio test yet.",
+    "No physical battery/charging measurement yet.",
+    "Pointing-device driver intentionally not enabled in RC3.",
+    "This sandbox has no network access to clone the ZMK/Zephyr source tree, so the authoritative west build must run in GitHub Actions or another networked ZMK toolchain."
+  ],
+  "release": "RC3",
+  "changes_from_rc1": [
+    "Updated XIAO BLE board ID from legacy seeeduino_xiao_ble to xiao_ble//zmk.",
+    "Moved shield hardware definition from config/boards/shields to boards/shields.",
+    "Replaced unsupported shared split .conf with splitchoc64_left.conf and splitchoc64_right.conf.",
+    "Removed legacy CONFIG_NFCT_PINS_AS_GPIOS assumption from RC1.",
+    "Workflow now follows current ZMK reusable build workflow on main."
+  ],
+  "changes_from_rc2": [
+    "Added zephyr/module.yml so top-level boards/shields is discovered by the current ZMK reusable build workflow.",
+    "Changed the Menu key binding from undefined K_APP to current ZMK keycode K_MENU.",
+    "Removed CONFIG_ZMK_SLEEP from both halves during pre-hardware validation to avoid making RC3 dependent on current-main split-central sleep behavior.",
+    "Added tools/validate_rc3.py for deterministic repository-level static checks."
+  ]
+}

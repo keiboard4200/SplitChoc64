@@ -1,0 +1,20 @@
+#include "splitchoc64.dtsi"
+
+&kscan0 {
+    /* RIGHT Ver012: COL0..7 = D10,D11,D12,D13,D14,D15,D17,D18 */
+    col-gpios
+        = <&gpio1 15 GPIO_ACTIVE_HIGH>
+        , <&gpio0 15 GPIO_ACTIVE_HIGH>
+        , <&gpio0 19 GPIO_ACTIVE_HIGH>
+        , <&gpio1 1 GPIO_ACTIVE_HIGH>
+        , <&gpio0 9 GPIO_ACTIVE_HIGH>
+        , <&gpio0 10 GPIO_ACTIVE_HIGH>
+        , <&gpio1 3 GPIO_ACTIVE_HIGH>
+        , <&gpio1 5 GPIO_ACTIVE_HIGH>
+        ;
+};
+
+&default_transform {
+    /* LEFT uses six matrix columns, so RIGHT begins at global column 6. */
+    col-offset = <6>;
+};
