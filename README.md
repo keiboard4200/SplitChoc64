@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC7
+# SplitChoc64 Ver012 — ZMK RC8
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -92,3 +92,11 @@ zero size cells, matching the analog-stick driver's split example.
 
 ## RC7 fix
 The split proxy node is now `analog_stick_split@0`, matching `reg = <0>` as required by Zephyr 4.1 dtc.
+
+## RC8 — ZMK pointing API compatibility
+
+RC7 reached C compilation of `zmk-driver-analog-stick`. Current ZMK main uses
+`zmk_endpoint_send_mouse_report()` while the driver still calls the older
+`zmk_endpoints_send_mouse_report()` name. RC8 registers this repository as a
+CMake module and supplies a compile-time compatibility alias, leaving the
+third-party driver source untouched.
