@@ -1,5 +1,3 @@
-#include <dt-bindings/analog-stick/modes.h>
-
 #include "splitchoc64.dtsi"
 
 &kscan0 {
@@ -15,32 +13,19 @@
 };
 
 / {
-    joy_splits {
+    /* Native ZMK split-input proxy. No HID code runs on the right peripheral. */
+    joy_input_splits {
         #address-cells = <1>;
         #size-cells = <0>;
 
-        joy_split: analog_stick_split@0 {
-            compatible = "zmk,analog-stick-split";
+        joy_split: input_split@0 {
+            compatible = "zmk,input-split";
             reg = <0>;
         };
     };
 
-    joy_listener: analog_stick_listener0 {
-        compatible = "zmk,analog-stick-listener";
+    joy_listener: input_listener_joy {
+        compatible = "zmk,input-listener";
         device = <&joy_split>;
-
-        base_mouse {
-            layers = <0>;
-            mode = <ANALOG_STICK_MODE_MOUSE>;
-            mouse-min-speed = <1>;
-            mouse-max-speed = <15>;
-        };
-
-        fn_mouse {
-            layers = <1>;
-            mode = <ANALOG_STICK_MODE_MOUSE>;
-            mouse-min-speed = <1>;
-            mouse-max-speed = <15>;
-        };
     };
 };

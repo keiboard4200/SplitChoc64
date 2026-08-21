@@ -2,15 +2,15 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: wdtamagi
-      url-base: https://github.com/wdtamagi
+    - name: badjeff
+      url-base: https://github.com/badjeff
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-    - name: zmk-driver-analog-stick
-      remote: wdtamagi
-      revision: refs/heads/main
+    - name: zmk-analog-input-driver
+      remote: badjeff
+      revision: main
   self:
     path: config

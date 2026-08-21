@@ -1,6 +1,6 @@
+#include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <zephyr/dt-bindings/adc/adc.h>
 #include <zephyr/dt-bindings/adc/nrf-saadc.h>
-#include <dt-bindings/analog-stick/modes.h>
 
 #include "splitchoc64.dtsi"
 
@@ -33,9 +33,9 @@
         zephyr,gain = "ADC_GAIN_1_6";
         zephyr,reference = "ADC_REF_INTERNAL";
         zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
-        zephyr,input-positive = <NRF_SAADC_AIN0>;
+        zephyr,input-positive = <NRF_SAADC_AIN0>; /* P0.02 / J4-3 / JOY_X */
         zephyr,resolution = <12>;
-        zephyr,oversampling = <4>;
+        zephyr,oversampling = <0>;
     };
 
     channel@1 {
@@ -43,34 +43,46 @@
         zephyr,gain = "ADC_GAIN_1_6";
         zephyr,reference = "ADC_REF_INTERNAL";
         zephyr,acquisition-time = <ADC_ACQ_TIME_DEFAULT>;
-        zephyr,input-positive = <NRF_SAADC_AIN1>;
+        zephyr,input-positive = <NRF_SAADC_AIN1>; /* P0.03 / J4-4 / JOY_Y */
         zephyr,resolution = <12>;
-        zephyr,oversampling = <4>;
+        zephyr,oversampling = <0>;
     };
 };
 
 / {
-    joy_2765: analog_stick0 {
-        compatible = "zmk,analog-stick";
-        io-channels = <&adc 0>, <&adc 1>;
-        x-min = <200>;
-        x-center = <2048>;
-        x-max = <3895>;
-        y-min = <200>;
-        y-center = <2048>;
-        y-max = <3895>;
-        deadzone-percent = <8>;
-        wait-period-idle = <100>;
-        wait-period-active = <8>;
-        inter-channel-settling-time = <40>;
+    joy_2765: analog_input_0 {
+        compatible = "zmk,analog-input";
+        sampling-hz = <125>;
+
+        x-ch {
+            io-channels = <&adc 0>;
+            mv-mid = <1650>;
+            mv-min-max = <1550>;
+            mv-deadzone = <120>;
+            scale-multiplier = <1>;
+            scale-divisor = <70>;
+            evt-type = <INPUT_EV_REL>;
+            input-code = <INPUT_REL_X>;
+        };
+
+        y-ch {
+            io-channels = <&adc 1>;
+            mv-mid = <1650>;
+            mv-min-max = <1550>;
+            mv-deadzone = <120>;
+            scale-multiplier = <1>;
+            scale-divisor = <70>;
+            evt-type = <INPUT_EV_REL>;
+            input-code = <INPUT_REL_Y>;
+        };
     };
 
-    joy_splits {
+    joy_input_splits {
         #address-cells = <1>;
         #size-cells = <0>;
 
-        joy_split: analog_stick_split@0 {
-            compatible = "zmk,analog-stick-split";
+        joy_split: input_split@0 {
+            compatible = "zmk,input-split";
             device = <&joy_2765>;
             reg = <0>;
         };

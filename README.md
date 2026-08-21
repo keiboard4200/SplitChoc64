@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC12
+# SplitChoc64 Ver012 — ZMK RC13
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -138,3 +138,10 @@ RC12 restores the Zephyr ADC layout:
 ```
 
 and removes the root override. The RC11 local analog-stick driver patch remains.
+
+## RC13 — native ZMK input-split architecture
+
+The previous analog-stick module linked mouse-HID functions into the RIGHT split
+peripheral, where those host-facing symbols do not exist. RC13 changes architecture:
+RIGHT only produces standard relative input events and forwards them through ZMK's
+native `zmk,input-split`; LEFT alone owns the native `zmk,input-listener` and HID path.
