@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC6
+# SplitChoc64 Ver012 — ZMK RC7
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -88,3 +88,7 @@ GitHub Actions RC5 reached the custom shield and failed while parsing the
 `zmk,analog-stick-split` proxy's `reg = <0>` property. RC6 explicitly sets the
 root addressing for these virtual split-device nodes to one address cell and
 zero size cells, matching the analog-stick driver's split example.
+
+
+## RC7 fix
+The split proxy node is now `analog_stick_split@0`, matching `reg = <0>` as required by Zephyr 4.1 dtc.

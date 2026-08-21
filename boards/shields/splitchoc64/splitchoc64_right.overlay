@@ -67,7 +67,7 @@
         inter-channel-settling-time = <40>;
     };
 
-    joy_split: analog_stick_split0 {
+    joy_split: analog_stick_split@0 {
         compatible = "zmk,analog-stick-split";
         device = <&joy_2765>;
         reg = <0>;
