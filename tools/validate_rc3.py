@@ -85,14 +85,16 @@ if "splitchoc64_left" not in build or "splitchoc64_right" not in build or "setti
 module = yaml.safe_load((ROOT/"zephyr/module.yml").read_text())
 if module.get("name") != "zmk-keyboard-splitchoc64":
     errors.append("module name mismatch")
+if module.get("build", {}).get("settings", {}).get("board_root") != ".":
+    errors.append("zephyr module board_root must be '.'")
 
 if errors:
-    print("RC3 STATIC VALIDATION: FAIL")
+    print("RC4 STATIC VALIDATION: FAIL")
     for e in errors:
         print(" -", e)
     sys.exit(1)
 
-print("RC3 STATIC VALIDATION: PASS")
+print("RC4 STATIC VALIDATION: PASS")
 print(" - Zephyr module marker: OK")
 print(" - Transform: 64 unique positions")
 print(" - Keymap: 2 x 64 bindings")

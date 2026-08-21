@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC3
+# SplitChoc64 Ver012 — ZMK RC4
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -61,3 +61,19 @@ Deep sleep can be enabled after the base split firmware is proven on hardware an
 - BLE split radio operation
 - battery and charging behavior
 - future J3/J4 pointing-device interface
+
+
+## RC4 fix
+
+RC4 adds the missing Zephyr module board root declaration:
+
+```yaml
+name: zmk-keyboard-splitchoc64
+build:
+  settings:
+    board_root: .
+```
+
+Without `board_root: .`, Zephyr loads the module itself but does not search this
+repository's `boards/shields/` directory, causing `No shield named
+'splitchoc64_left' found`.
