@@ -25,8 +25,6 @@
 
 &adc {
     status = "okay";
-    #address-cells = <1>;
-    #size-cells = <0>;
 
     channel@0 {
         reg = <0>;
@@ -67,9 +65,14 @@
         inter-channel-settling-time = <40>;
     };
 
-    joy_split: analog_stick_split@0 {
-        compatible = "zmk,analog-stick-split";
-        device = <&joy_2765>;
-        reg = <0>;
+    joy_splits {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        joy_split: analog_stick_split@0 {
+            compatible = "zmk,analog-stick-split";
+            device = <&joy_2765>;
+            reg = <0>;
+        };
     };
 };

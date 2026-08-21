@@ -15,11 +15,14 @@
 };
 
 / {
-    #address-cells = <1>;
-    #size-cells = <0>;
-    joy_split: analog_stick_split@0 {
-        compatible = "zmk,analog-stick-split";
-        reg = <0>;
+    joy_splits {
+        #address-cells = <1>;
+        #size-cells = <0>;
+
+        joy_split: analog_stick_split@0 {
+            compatible = "zmk,analog-stick-split";
+            reg = <0>;
+        };
     };
 
     joy_listener: analog_stick_listener0 {

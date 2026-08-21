@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC10
+# SplitChoc64 Ver012 — ZMK RC11
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -110,3 +110,13 @@ therefore became both unnecessary and harmful: because it was global, even the
 
 RC10 removes that global shim and keeps only the endpoint helper-name
 compatibility alias.
+
+## RC11 — local Zephyr 4.1 driver patch
+
+RC10 proved LEFT and settings-reset build successfully. RIGHT fails only because
+the third-party driver selects the legacy two-argument `INPUT_CALLBACK_DEFINE`
+branch on Zephyr 4.1. RC11 patches only that compatibility block during CMake
+configure and does not redefine the macro globally.
+
+The analog-stick split proxy is also placed in a dedicated address container so
+root `/soc` addressing remains untouched.
