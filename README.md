@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC21
+# SplitChoc64 Ver012 — ZMK RC22
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -215,3 +215,10 @@ Adds JOY On/Off, angle +/-5 deg, max speed +/-, and Reset Defaults with persiste
 
 Adds Studio-assignable deadzone +/-, minimum-speed +/-, and response-curve +/-
 controls. Reset Defaults now restores every JOY runtime setting.
+
+## RC22 — ABS linker fix
+
+RC21 reached final linking but failed because `ABS()` resolved as an external
+symbol in this toolchain. RC22 replaces it with a local `joy_abs_i32()` helper.
+No JOY tuning behavior, Studio behavior, ADC configuration, or split routing
+was otherwise changed.

@@ -253,6 +253,16 @@ static int joy_runtime_init(void) {
 SYS_INIT(joy_runtime_init, APPLICATION, CONFIG_APPLICATION_INIT_PRIORITY);
 
 
+
+static uint32_t joy_abs_i32(int32_t v) {
+    if (v >= 0) {
+        return (uint32_t)v;
+    }
+
+    /* Avoid signed overflow for INT32_MIN by widening before negation. */
+    return (uint32_t)(-(int64_t)v);
+}
+
 static uint32_t joy_isqrt_u32(uint32_t x) {
     uint32_t op = x;
     uint32_t res = 0;
@@ -294,8 +304,8 @@ static uint16_t joy_curve_q10(uint16_t mag_q10) {
 }
 
 static void joy_apply_response(int32_t *x, int32_t *y) {
-    uint32_t ax = (uint32_t)ABS(*x);
-    uint32_t ay = (uint32_t)ABS(*y);
+    uint32_t ax = joy_abs_i32(*x);
+    uint32_t ay = joy_abs_i32(*y);
     uint32_t mag = joy_isqrt_u32(ax * ax + ay * ay);
 
     if (mag == 0) {
