@@ -94,6 +94,49 @@
         display-name = "JOY Reset Defaults";
     };
 
+
+    joy_deadzone_inc: joy_deadzone_inc {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <6>;
+        display-name = "JOY Deadzone +";
+    };
+
+    joy_deadzone_dec: joy_deadzone_dec {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <7>;
+        display-name = "JOY Deadzone -";
+    };
+
+    joy_min_speed_inc: joy_min_speed_inc {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <8>;
+        display-name = "JOY Min Speed +";
+    };
+
+    joy_min_speed_dec: joy_min_speed_dec {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <9>;
+        display-name = "JOY Min Speed -";
+    };
+
+    joy_curve_inc: joy_curve_inc {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <10>;
+        display-name = "JOY Curve +";
+    };
+
+    joy_curve_dec: joy_curve_dec {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <11>;
+        display-name = "JOY Curve -";
+    };
+
     chosen {
         zmk,kscan = &kscan0;
         zmk,physical-layout = &default_layout;

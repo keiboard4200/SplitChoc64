@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC20
+# SplitChoc64 Ver012 — ZMK RC21
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -210,3 +210,8 @@ JOY routing, Studio, ADC configuration, and Fn+Grave toggle behavior are unchang
 
 ## RC20 — Studio-assignable JOY tuning
 Adds JOY On/Off, angle +/-5 deg, max speed +/-, and Reset Defaults with persistent settings.
+
+## RC21 — advanced JOY tuning
+
+Adds Studio-assignable deadzone +/-, minimum-speed +/-, and response-curve +/-
+controls. Reset Defaults now restores every JOY runtime setting.
