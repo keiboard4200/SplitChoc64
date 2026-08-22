@@ -21,13 +21,16 @@
         fn_layer {
             display-name = "Fn";
             /*
-             * RC23 stock utility layout.
+             * SplitChoc64 utility/tuning layer.
              * Bluetooth profile numbers shown to the user are 1..5,
              * while BT_SEL arguments are zero-based 0..4.
+             *
+             * JOY controls are intentionally exposed as normal behaviors so
+             * they can also be reassigned later from ZMK Studio.
              */
             bindings = <
-            &joy_toggle &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &trans &trans &trans &trans &trans &bt BT_PRV &bt BT_NXT &bt BT_CLR
-            &out OUT_TOG &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            &joy_toggle &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &joy_angle_dec &joy_angle_inc &joy_speed_dec &joy_speed_inc &joy_reset &bt BT_PRV &bt BT_NXT &bt BT_CLR
+            &out OUT_TOG &trans &trans &trans &trans &trans &joy_deadzone_dec &joy_deadzone_inc &joy_min_speed_dec &joy_min_speed_inc &joy_curve_dec &joy_curve_inc &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &studio_unlock &trans
