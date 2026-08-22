@@ -24,18 +24,9 @@
         };
     };
 
-    joy_discard: joy_discard {
-        compatible = "zmk,input-processor-discard";
-        #input-processor-cells = <0>;
-    };
 
-    joy_listener: input_listener_joy {
-        compatible = "zmk,input-listener";
-        device = <&joy_split>;
 
-        joy_off {
-            layers = <2>;
-            input-processors = <&joy_discard>;
-        };
+    chosen {
+        splitchoc64,joy-input = &joy_split;
     };
 };

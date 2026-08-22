@@ -51,6 +51,49 @@
         >;
     };
 
+
+    joy_toggle: joy_toggle {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <0>;
+        display-name = "JOY On/Off";
+    };
+
+    joy_angle_inc: joy_angle_inc {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <1>;
+        display-name = "JOY Angle +5 deg";
+    };
+
+    joy_angle_dec: joy_angle_dec {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <2>;
+        display-name = "JOY Angle -5 deg";
+    };
+
+    joy_speed_inc: joy_speed_inc {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <3>;
+        display-name = "JOY Max Speed +";
+    };
+
+    joy_speed_dec: joy_speed_dec {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <4>;
+        display-name = "JOY Max Speed -";
+    };
+
+    joy_reset: joy_reset {
+        compatible = "splitchoc64,behavior-joy-config";
+        #binding-cells = <0>;
+        command = <5>;
+        display-name = "JOY Reset Defaults";
+    };
+
     chosen {
         zmk,kscan = &kscan0;
         zmk,physical-layout = &default_layout;

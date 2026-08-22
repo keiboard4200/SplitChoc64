@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC19
+# SplitChoc64 Ver012 — ZMK RC20
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -206,3 +206,7 @@ every input processor.
 RC19 declares that optional boolean property in the custom discard processor
 binding. The JOY discard processor leaves it unset, so it evaluates false.
 JOY routing, Studio, ADC configuration, and Fn+Grave toggle behavior are unchanged.
+
+
+## RC20 — Studio-assignable JOY tuning
+Adds JOY On/Off, angle +/-5 deg, max speed +/-, and Reset Defaults with persistent settings.
