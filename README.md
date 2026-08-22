@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC23
+# SplitChoc64 Ver012 — ZMK RC24 FINAL CANDIDATE (REVISED)
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -228,3 +228,25 @@ was otherwise changed.
 The host-facing BLE name is `SplitChoc64`. The Fn layer now includes five
 Bluetooth profile selectors, previous/next profile, selected-profile bond
 clear, and USB/BLE output toggle. Existing Studio and JOY controls remain.
+
+## RC24 FINAL CANDIDATE
+
+No firmware logic changed from the RC23 build that passed GitHub Actions #24.
+RC24 freezes that firmware state and adds the final static audit plus a staged
+hardware bring-up plan. Further firmware changes should be driven by hardware
+test results.
+
+## RC24 revised architecture
+
+This package supersedes the earlier untested RC24.
+
+Final architecture:
+- RIGHT = Central
+- LEFT = Peripheral
+- RIGHT = USB/BLE host-facing half
+- RIGHT = ZMK Studio
+- RIGHT = local 2765 ADC and JOY processing
+- BLE name = SplitChoc64
+
+Because the central role changed, GitHub Actions must be run again before this
+revised RC24 can be considered build-validated.
