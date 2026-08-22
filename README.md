@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC17
+# SplitChoc64 Ver012 — ZMK RC19
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -195,3 +195,14 @@ includes `base.yaml`, matching normal ZMK module binding conventions.
 
 No JOY event-path logic, Studio configuration, RIGHT ADC configuration, or
 Fn+Grave toggle behavior was changed.
+
+## RC19 — input processor remainder property fix
+
+RC18 progressed through Devicetree generation and compiled the custom
+`input_processor_discard.c`. The next failure was in ZMK's own
+`pointing/input_listener.c`, which reads a `track-remainders` property from
+every input processor.
+
+RC19 declares that optional boolean property in the custom discard processor
+binding. The JOY discard processor leaves it unset, so it evaluates false.
+JOY routing, Studio, ADC configuration, and Fn+Grave toggle behavior are unchanged.
