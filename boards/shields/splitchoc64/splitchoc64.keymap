@@ -1,5 +1,7 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/outputs.h>
 
 / {
     keymap {
@@ -19,12 +21,13 @@
         fn_layer {
             display-name = "Fn";
             /*
-             * RC1 intentionally leaves Fn transparent.
-             * Hardware/matrix validation can be completed before deciding the final Fn layout.
+             * RC23 stock utility layout.
+             * Bluetooth profile numbers shown to the user are 1..5,
+             * while BT_SEL arguments are zero-based 0..4.
              */
             bindings = <
-            &joy_toggle &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            &joy_toggle &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &trans &trans &trans &trans &trans &bt BT_PRV &bt BT_NXT &bt BT_CLR
+            &out OUT_TOG &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &studio_unlock &trans

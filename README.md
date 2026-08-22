@@ -1,4 +1,4 @@
-# SplitChoc64 Ver012 — ZMK RC22
+# SplitChoc64 Ver012 — ZMK RC23
 
 RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
 
@@ -222,3 +222,9 @@ RC21 reached final linking but failed because `ABS()` resolved as an external
 symbol in this toolchain. RC22 replaces it with a local `joy_abs_i32()` helper.
 No JOY tuning behavior, Studio behavior, ADC configuration, or split routing
 was otherwise changed.
+
+## RC23 — Bluetooth-ready stock controls
+
+The host-facing BLE name is `SplitChoc64`. The Fn layer now includes five
+Bluetooth profile selectors, previous/next profile, selected-profile bond
+clear, and USB/BLE output toggle. Existing Studio and JOY controls remain.
