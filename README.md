@@ -1,252 +1,110 @@
-# SplitChoc64 Ver012 — ZMK RC24 FINAL CANDIDATE (REVISED)
+# SplitChoc64 — ZMK Firmware
 
-RC3 is the pre-hardware ZMK baseline generated from the Ver012 KiCad connectivity.
+Firmware repository for the SplitChoc64 Ver012 split keyboard.
 
-## Hardware mapping
+## Current status
 
-- Controller: XIAO nRF52840 / XIAO BLE
-- Current ZMK board target: `xiao_ble//zmk`
-- LEFT: 29 keys, 5 rows × 6 populated columns
-- RIGHT: 35 keys, 5 rows × 8 populated columns
-- Diode direction: `col2row`
-- LEFT: split central
-- RIGHT: split peripheral
-- RIGHT matrix transform column offset: 6
-- J3/J4 five signal GPIOs are intentionally unused and reserved for future pointing-device work
+The current `main` branch is the pre-hardware firmware baseline. GitHub Actions build #34 passed after the repository cleanup.
 
-## Keymap
+Physical validation still requires the manufactured keyboard hardware.
 
-The 64 positions follow the supplied KLE order exactly.
+## Hardware
 
-Both `Fn` keys use `&mo 1`. Layer 1 remains transparent in RC3 so no unrequested Fn layout is invented before hardware bring-up.
-
-## Current ZMK repository structure
-
-RC3 follows the current ZMK custom-shield/module structure:
-
-- `zephyr/module.yml`
-- `boards/shields/splitchoc64/`
-- `config/west.yml`
-- `build.yaml`
-- `.github/workflows/build.yml`
-
-The GitHub build workflow detects `zephyr/module.yml` and loads this repository as an extra ZMK module, making the top-level shield directory visible to Zephyr.
-
-## Build targets
-
-`build.yaml` requests:
-
-1. `xiao_ble//zmk` + `splitchoc64_left`
-2. `xiao_ble//zmk` + `splitchoc64_right`
-3. `xiao_ble//zmk` + `settings_reset`
-
-## Static check
-
-Run:
-
-```bash
-python tools/validate_rc3.py
-```
-
-The included static validator checks the 64-position transform, two 64-binding layers, matrix GPIO counts, COL2ROW, right-side offset, module marker, build targets, and current Menu keycode.
-
-## Deep sleep
-
-RC3 deliberately does **not** force `CONFIG_ZMK_SLEEP=y` while developing against ZMK `main`.
-Deep sleep can be enabled after the base split firmware is proven on hardware and the chosen ZMK revision is pinned.
-
-## Not yet physically testable
-
-- manufactured PCB matrix scanning
-- BLE split radio operation
-- battery and charging behavior
-- future J3/J4 pointing-device interface
-
-
-## RC4 fix
-
-RC4 adds the missing Zephyr module board root declaration:
-
-```yaml
-name: zmk-keyboard-splitchoc64
-build:
-  settings:
-    board_root: .
-```
-
-Without `board_root: .`, Zephyr loads the module itself but does not search this
-repository's `boards/shields/` directory, causing `No shield named
-'splitchoc64_left' found`.
-
-
-## RC5 — 2765
-Adds RIGHT-side 2765 X/Y via nRF52840 SAADC and split analog-stick support. Trackball work is deferred.
-
-## RC6 fix
-
-GitHub Actions RC5 reached the custom shield and failed while parsing the
-`zmk,analog-stick-split` proxy's `reg = <0>` property. RC6 explicitly sets the
-root addressing for these virtual split-device nodes to one address cell and
-zero size cells, matching the analog-stick driver's split example.
-
-
-## RC7 fix
-The split proxy node is now `analog_stick_split@0`, matching `reg = <0>` as required by Zephyr 4.1 dtc.
-
-## RC8 — ZMK pointing API compatibility
-
-RC7 reached C compilation of `zmk-driver-analog-stick`. Current ZMK main uses
-`zmk_endpoint_send_mouse_report()` while the driver still calls the older
-`zmk_endpoints_send_mouse_report()` name. RC8 registers this repository as a
-CMake module and supplies a compile-time compatibility alias, leaving the
-third-party driver source untouched.
-
-## RC10 — remove obsolete global input macro shim
-
-The upstream analog-stick driver now includes its own Zephyr 4.x
-`INPUT_CALLBACK_DEFINE()` compatibility logic. RC9's forced-include macro shim
-therefore became both unnecessary and harmful: because it was global, even the
-`settings_reset` target failed.
-
-RC10 removes that global shim and keeps only the endpoint helper-name
-compatibility alias.
-
-## RC11 — local Zephyr 4.1 driver patch
-
-RC10 proved LEFT and settings-reset build successfully. RIGHT fails only because
-the third-party driver selects the legacy two-argument `INPUT_CALLBACK_DEFINE`
-branch on Zephyr 4.1. RC11 patches only that compatibility block during CMake
-configure and does not redefine the macro globally.
-
-The analog-stick split proxy is also placed in a dedicated address container so
-root `/soc` addressing remains untouched.
-
-## RC12 — ADC address-cell correction
-
-RC11 accidentally removed the ADC controller's own child-address declaration
-while leaving an address declaration at the root. That made `channel@0` and
-`channel@1` inherit the SoC's 2-address + 1-size-cell format.
-
-RC12 restores the Zephyr ADC layout:
-
-```dts
-&adc {
-    #address-cells = <1>;
-    #size-cells = <0>;
-    ...
-};
-```
-
-and removes the root override. The RC11 local analog-stick driver patch remains.
-
-## RC13 — native ZMK input-split architecture
-
-The previous analog-stick module linked mouse-HID functions into the RIGHT split
-peripheral, where those host-facing symbols do not exist. RC13 changes architecture:
-RIGHT only produces standard relative input events and forwards them through ZMK's
-native `zmk,input-split`; LEFT alone owns the native `zmk,input-listener` and HID path.
-
-## RC14 — ZMK Studio
-
-RC14 keeps the RC13 JOY2765 implementation unchanged and adds ZMK Studio support
-to the LEFT/central firmware. Use Fn+Menu to unlock Studio. Two additional
-reserved layers are included for future Studio use.
-
-The `studio` metadata feature flag is intentionally not added yet; it should be
-added after the Studio-enabled GitHub Actions build is confirmed successful.
-
-## RC15 — JOY ON/OFF
-
-The 2765 is ON by default. `Fn + Grave` toggles the transparent `JOY OFF`
-layer (layer 2). While layer 2 is active, the LEFT central input listener runs
-a local discard processor that stops joystick X/Y events before HID output.
-`Fn + Menu` remains the ZMK Studio unlock shortcut.
-
-## RC16 — JOY toggle binding discovery fix
-
-RC15 failed during devicetree processing because the custom
-`zmk,input-processor-discard` binding was not discovered. RC16 places that
-binding under `dts/bindings/input/`, where Zephyr's module binding discovery
-searches it. No RC14 Studio or RC13 joystick signal-path logic was otherwise
-changed.
-
-## RC17 — actual Devicetree binding discovery fix
-
-RC15 and RC16 repeatedly failed with:
-
-`joy_discard ... lacks binding`
-
-The binding YAML itself existed, but this repository's `zephyr/module.yml`
-declared only `board_root`. It never declared `dts_root`, so Zephyr did not
-search this module's `dts/bindings/` tree at all.
-
-RC17 adds:
-
-```yaml
-build:
-  cmake: .
-  settings:
-    board_root: .
-    dts_root: .
-```
-
-The custom binding is also placed under `dts/bindings/input_processors/` and
-includes `base.yaml`, matching normal ZMK module binding conventions.
-
-No JOY event-path logic, Studio configuration, RIGHT ADC configuration, or
-Fn+Grave toggle behavior was changed.
-
-## RC19 — input processor remainder property fix
-
-RC18 progressed through Devicetree generation and compiled the custom
-`input_processor_discard.c`. The next failure was in ZMK's own
-`pointing/input_listener.c`, which reads a `track-remainders` property from
-every input processor.
-
-RC19 declares that optional boolean property in the custom discard processor
-binding. The JOY discard processor leaves it unset, so it evaluates false.
-JOY routing, Studio, ADC configuration, and Fn+Grave toggle behavior are unchanged.
-
-
-## RC20 — Studio-assignable JOY tuning
-Adds JOY On/Off, angle +/-5 deg, max speed +/-, and Reset Defaults with persistent settings.
-
-## RC21 — advanced JOY tuning
-
-Adds Studio-assignable deadzone +/-, minimum-speed +/-, and response-curve +/-
-controls. Reset Defaults now restores every JOY runtime setting.
-
-## RC22 — ABS linker fix
-
-RC21 reached final linking but failed because `ABS()` resolved as an external
-symbol in this toolchain. RC22 replaces it with a local `joy_abs_i32()` helper.
-No JOY tuning behavior, Studio behavior, ADC configuration, or split routing
-was otherwise changed.
-
-## RC23 — Bluetooth-ready stock controls
-
-The host-facing BLE name is `SplitChoc64`. The Fn layer now includes five
-Bluetooth profile selectors, previous/next profile, selected-profile bond
-clear, and USB/BLE output toggle. Existing Studio and JOY controls remain.
-
-## RC24 FINAL CANDIDATE
-
-No firmware logic changed from the RC23 build that passed GitHub Actions #24.
-RC24 freezes that firmware state and adds the final static audit plus a staged
-hardware bring-up plan. Further firmware changes should be driven by hardware
-test results.
-
-## RC24 revised architecture
-
-This package supersedes the earlier untested RC24.
-
-Final architecture:
-- RIGHT = Central
-- LEFT = Peripheral
+- Controller: Seeed XIAO nRF52840 / XIAO BLE
+- ZMK board target: `xiao_ble//zmk`
+- 64 keys total
+- LEFT: 29 keys
+- RIGHT: 35 keys
+- Matrix diode direction: `col2row`
+- RIGHT = split Central
+- LEFT = split Peripheral
 - RIGHT = USB/BLE host-facing half
-- RIGHT = ZMK Studio
-- RIGHT = local 2765 ADC and JOY processing
-- BLE name = SplitChoc64
+- RIGHT = ZMK Studio host-facing half
+- RIGHT = local 2765 analog joystick ADC/processing half
 
-Because the central role changed, GitHub Actions must be run again before this
-revised RC24 can be considered build-validated.
+## Bluetooth
+
+The advertised keyboard name is:
+
+`SplitChoc64`
+
+The Central half is RIGHT. Bluetooth profile selection/management and USB/BLE output controls are available from the Fn layer.
+
+If the stored Bluetooth name or bonds need to be cleared after firmware/configuration changes, flash `settings_reset.uf2`, then flash the normal RIGHT firmware again.
+
+## ZMK Studio
+
+ZMK Studio support is enabled on the RIGHT/Central firmware. The Studio unlock action is available from the Fn layer.
+
+Studio is used for supported runtime keymap changes. Joystick tuning is implemented by dedicated ZMK behaviors/settings rather than treating those parameters as ordinary key assignments.
+
+## 2765 joystick
+
+The analog joystick is connected to and processed by the RIGHT/Central half.
+
+Runtime controls include:
+
+- joystick ON/OFF
+- angle adjustment in 5-degree steps
+- maximum cursor speed adjustment
+- minimum cursor speed adjustment
+- deadzone adjustment
+- response-curve adjustment
+- reset joystick settings to defaults
+
+Joystick settings are persistent.
+
+The angle adjustment exists so the physical thumb direction can be corrected independently of the desired on-screen cursor direction. For example, a natural physical push near 11 o'clock can be rotated so the cursor travels toward 12 o'clock.
+
+## Firmware artifacts
+
+GitHub Actions builds three UF2 files:
+
+1. `splitchoc64_left.uf2` — LEFT / Peripheral
+2. `splitchoc64_right.uf2` — RIGHT / Central, host-facing firmware and joystick processing
+3. `settings_reset.uf2` — clears persistent ZMK settings when required
+
+## Repository structure
+
+- `.github/workflows/` — GitHub Actions firmware build
+- `boards/shields/splitchoc64/` — SplitChoc64 shield, matrix, split and hardware definitions
+- `config/` — ZMK build configuration / west manifest
+- `dts/` — custom Devicetree bindings
+- `include/` — SplitChoc64 firmware headers
+- `src/` — custom joystick/input processing and runtime settings
+- `docs/` — hardware bring-up, connector and matrix/pin mapping documentation
+- `tools/` — validation/support tooling
+- `zephyr/module.yml` — Zephyr/ZMK module declaration
+- `build.yaml` — firmware build targets
+
+## Hardware documentation retained in `docs/`
+
+- `HARDWARE_BRINGUP.md` — staged physical bring-up procedure
+- `EXTENSION_J3_J4.md` — J3/J4 extension connector information
+- `MATRIX_LOGICAL_MAP.csv` — logical matrix mapping
+- `VER012_PINMAP.csv` — Ver012 hardware pin map
+
+These files describe the current hardware and are intentionally retained; old RC-by-RC validation reports and temporary migration/delete notes have been removed from `main`.
+
+## Build
+
+Pushing changes to `main` runs the GitHub Actions workflow. A successful run produces the firmware artifacts above.
+
+This repository is also a ZMK/Zephyr module. The module exposes the custom shield, Devicetree bindings and custom source required by SplitChoc64.
+
+## Physical validation still required
+
+Before treating the firmware as hardware-validated, check on the assembled keyboard:
+
+- LEFT and RIGHT matrix scanning / every key
+- RIGHT Central ↔ LEFT Peripheral split connection
+- USB keyboard operation from RIGHT
+- Bluetooth advertising and pairing as `SplitChoc64`
+- Bluetooth profile switching and bond clearing
+- ZMK Studio connection/unlock
+- 2765 X/Y direction and center stability
+- joystick deadzone, angle, min/max speed and response curve
+- joystick ON/OFF and reset-default behaviors
+- battery reporting, charging and normal power behavior
+
+Firmware changes after this point should preferably be driven by physical bring-up results rather than additional RC-numbered snapshots.
