@@ -11,17 +11,23 @@ jobs:
   fetch-real-geometry:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch official Torabo-tsuki LP 19mm STL
+      - name: Fetch real reference geometry
         run: |
           set -euxo pipefail
-          curl -L --fail --retry 3 \
-            -o trackball-case-19mm-Body.stl \
+          curl -L --fail --retry 3 -o trackball-case-19mm-Body.stl \
             https://raw.githubusercontent.com/sekigon-gonnoc/torabo-tsuki-lp/master/3d-models/STL/trackball-case-19mm-Body.stl
+          curl -L --fail --retry 3 -o trackball-case-19mm.FCStd \
+            https://raw.githubusercontent.com/sekigon-gonnoc/torabo-tsuki-lp/master/3d-models/FreeCAD/trackball-case-19mm.FCStd
+          curl -L --fail --retry 3 -o cornix_trackball_case_mount.step \
+            https://raw.githubusercontent.com/t-ogura/zmk-config-cornix-tb/master/3dmodel/cornix_trackball_case_mount.step
           test "$(stat -c%s trackball-case-19mm-Body.stl)" -eq 297884
-          sha1sum trackball-case-19mm-Body.stl
-      - name: Upload real STL
+          sha1sum trackball-case-19mm-Body.stl trackball-case-19mm.FCStd cornix_trackball_case_mount.step
+      - name: Upload real geometry
         uses: actions/upload-artifact@v4
         with:
-          name: torabo-tsuki-lp-19mm-real-stl
-          path: trackball-case-19mm-Body.stl
+          name: torabo-tsuki-lp-19mm-real-geometry
+          path: |
+            trackball-case-19mm-Body.stl
+            trackball-case-19mm.FCStd
+            cornix_trackball_case_mount.step
           if-no-files-found: error
