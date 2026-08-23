@@ -1,33 +1,48 @@
-name: Evo R15 Fetch Torabo 19mm
+name: Evo R16 Export Torabo 19mm Exact STEP
 
 on:
   push:
     branches: [evo-r15-realdata]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
-  fetch-real-geometry:
+  export-exact-geometry:
     runs-on: ubuntu-latest
     steps:
-      - name: Fetch real reference geometry
+      - name: Install FreeCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y freecad
+      - name: Fetch official Torabo-tsuki LP 19mm FreeCAD source
         run: |
           set -euxo pipefail
-          curl -L --fail --retry 3 -o trackball-case-19mm-Body.stl \
-            https://raw.githubusercontent.com/sekigon-gonnoc/torabo-tsuki-lp/master/3d-models/STL/trackball-case-19mm-Body.stl
           curl -L --fail --retry 3 -o trackball-case-19mm.FCStd \
             https://raw.githubusercontent.com/sekigon-gonnoc/torabo-tsuki-lp/master/3d-models/FreeCAD/trackball-case-19mm.FCStd
-          curl -L --fail --retry 3 -o cornix_trackball_case_mount.step \
-            https://raw.githubusercontent.com/t-ogura/zmk-config-cornix-tb/master/3dmodel/cornix_trackball_case_mount.step
-          test "$(stat -c%s trackball-case-19mm-Body.stl)" -eq 297884
-          sha1sum trackball-case-19mm-Body.stl trackball-case-19mm.FCStd cornix_trackball_case_mount.step
-      - name: Upload real geometry
+      - name: Export final Body directly to STEP
+        run: |
+          cat > export_exact.py <<'PY'
+          import FreeCAD as App
+          import Part
+          doc = App.openDocument('trackball-case-19mm.FCStd')
+          body = doc.getObject('Body')
+          if body is None:
+              raise RuntimeError('Body not found')
+          doc.recompute()
+          if body.Shape.isNull():
+              raise RuntimeError('Body shape is null')
+          bb = body.Shape.BoundBox
+          print('Body bbox:', bb.XLength, bb.YLength, bb.ZLength, 'min', bb.XMin, bb.YMin, bb.ZMin, 'max', bb.XMax, bb.YMax, bb.ZMax)
+          print('Body solids:', len(body.Shape.Solids), 'volume:', body.Shape.Volume)
+          Part.export([body], 'torabo-trackball-case-19mm-exact.step')
+          PY
+          freecadcmd export_exact.py
+          test -s torabo-trackball-case-19mm-exact.step
+          ls -lh torabo-trackball-case-19mm-exact.step
+      - name: Upload exact STEP and source
         uses: actions/upload-artifact@v4
         with:
-          name: torabo-tsuki-lp-19mm-real-geometry
+          name: torabo-tsuki-lp-19mm-exact-step
           path: |
-            trackball-case-19mm-Body.stl
+            torabo-trackball-case-19mm-exact.step
             trackball-case-19mm.FCStd
-            cornix_trackball_case_mount.step
           if-no-files-found: error
