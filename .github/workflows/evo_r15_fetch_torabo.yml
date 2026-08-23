@@ -3,6 +3,8 @@ name: Evo R16 Export Torabo 19mm Exact STEP
 on:
   push:
     branches: [evo-r15-realdata]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
