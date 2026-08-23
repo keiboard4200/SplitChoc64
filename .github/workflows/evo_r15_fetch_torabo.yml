@@ -3,6 +3,8 @@ name: Evo R15 Fetch Torabo 19mm
 on:
   push:
     branches: [evo-r15-realdata]
+  pull_request:
+    branches: [main]
   workflow_dispatch:
 
 jobs:
