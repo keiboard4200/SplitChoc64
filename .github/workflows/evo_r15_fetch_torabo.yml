@@ -1,0 +1,25 @@
+name: Evo R15 Fetch Torabo 19mm
+
+on:
+  push:
+    branches: [evo-r15-realdata]
+  workflow_dispatch:
+
+jobs:
+  fetch-real-geometry:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch official Torabo-tsuki LP 19mm STL
+        run: |
+          set -euxo pipefail
+          curl -L --fail --retry 3 \
+            -o trackball-case-19mm-Body.stl \
+            https://raw.githubusercontent.com/sekigon-gonnoc/torabo-tsuki-lp/master/3d-models/STL/trackball-case-19mm-Body.stl
+          test "$(stat -c%s trackball-case-19mm-Body.stl)" -eq 297884
+          sha1sum trackball-case-19mm-Body.stl
+      - name: Upload real STL
+        uses: actions/upload-artifact@v4
+        with:
+          name: torabo-tsuki-lp-19mm-real-stl
+          path: trackball-case-19mm-Body.stl
+          if-no-files-found: error
