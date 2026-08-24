@@ -1,0 +1,15 @@
+---
+include:
+  - board: xiao_ble//zmk
+    shield: splitchoc64_left
+    artifact-name: splitchoc64_left
+
+  - board: xiao_ble//zmk
+    shield: splitchoc64_right
+    artifact-name: splitchoc64_right
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+
+  - board: xiao_ble//zmk
+    shield: settings_reset
+    artifact-name: settings_reset

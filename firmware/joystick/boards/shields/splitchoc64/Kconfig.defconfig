@@ -1,0 +1,16 @@
+if SHIELD_SPLITCHOC64_RIGHT
+
+config ZMK_KEYBOARD_NAME
+    default "SplitChoc64"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+endif
+
+if SHIELD_SPLITCHOC64_LEFT || SHIELD_SPLITCHOC64_RIGHT
+
+config ZMK_SPLIT
+    default y
+
+endif

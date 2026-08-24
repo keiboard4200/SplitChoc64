@@ -1,0 +1,10 @@
+file_format: "1"
+id: splitchoc64
+name: SplitChoc64
+type: shield
+requires: [xiao_ble]
+features:
+  - keys
+siblings:
+  - splitchoc64_left
+  - splitchoc64_right
