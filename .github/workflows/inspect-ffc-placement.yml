@@ -1,0 +1,77 @@
+name: Inspect FFC placement
+on:
+  push:
+    paths:
+      - '.github/workflows/inspect-ffc-placement.yml'
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inspect J3 J4 neighborhoods
+        shell: python
+        run: |
+          from pathlib import Path
+          import re, math
+
+          targets = [
+              ('LEFT', Path('DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb'), 'J3'),
+              ('RIGHT', Path('DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb'), 'J4'),
+          ]
+
+          def blocks(text, head):
+              out=[]; pos=0
+              while True:
+                  s=text.find(head,pos)
+                  if s<0: break
+                  d=0; in_str=False; esc=False; e=None
+                  for i in range(s,len(text)):
+                      c=text[i]
+                      if in_str:
+                          if esc: esc=False
+                          elif c=='\\': esc=True
+                          elif c=='"': in_str=False
+                          continue
+                      if c=='"': in_str=True
+                      elif c=='(': d+=1
+                      elif c==')':
+                          d-=1
+                          if d==0:
+                              e=i+1; break
+                  if e is None: break
+                  out.append(text[s:e]); pos=e
+              return out
+
+          def fp_info(b):
+              rm=re.search(r'\(property "Reference" "([^"]+)"',b)
+              am=re.search(r'\n\s*\(at\s+([-0-9.]+)\s+([-0-9.]+)(?:\s+([-0-9.]+))?\)',b[:2500])
+              lm=re.search(r'\n\s*\(layer "([FB]\.Cu)"\)',b[:1000])
+              nm=re.match(r'\(footprint "([^"]+)"',b)
+              if not (rm and am): return None
+              return (rm.group(1), float(am.group(1)), float(am.group(2)), float(am.group(3) or 0), lm.group(1) if lm else '?', nm.group(1) if nm else '?')
+
+          for side,path,ref in targets:
+              text=path.read_text(encoding='utf-8')
+              infos=[x for b in blocks(text,'(footprint ') if (x:=fp_info(b))]
+              t=next(x for x in infos if x[0]==ref)
+              tx,ty=t[1],t[2]
+              print(f'=== {side} {ref}: at=({tx:.3f},{ty:.3f}) rot={t[3]} layer={t[4]} ===')
+              print('FOOTPRINTS within 25mm:')
+              for x in sorted(infos,key=lambda x: math.hypot(x[1]-tx,x[2]-ty)):
+                  d=math.hypot(x[1]-tx,x[2]-ty)
+                  if d<=25:
+                      print(f'  {x[0]:12s} x={x[1]:8.3f} y={x[2]:8.3f} rot={x[3]:6.1f} {x[4]:4s} d={d:6.2f} {x[5]}')
+              print('EDGE.CUTS lines/arcs with coordinates near target (bbox expanded 25mm):')
+              for head in ('(gr_line ','(gr_arc '):
+                  for b in blocks(text,head):
+                      if '(layer "Edge.Cuts")' not in b: continue
+                      pts=[(float(a),float(c)) for a,c in re.findall(r'\((?:start|end|mid|center)\s+([-0-9.]+)\s+([-0-9.]+)',b)]
+                      if pts and any(abs(x-tx)<=25 and abs(y-ty)<=25 for x,y in pts):
+                          print(' ',re.sub(r'\s+',' ',b[:450]))
+              print('TRACK segments/vias with endpoint/center within 15mm:')
+              for head in ('(segment ','(via '):
+                  for b in blocks(text,head):
+                      pts=[(float(a),float(c)) for a,c in re.findall(r'\((?:start|end|at)\s+([-0-9.]+)\s+([-0-9.]+)',b)]
+                      if pts and any(math.hypot(x-tx,y-ty)<=15 for x,y in pts):
+                          print(' ',re.sub(r'\s+',' ',b[:330]))
+              print()
