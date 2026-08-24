@@ -1,0 +1,19 @@
+SplitChoc64 Ver005 — DRC-fix reissue
+
+Reviewed supplied Ver004 DRC reports:
+RIGHT: 71 violations; {'silk_over_copper': 36, 'silk_overlap': 35}; unconnected=0; footprint errors=0
+LEFT:  59 violations; {'silk_over_copper': 30, 'silk_overlap': 29}; unconnected=0; footprint errors=0
+
+Corrections:
+- Kept the user-requested Ver005 logo positions:
+  LEFT  (60, 89) mm
+  RIGHT (280, 89) mm
+- Kept the Choc socket as a filled B.SilkS top-view projection, but removed fill over
+  the switch footprint's B.Mask / exposed pad and hole regions with 0.25 mm clearance.
+  This addresses the socket silk_over_copper warnings instead of merely suppressing them.
+- Moved each keyboard diode 'K' text from local x=-2.55 to x=-3.20 so it no longer
+  overlaps its own cathode bar, addressing the silk_overlap warnings.
+- No copper, pad, track, net, component coordinate, mounting-hole or Edge.Cuts changes.
+- Schematics unchanged.
+
+A fresh KiCad DRC must be run by the user on this reissued Ver005 to verify zero warnings.

@@ -1,0 +1,15 @@
+SplitChoc64 Ver005
+
+Logo position adjustment only.
+
+LEFT:
+- from 80.000, 114.000
+- to   60.000, 89.000
+- move: left 20 mm, up 25 mm
+
+RIGHT:
+- from 260.000, 114.000
+- to   280.000, 89.000
+- move: right 20 mm, up 25 mm
+
+No copper, pads, tracks, nets, components, Edge.Cuts, or any other silkscreen were changed.

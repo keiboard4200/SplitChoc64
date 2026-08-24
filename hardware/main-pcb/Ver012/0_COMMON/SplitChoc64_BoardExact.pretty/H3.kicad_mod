@@ -1,0 +1,68 @@
+(footprint "H3"
+		(layer "F.Cu")
+		(property "Reference" "H3"
+			(at 0 0 0)
+			(layer "F.SilkS")
+			(hide yes)
+			(uuid "699da503-cf84-478a-a00e-663179297128")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Value" "M2_CASE_MOUNT"
+			(at 0 0 0)
+			(layer "F.Fab")
+			(uuid "9d6a35fa-ff14-412c-9104-ed0af57ec0c9")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9b952727-2c3a-47ce-a87a-af8c4da35020")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "ebc449ea-46a6-4e80-85da-cd823ab61538")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(attr exclude_from_pos_files exclude_from_bom)
+		(fp_circle
+			(center 0 0)
+			(end 2.5 0)
+			(stroke (width 0.25) (type solid))
+			(fill no)
+			(layer "F.SilkS")
+			(uuid "6e349a30-b6dd-4147-8d10-f96f8e0bd7b3")
+		)
+
+		(pad "" np_thru_hole circle
+			(at 0 0)
+			(size 2.2 2.2)
+			(drill 2.2)
+			(layers "*.Cu" "*.Mask")
+			(uuid "ad24c9e7-fc5a-44b4-b5bb-9fd95281152b")
+		)
+		(embedded_fonts no)
+	)

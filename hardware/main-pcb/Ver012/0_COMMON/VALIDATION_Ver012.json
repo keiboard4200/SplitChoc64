@@ -1,0 +1,423 @@
+{
+  "version": "Ver012",
+  "right_authoritative": "current user-uploaded RIGHT project",
+  "user_confirmed": {
+    "ERC_LEFT": "0/0",
+    "ERC_RIGHT": "0/0",
+    "DRC_LEFT": "0/0",
+    "DRC_RIGHT": "0/0"
+  },
+  "final_update": "metadata / 3D classification only; no electrical or mechanical geometry changes",
+  "PCBA": "0 components; hand solder all parts",
+  "audit": {
+    "RIGHT": {
+      "pcb_parentheses": [
+        0,
+        0
+      ],
+      "sch_parentheses": [
+        0,
+        0
+      ],
+      "pcb_uuid_duplicates": 0,
+      "3d_targets": 36,
+      "exclude_from_pos_remaining": [],
+      "not_smd_remaining": [],
+      "xiao_models": 1,
+      "socket_models": 35,
+      "switch_models": 35,
+      "bom_presets": [
+        "PURCHASE"
+      ],
+      "bom_fmt_presets": [
+        "PURCHASE CSV"
+      ]
+    },
+    "LEFT": {
+      "pcb_parentheses": [
+        0,
+        0
+      ],
+      "sch_parentheses": [
+        0,
+        0
+      ],
+      "pcb_uuid_duplicates": 0,
+      "3d_targets": 30,
+      "exclude_from_pos_remaining": [],
+      "not_smd_remaining": [],
+      "xiao_models": 1,
+      "socket_models": 29,
+      "switch_models": 29,
+      "bom_presets": [
+        "PURCHASE"
+      ],
+      "bom_fmt_presets": [
+        "PURCHASE CSV"
+      ]
+    }
+  },
+  "diode_polarity_fix": {
+    "count": 64,
+    "symbol": "pin1=K, pin2=A",
+    "pcb": "pad1=K, pad2=A",
+    "package": "JSCJ 1N4148WS SOD-323 / LCSC C2128",
+    "3d": "KiCad D_SOD-323 model, zero rotation, matching footprint convention",
+    "silkscreen": "B.SilkS cathode bar + K at pad1 for all 64",
+    "copper_or_pad_geometry_changed": false,
+    "fresh_drc_erc_run": false
+  },
+  "matrix_direction": {
+    "canonical": "COL2ROW",
+    "zmk": "diode-direction = \"col2row\"",
+    "electrical": "COL -> A/pad2 -> K/pad1 -> switch -> ROW",
+    "left_keys_audited": 29,
+    "right_keys_audited": 35,
+    "schematic_graphic_fixed": true,
+    "pcb_connection_audited": true,
+    "pcb_copper_rerouted": false,
+    "reason_no_reroute": "Existing copper was already electrically COL2ROW."
+  },
+  "fresh_drc_erc_after_ver001": false,
+  "ver001_user_validation": {
+    "ERC_LEFT": "0/0",
+    "ERC_RIGHT": "0/0",
+    "DRC_LEFT": "29 K-text warnings",
+    "DRC_RIGHT": "35 K-text warnings"
+  },
+  "ver002_changes": {
+    "diode_symbol_graphic_fixed": true,
+    "K_text_height_mm": 0.8,
+    "LED_K_silk": true,
+    "battery_plus_silk": true,
+    "front_logo": true,
+    "socket_outline_from_STEP": true,
+    "socket_outline_offset_mm": 0.2,
+    "electrical_geometry_changed": false,
+    "fresh_drc_erc": false
+  },
+  "ver003_fix": {
+    "reason": "Ver002 PCB parse error caused by invalid (hide yes) inside helper gr_text on F.Fab",
+    "fixed_both_pcbs": true,
+    "schematic_changed": false,
+    "visible_silkscreen_changed": false,
+    "electrical_geometry_changed": false,
+    "copper_changed": false,
+    "fresh_erc_drc_after_ver003": false
+  },
+  "ver004_changes": {
+    "socket_projection_source": "complete kailh_choc_socket.step 3D tessellated top projection",
+    "B_Cu_local_Y_mirror_corrected": true,
+    "silkscreen_style": "solid filled B.SilkS polygons",
+    "left_sockets": 29,
+    "right_sockets": 35,
+    "schematic_changed": false,
+    "electrical_geometry_changed": false,
+    "fresh_drc_after_ver004": false
+  },
+  "ver004_user_drc": {
+    "RIGHT": 71,
+    "LEFT": 59
+  },
+  "ver005_changes": {
+    "logo_only": true,
+    "left_logo": {
+      "from": [
+        80.0,
+        114.0
+      ],
+      "to": [
+        60.0,
+        89.0
+      ],
+      "delta_mm": [
+        -20.0,
+        -25.0
+      ]
+    },
+    "right_logo": {
+      "from": [
+        260.0,
+        114.0
+      ],
+      "to": [
+        280.0,
+        89.0
+      ],
+      "delta_mm": [
+        20.0,
+        -25.0
+      ]
+    },
+    "electrical_geometry_changed": false,
+    "copper_changed": false,
+    "silkscreen_other_than_logo_changed": false,
+    "fresh_drc_after_ver005": false
+  },
+  "drc_fix_revision": "Ver005 reissued after Ver004 DRC review",
+  "Ver004_DRC_reports": {
+    "RIGHT": {
+      "violations": 71,
+      "types": {
+        "silk_over_copper": 36,
+        "silk_overlap": 35
+      },
+      "unconnected": 0,
+      "footprint_errors": 0
+    },
+    "LEFT": {
+      "violations": 59,
+      "types": {
+        "silk_over_copper": 30,
+        "silk_overlap": 29
+      },
+      "unconnected": 0,
+      "footprint_errors": 0
+    }
+  },
+  "Ver005_DRC_fixes": {
+    "socket_silkscreen": "top-projection fill retained, but solder-mask/pad openings clipped with 0.25 mm local clearance",
+    "diode_K": "moved from local x=-2.55 to x=-3.20 to avoid overlap with cathode bar",
+    "logos": {
+      "LEFT": [
+        60.0,
+        89.0
+      ],
+      "RIGHT": [
+        280.0,
+        89.0
+      ]
+    },
+    "logo_move_preserved": true,
+    "electrical_geometry_changed": false,
+    "copper_or_routing_changed": false,
+    "fresh_kicad_drc_run_here": false
+  },
+  "ver005_user_drc": {
+    "RIGHT": {
+      "violations": 4,
+      "type": "silk_edge_clearance",
+      "refs": [
+        "DR1",
+        "DR9",
+        "DR17",
+        "DR24"
+      ],
+      "unconnected": 0,
+      "footprint_errors": 0
+    },
+    "LEFT": {
+      "violations": 1,
+      "type": "silk_over_copper",
+      "object": "SplitChoc64 logo",
+      "unconnected": 0,
+      "footprint_errors": 0
+    }
+  },
+  "ver006_changes": {
+    "left_logo": {
+      "from": [
+        60,
+        89
+      ],
+      "to": [
+        55,
+        92
+      ]
+    },
+    "right_K_labels_moved": [
+      "DR1",
+      "DR9",
+      "DR17",
+      "DR24"
+    ],
+    "3d_added": {
+      "LED": "LED_0603_1608_TOP_PROXY.step",
+      "resistor": "R_0603_1608_PROXY.step",
+      "battery_connector": "BM02B_SRSS_TB_PROXY.step"
+    },
+    "all_three_project_local": true,
+    "DLED_RLED_J1_J2_smd_classification": true,
+    "electrical_geometry_changed": false,
+    "fresh_drc_after_ver006": false
+  },
+  "ver006_user_validation": {
+    "DRC_LEFT": "0/0",
+    "DRC_RIGHT": "0/0"
+  },
+  "ver007_plate_addition": {
+    "main_electrical_files_changed": false,
+    "plate_folder": "Plate",
+    "top_plate_thickness_mm": 1.6,
+    "bottom_plate_thickness_mm": 1.6,
+    "choc_v2_switch_cutout_mm": [
+      14.0,
+      14.0
+    ],
+    "M2_plate_clearance_hole_diameter_mm": 2.2,
+    "left_switch_openings": 29,
+    "right_switch_openings": 35,
+    "J3_J4_service_window_mm": [
+      11.0,
+      4.0
+    ]
+  },
+  "ver008": {
+    "main_pcb_mount_holes_changed": {
+      "RIGHT_R_H1": {
+        "from": [
+          159.063,
+          24.0
+        ],
+        "to": [
+          172.563,
+          24.0
+        ],
+        "delta_mm": [
+          13.5,
+          0
+        ]
+      },
+      "LEFT_H3": {
+        "from": [
+          121.0,
+          24.0
+        ],
+        "to": [
+          116.2,
+          24.0
+        ],
+        "delta_mm": [
+          -4.8,
+          0
+        ]
+      }
+    },
+    "plate_folder": "3‗PLATE",
+    "plate_silkscreen": false,
+    "joy_cutouts": false,
+    "plate_mount": {
+      "switch": "Kailh Choc V2 / PG1353",
+      "top_plate_thickness_mm": 1.6,
+      "cutout_mm": [
+        13.95,
+        13.95
+      ],
+      "top_plate_to_pcb_gap_mm": 0.6,
+      "pcb_thickness_mm": 1.6,
+      "bottom_plate_thickness_mm": 1.6,
+      "recommended_bottom_spacer_mm": 6.0
+    },
+    "routing_changed": false,
+    "switch_positions_changed": false,
+    "fresh_drc_after_hole_move": false
+  },
+  "ver008_user_validation": {
+    "DRC_LEFT": "0/0",
+    "DRC_RIGHT": "0/0"
+  },
+  "ver009_plate_fix": {
+    "main_pcb_changed": false,
+    "folder": "3_PLATE",
+    "M2_holes": "2.2 mm real NPTH pads",
+    "switch_cutouts": "13.95 mm explicit 4-line closed Edge.Cuts loops",
+    "plate_silkscreen": false,
+    "joy_cutout": false,
+    "top_left_switch_cutouts": 29,
+    "top_right_switch_cutouts": 35
+  },
+  "manufacturing_packages": {
+    "folder": "4_MANUFACTUR",
+    "plate_packages": [
+      "SplitChoc64_LEFT_BOTTOM",
+      "SplitChoc64_LEFT_TOP_PlateMount",
+      "SplitChoc64_RIGHT_BOTTOM",
+      "SplitChoc64_RIGHT_TOP_PlateMount"
+    ],
+    "main_pcb_changed": false
+  },
+  "ver010_changes": {
+    "LEFT_U1_move_mm": [
+      -0.5,
+      0.0
+    ],
+    "RIGHT_U2_move_mm": [
+      0.5,
+      0.0
+    ],
+    "mcu_track_endpoints_followed": true,
+    "case_folder": "4_CASE",
+    "manufacturing_folder": "5_MANIFUCTUR",
+    "case_check": {
+      "LEFT": {
+        "mcu_at_mm": [
+          20.25,
+          87.675,
+          180.0
+        ],
+        "case_outer_side_x_mm": 8.35,
+        "usb_tip_x_mm": 8.185,
+        "usb_tip_protrusion_past_case_outer_surface_mm": 0.165,
+        "usb_opening_interference_mm3": 0.0,
+        "switch_opening_interference_mm3": 0.0,
+        "led_opening_interference_mm3": 0.0,
+        "m2_axis_offset_mm": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "RIGHT": {
+        "mcu_at_mm": [
+          319.813,
+          87.675,
+          0.0
+        ],
+        "case_outer_side_x_mm": 331.713,
+        "usb_tip_x_mm": 331.878,
+        "usb_tip_protrusion_past_case_outer_surface_mm": 0.165,
+        "usb_opening_interference_mm3": 0.0,
+        "switch_opening_interference_mm3": 0.0,
+        "led_opening_interference_mm3": 0.0,
+        "m2_axis_offset_mm": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      }
+    },
+    "DRC_status": "USER_CONFIRMED_0_0_BOTH_AFTER_REROUTE"
+  },
+  "ver010_pcb_replacement": {
+    "LEFT_pcb_replaced_with_user_rerouted_file": true,
+    "RIGHT_pcb_replaced_with_user_rerouted_file": true,
+    "user_confirmed_DRC_LEFT": "0/0",
+    "user_confirmed_DRC_RIGHT": "0/0",
+    "replacement_date": "2026-08-20"
+  },
+  "ver012_socket_3d_fix": {
+    "base": "Ver010 user-confirmed DRC 0/0 PCB",
+    "scope": "3D socket model transform only",
+    "pcb_geometry_changed": false,
+    "tracks_vias_pads_holes_changed": false,
+    "schematic_changed": false,
+    "LEFT_socket_count": 29,
+    "RIGHT_socket_count": 35,
+    "new_transform": {
+      "offset_z_mm": -3.4,
+      "scale_z": 1
+    },
+    "geometry_check_mm": {
+      "pcb_FCu_surface_z": 0.0,
+      "pcb_BCu_surface_z": -1.6,
+      "socket_body_top_z": -1.5999999999999999,
+      "socket_model_bottom_z": -3.4,
+      "socket_locating_protrusion_tip_z": -0.3500000000000001,
+      "protrusion_penetration_into_pcb": 1.25
+    },
+    "result": "socket body top coincides with PCB back surface; locating protrusions penetrate 1.25 mm into PCB thickness",
+    "DRC": "user-confirmed 0/0 routing retained; only 3D model metadata changed"
+  }
+}

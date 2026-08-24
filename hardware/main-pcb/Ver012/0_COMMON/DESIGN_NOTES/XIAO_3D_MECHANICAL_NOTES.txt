@@ -1,0 +1,18 @@
+SplitChoc64 STAGE278 - XIAO nRF52840 Plus 3D mechanical model
+
+Purpose:
+- Enclosure / case clearance review.
+- USB-C connector overhang verification.
+
+Dimensions taken from the existing U1/U2 footprint:
+- XIAO module PCB body: approximately 20.950 x 17.800 mm
+- USB-C envelope: 6.350 x 7.620 mm
+- USB-C protrusion beyond XIAO PCB edge: 1.515 mm
+
+Important:
+This STEP is a mechanical proxy. The PCB body and USB-C envelope follow the
+existing footprint geometry. Small components are representative shapes.
+It is not claimed to be an official Seeed Studio XIAO nRF52840 Plus STEP model.
+
+For case design, the USB-C opening should not be made exactly 1.515 mm deep;
+provide assembly/printing tolerance around the connector.

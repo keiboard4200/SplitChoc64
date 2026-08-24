@@ -1,0 +1,24 @@
+SplitChoc64 Ver000 FINAL
+
+ASSEMBLY
+- JLCPCB is used for bare-PCB fabrication only.
+- PCBA quantity: 0 components.
+- All electronic components are hand-soldered.
+- No JLCPCB PCBA BOM/CPL is included.
+- Purchase list: 0_COMMON/PURCHASE/SplitChoc64_PURCHASE_BOM.csv
+
+3D
+- U1/U2 and all SWL/SWR footprints are now classified as SMD and are no longer excluded from position files.
+- XIAO / Choc socket / Choc switch STEP files are copied into each side's local 3dmodels folder.
+- This is intended to make them visible in the whole-board KiCad 3D Viewer without relying on P/V special filters.
+- No copper, pad, routing, footprint coordinate or Edge.Cuts geometry was changed.
+
+HAND-SOLDERING RISKS
+1. JST SH BM02B-SRSS-TB: 1.0mm-pitch SMD; use flux, magnification and a fine tip/hot air.
+2. 0603 LED/resistor: small; LED polarity must be checked.
+3. 64x 1N4148W: cathode orientation must be checked before soldering.
+4. XIAO Plus BAT_SW/GND bottom pads: use the designed plated access slots; solder method needs care.
+5. PCM12SMTR: orientation-sensitive and obsolete; buy spare units because the footprint is exact.
+6. Choc hot-swap sockets: plastic can deform from excessive iron dwell time.
+7. Battery/JST polarity: verify with a multimeter before connecting a LiPo.
+8. Joystick is not a direct PCB footprint here; J3/J4 are 1.27mm 1x7 headers, so wiring/adapter is needed.

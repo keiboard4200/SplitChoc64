@@ -1,0 +1,14 @@
+SplitChoc64 STAGE279 - Kailh Choc hot-swap socket 3D
+
+Part: CPG135001S30
+Applied to: 64 switch footprints
+Model: kailh_choc_socket_CPG135001S30_MECH.step
+
+Case-design focus:
+- Socket is on the PCB underside.
+- Nominal modeled underside depth: 1.85 mm.
+- Do not design the case floor exactly tangent to the model.
+- Recommended next step is to inspect the assembled PCB in KiCad 3D Viewer and
+  then establish the real battery + socket + solder clearance stack.
+
+This is a mechanical clearance model, not an official Kailh STEP.

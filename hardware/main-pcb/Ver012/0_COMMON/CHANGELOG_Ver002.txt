@@ -1,0 +1,12 @@
+SplitChoc64 Ver002
+- Corrected malformed diode schematic graphic. COL2ROW electrical mapping unchanged.
+- Ver001 ERC user-confirmed: LEFT 0/0, RIGHT 0/0.
+- Ver001 DRC reports contained only diode K text-height warnings: LEFT 29, RIGHT 35.
+- Increased all diode K silk text from 0.55 mm to 0.80 mm.
+- Added B.SilkS K/bar to DLED1/DLED2 (pad1=GND=cathode).
+- Added B.SilkS '+' next to battery connector pad1 (BAT_RAW) on J1/J2.
+- Added SplitChoc64 logo to F.SilkS on both PCBs.
+- Added B.SilkS outline to all 64 Choc hotswap sockets. Outline is derived from the actual
+  kailh_choc_socket.step bottom outer contour, including its flowing spline shape, offset +0.20 mm.
+- No copper, pads, tracks, key/switch coordinates, MCU coordinates, mounting holes, or Edge.Cuts changed.
+- Fresh Ver002 ERC/DRC not run here. Please rerun both.

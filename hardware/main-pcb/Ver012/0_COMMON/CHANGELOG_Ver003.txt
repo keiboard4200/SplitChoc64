@@ -1,0 +1,16 @@
+SplitChoc64 Ver003
+
+Fix from Ver002:
+- Removed invalid hidden helper gr_text that caused KiCad PCB Editor parse failure.
+- Removed unnecessary internal helper footprint properties introduced in Ver002.
+- Kept all requested visible silkscreen:
+  * diode K markers
+  * blue LED K/bar markers
+  * battery + markers
+  * SplitChoc64 front logos
+  * Choc socket flowing outlines
+- Schematic files are unchanged from Ver002.
+- Copper, pads, tracks, component coordinates, mounting holes and Edge.Cuts are unchanged.
+
+User confirmed Ver002 schematic ERC LEFT/RIGHT = 0/0.
+Fresh PCB DRC after Ver003 has not been run here.
