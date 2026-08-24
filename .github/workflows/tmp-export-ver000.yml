@@ -3,6 +3,9 @@ on:
   push:
     branches:
       - tmp/ver001-package-export
+  pull_request:
+    branches:
+      - main
 jobs:
   export:
     runs-on: ubuntu-latest
