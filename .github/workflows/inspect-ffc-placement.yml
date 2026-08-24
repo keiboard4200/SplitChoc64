@@ -44,20 +44,25 @@ jobs:
               return None if not(r and a) else (r.group(1),float(a.group(1)),float(a.group(2)),float(a.group(3) or 0),l.group(1) if l else '?',n.group(1) if n else '?')
           lines=[]
           for side,path,ref in targets:
-              text=path.read_text(); infos=[x for b in blocks(text,'(footprint ') if (x:=fpinfo(b))]
+              text=path.read_text(); fbs=blocks(text,'(footprint'); infos=[x for b in fbs if (x:=fpinfo(b))]
               t=next(x for x in infos if x[0]==ref); tx,ty=t[1],t[2]
-              lines += [f'=== {side} {ref} at=({tx:.3f},{ty:.3f}) rot={t[3]} layer={t[4]} ===','FOOTPRINTS within 30mm:']
+              tb=next(b for b in fbs if re.search(rf'\(property "Reference" "{ref}"',b))
+              lines += [f'=== {side} {ref} at=({tx:.3f},{ty:.3f}) rot={t[3]} layer={t[4]} ===','TARGET PADS:']
+              for p in blocks(tb,'(pad'):
+                  m=re.search(r'^\(pad\s+"([^"]+)"',p); a=re.search(r'\(at\s+([-0-9.]+)\s+([-0-9.]+)',p); n=re.search(r'\(net\s+\d+\s+"([^"]+)"',p)
+                  if m and a: lines.append(f'pad {m.group(1)} local=({a.group(1)},{a.group(2)}) net={n.group(1) if n else ""}')
+              lines.append('FOOTPRINTS within 30mm:')
               for x in sorted(infos,key=lambda x:math.hypot(x[1]-tx,x[2]-ty)):
                   d=math.hypot(x[1]-tx,x[2]-ty)
                   if d<=30: lines.append(f'{x[0]} x={x[1]:.3f} y={x[2]:.3f} rot={x[3]:.1f} layer={x[4]} d={d:.2f} lib={x[5]}')
               lines.append('EDGE.CUTS nearby:')
-              for h in ('(gr_line ','(gr_arc '):
+              for h in ('(gr_line','(gr_arc'):
                   for b in blocks(text,h):
                       if '(layer "Edge.Cuts")' not in b: continue
                       pts=[(float(a),float(c)) for a,c in re.findall(r'\((?:start|end|mid|center)\s+([-0-9.]+)\s+([-0-9.]+)',b)]
                       if pts and any(abs(x-tx)<=30 and abs(y-ty)<=30 for x,y in pts): lines.append(re.sub(r'\s+',' ',b[:500]))
               lines.append('SEGMENTS/VIAS within 18mm:')
-              for h in ('(segment ','(via '):
+              for h in ('(segment','(via'):
                   for b in blocks(text,h):
                       pts=[(float(a),float(c)) for a,c in re.findall(r'\((?:start|end|at)\s+([-0-9.]+)\s+([-0-9.]+)',b)]
                       if pts and any(math.hypot(x-tx,y-ty)<=18 for x,y in pts): lines.append(re.sub(r'\s+',' ',b[:400]))
@@ -68,5 +73,5 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add DEVELOPMENT/Ver001/FFC_PLACEMENT_INSPECT.txt
-          git commit -m "Add temporary FFC placement inspection report"
+          git commit -m "Refine temporary FFC placement inspection report"
           git push
