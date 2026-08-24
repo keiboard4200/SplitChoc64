@@ -13,110 +13,106 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Analyze switch centers across split
+      - name: Install CAD kernel
+        run: python3 -m pip install --user cadquery
+      - name: Analyze assembled keyboard geometry
         shell: bash
         run: |
           python3 - <<'PY'
-          import re, json, math
+          import re, json, statistics
           from pathlib import Path
+          import cadquery as cq
 
-          files = {
+          pcb = {
             'LEFT': Path('hardware/main-pcb/Ver000/2_LEFT/SplitChoc64_LEFT.kicad_pcb'),
             'RIGHT': Path('hardware/main-pcb/Ver000/1_RIGHT/SplitChoc64_RIGHT.kicad_pcb'),
           }
 
-          def extract_footprints(text):
+          def blocks(text):
               out=[]; i=0
               while True:
-                  s=text.find('(footprint', i)
+                  s=text.find('(footprint',i)
                   if s<0: break
-                  depth=0; in_str=False; esc=False; e=None
-                  for j in range(s, len(text)):
+                  depth=0; ins=False; esc=False
+                  for j in range(s,len(text)):
                       c=text[j]
-                      if in_str:
+                      if ins:
                           if esc: esc=False
                           elif c=='\\': esc=True
-                          elif c=='"': in_str=False
+                          elif c=='"': ins=False
                       else:
-                          if c=='"': in_str=True
+                          if c=='"': ins=True
                           elif c=='(': depth+=1
                           elif c==')':
                               depth-=1
                               if depth==0:
-                                  e=j+1; break
-                  if e is None: break
-                  out.append(text[s:e]); i=e
+                                  out.append(text[s:j+1]); i=j+1; break
+                  else: break
               return out
 
-          def get_ref(block):
-              patterns=[
-                r'\(property\s+"Reference"\s+"([^"]+)"',
-                r'\(fp_text\s+reference\s+"([^"]+)"',
-                r'\(fp_text\s+reference\s+([^\s\)]+)',
-              ]
-              for pat in patterns:
-                  m=re.search(pat,block)
-                  if m:return m.group(1)
-              return None
+          def ref_at(b):
+              m=re.search(r'\(property\s+"Reference"\s+"([^"]+)"',b) or re.search(r'\(fp_text\s+reference\s+"?([^"\s\)]+)',b)
+              a=re.search(r'\(at\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)',b[:1500])
+              if not (m and a): return None
+              return m.group(1),float(a.group(1)),float(a.group(2))
 
-          def get_value(block):
-              for pat in [r'\(property\s+"Value"\s+"([^"]+)"',r'\(fp_text\s+value\s+"([^"]+)"']:
-                  m=re.search(pat,block)
-                  if m:return m.group(1)
-              return ''
+          sw={}
+          for side,p in pcb.items():
+              arr=[]
+              for b in blocks(p.read_text(errors='replace')):
+                  ra=ref_at(b)
+                  if not ra: continue
+                  ref,x,y=ra
+                  if side=='LEFT' and re.fullmatch(r'SWL\d+',ref): arr.append((ref,x,y))
+                  if side=='RIGHT' and re.fullmatch(r'SWR\d+',ref): arr.append((ref,x,y))
+              sw[side]=arr
 
-          def get_name(block):
-              m=re.match(r'\(footprint\s+"([^"]+)"',block)
-              return m.group(1) if m else ''
+          def rows(arr,tol=0.05):
+              groups=[]
+              for q in sorted(arr,key=lambda z:z[2]):
+                  for g in groups:
+                      if abs(q[2]-statistics.mean(v[2] for v in g))<=tol:
+                          g.append(q); break
+                  else: groups.append([q])
+              return groups
 
-          def get_at(block):
-              # placement line is before graphical primitives; search first 1.5 kB
-              m=re.search(r'\(at\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)(?:\s+(-?\d+(?:\.\d+)?))?\)',block[:1500])
-              if not m:return None
-              return (float(m.group(1)),float(m.group(2)),float(m.group(3) or 0))
-
-          data={}; inventory={}
-          for side,p in files.items():
-              text=p.read_text(errors='replace')
-              sw=[]; inv=[]
-              for b in extract_footprints(text):
-                  ref=get_ref(b); name=get_name(b); val=get_value(b); at=get_at(b)
-                  if ref and at: inv.append({'ref':ref,'name':name,'value':val,'x':at[0],'y':at[1]})
-                  hay=(name+' '+val).lower()
-                  # Key switch footprint identification by footprint/value semantics, independent of reference prefix.
-                  if at and any(k in hay for k in ['choc','pg135','keyswitch','key_switch','switch_socket']):
-                      sw.append({'ref':ref or '?','name':name,'value':val,'x':at[0],'y':at[1],'rot':at[2]})
-              data[side]=sorted(sw,key=lambda q:(q['y'],q['x']))
-              inventory[side]=inv
-
-          # If semantic match fails, show inventory to diagnose exact library naming.
-          if not data['LEFT'] or not data['RIGHT']:
-              print('FOOTPRINT_INVENTORY_BEGIN')
-              print(json.dumps(inventory,indent=2))
-              print('FOOTPRINT_INVENTORY_END')
-
-          def cluster_rows(items,tol=0.6):
-              rows=[]
-              for q in sorted(items,key=lambda z:z['y']):
-                  for r in rows:
-                      cy=sum(x['y'] for x in r)/len(r)
-                      if abs(q['y']-cy)<=tol:
-                          r.append(q); break
-                  else: rows.append([q])
-              return rows
-
-          Lrows=cluster_rows(data['LEFT']); Rrows=cluster_rows(data['RIGHT'])
+          lr=rows(sw['LEFT']); rr=rows(sw['RIGHT'])
           pairs=[]
-          for lr in Lrows:
-              ly=sum(q['y'] for q in lr)/len(lr)
-              if not Rrows: continue
-              rr=min(Rrows,key=lambda r:abs(sum(q['y'] for q in r)/len(r)-ly))
-              ry=sum(q['y'] for q in rr)/len(rr)
-              l=max(lr,key=lambda q:q['x']); r=min(rr,key=lambda q:q['x'])
-              dx=r['x']-l['x']; dy=r['y']-l['y']; d=math.hypot(dx,dy)
-              pairs.append({'left_ref':l['ref'],'left_xy':[l['x'],l['y']], 'right_ref':r['ref'],'right_xy':[r['x'],r['y']], 'row_y_left':ly,'row_y_right':ry,'dx_mm':dx,'dy_mm':dy,'center_distance_mm':d,'pitch_error_vs_19_05_mm':d-19.05})
+          for lrow in lr:
+              ly=statistics.mean(v[2] for v in lrow)
+              rrow=min(rr,key=lambda g:abs(statistics.mean(v[2] for v in g)-ly))
+              ry=statistics.mean(v[2] for v in rrow)
+              if abs(ry-ly)>0.1: continue
+              l=max(lrow,key=lambda v:v[1]); r=min(rrow,key=lambda v:v[1])
+              gap=r[1]-l[1]
+              pairs.append({'y_mm':ly,'left_ref':l[0],'left_x_mm':l[1],'right_ref':r[0],'right_x_mm':r[1],'current_gap_mm':gap,'shift_right_for_19_05_mm':19.05-gap})
 
-          print('ONEPIECE_LAYOUT_RESULT_BEGIN')
-          print(json.dumps({'switch_count_left':len(data['LEFT']),'switch_count_right':len(data['RIGHT']),'seam_pairs_by_row':pairs,'left_switches':data['LEFT'],'right_switches':data['RIGHT']},indent=2))
-          print('ONEPIECE_LAYOUT_RESULT_END')
+          # Use the four ordinary alpha/number rows, excluding the bottom thumb/space row.
+          main_pairs=[p for p in pairs if p['y_mm'] < 100]
+          shift=statistics.mean(p['shift_right_for_19_05_mm'] for p in main_pairs)
+
+          left_case=cq.importers.importStep('hardware/main-pcb/Ver000/4_CASE/SplitChoc64_LEFT_BOTTOM_CASE_Ver010.step').val()
+          right_case=cq.importers.importStep('hardware/main-pcb/Ver000/4_CASE/SplitChoc64_RIGHT_BOTTOM_CASE_Ver010.step').val()
+          moved=right_case.translate((shift,0,0))
+          inter=left_case.intersect(moved)
+          vol=inter.Volume()
+          dist=left_case.distance(moved)
+          ib=None
+          if vol>1e-9:
+              b=inter.BoundingBox(); ib={'xmin':b.xmin,'xmax':b.xmax,'ymin':b.ymin,'ymax':b.ymax,'zmin':b.zmin,'zmax':b.zmax,'xlen':b.xlen,'ylen':b.ylen,'zlen':b.zlen}
+
+          result={
+            'switch_count_left':len(sw['LEFT']),
+            'switch_count_right':len(sw['RIGHT']),
+            'seam_switch_pairs':pairs,
+            'required_right_translation_mm':shift,
+            'target_main_row_pitch_mm':19.05,
+            'case_intersection_volume_at_onepiece_position_mm3':vol,
+            'case_minimum_distance_at_onepiece_position_mm':dist,
+            'case_intersection_bbox_mm':ib,
+            'onepiece_case_fit':'INTERFERENCE' if vol>1e-9 else ('TOUCHING' if dist<=1e-6 else 'CLEARANCE')
+          }
+          print('ONEPIECE_FINAL_RESULT_BEGIN')
+          print(json.dumps(result,indent=2))
+          print('ONEPIECE_FINAL_RESULT_END')
           PY
