@@ -1,0 +1,8 @@
+J4/J1 pin,J4 net,Adapter J2 pin,FFC conductor to sensor pin,Sensor signal
+1,3V3,6,1,3V3
+2,GND,1,6,GND
+3,SCLK,2,5,SCLK
+4,SDIO,3,4,SDIO
+5,MOTION,4,3,MOTION
+6,CS,5,2,CS
+7,SPARE,NC,NC,NC
