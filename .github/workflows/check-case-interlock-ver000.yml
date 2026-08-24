@@ -1,14 +1,12 @@
 name: Check Ver000 case interlock
 
 on:
-  push:
+  pull_request:
     branches:
-      - check-case-interlock-ver000
-    paths:
-      - .github/workflows/check-case-interlock-ver000.yml
+      - main
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   analyze:
@@ -34,7 +32,6 @@ jobs:
 
           left = Part.read(left_path)
           right = Part.read(right_path)
-
           inter = left.common(right)
           dist, pts, infos = left.distToShape(right)
 
@@ -55,25 +52,10 @@ jobs:
               'intersection_bbox_mm': bb(inter) if not inter.isNull() and inter.Volume > 1e-9 else None,
               'left_volume_mm3': left.Volume,
               'right_volume_mm3': right.Volume,
+              'conclusion': 'INTERFERENCE' if inter.Volume > 1e-9 else ('TOUCHING_NO_VOLUME' if dist <= 1e-6 else 'CLEARANCE')
           }
-
-          if inter.Volume > 1e-9:
-              result['conclusion'] = 'INTERFERENCE'
-          elif dist <= 1e-6:
-              result['conclusion'] = 'TOUCHING_NO_VOLUME'
-          else:
-              result['conclusion'] = 'CLEARANCE'
-
-          with open('CASE_INTERLOCK_CHECK_Ver000.json','w') as f:
-              json.dump(result, f, indent=2)
+          print('CASE_INTERLOCK_RESULT_BEGIN')
           print(json.dumps(result, indent=2))
+          print('CASE_INTERLOCK_RESULT_END')
           PY
           freecadcmd /tmp/check_case.py
-
-      - name: Commit result
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add CASE_INTERLOCK_CHECK_Ver000.json
-          git commit -m "Add Ver000 case interlock analysis result"
-          git push origin HEAD:check-case-interlock-ver000
