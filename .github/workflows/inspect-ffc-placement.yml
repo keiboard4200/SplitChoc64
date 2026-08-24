@@ -3,6 +3,9 @@ on:
   push:
     paths:
       - '.github/workflows/inspect-ffc-placement.yml'
+concurrency:
+  group: ver001-ffc-repair
+  cancel-in-progress: true
 permissions:
   contents: write
 jobs:
@@ -15,7 +18,6 @@ jobs:
         run: |
           from pathlib import Path
           import uuid
-
           def blocks_with_ranges(text, head):
               out=[]; pos=0
               while True:
@@ -33,65 +35,38 @@ jobs:
                       elif c=='(': d+=1
                       elif c==')':
                           d-=1
-                          if d==0:
-                              e=i+1; break
+                          if d==0: e=i+1; break
                   if e is None: raise RuntimeError('unterminated block')
                   out.append((s,e,text[s:e])); pos=e
               return out
-
           def remove_generated(text, side):
-              if side=='LEFT':
-                  marks=['122.75 115.85','122.0 116.3','121.5 116.3','121.5 113.0','130.91 113.0',
-                         '123.3 115.35','123.9 114.85','124.5 114.35','125.1 113.85','126.6 113.85',
-                         '126.6 114.3182','125.25 115.85','129.64 115.5']
-              else:
-                  marks=['198.95 115.05','199.45 115.05','199.95 115.05','200.45 115.05','200.95 115.05','201.45 115.05',
-                         '198.0 110.0949','198.8 110.3966','199.8 114.3','200.4 114.72','201.0 114.98','201.6 115.4',
-                         '199.8 114.5693','200.4 114.871','201.0 115.1727','201.6 115.6065']
+              marks=(['122.75 115.85','122.0 116.3','121.5 116.3','121.5 113.0','130.91 113.0','123.3 115.35','123.9 114.85','124.5 114.35','125.1 113.85','126.6 113.85','126.6 114.3182','125.25 115.85','129.64 115.5','125.25 116.6','129.64 116.6'] if side=='LEFT' else ['198.95 115.05','199.45 115.05','199.95 115.05','200.45 115.05','200.95 115.05','201.45 115.05','198.0 110.0949','198.8 110.3966','199.8 114.3','200.4 114.72','201.0 114.98','201.6 115.4','199.8 114.5693','200.4 114.871','201.0 115.1727','201.6 115.6065','201.45 113.5','183.803 113.5'])
               ranges=[]
               for head in ('(segment','(via'):
                   for s,e,b in blocks_with_ranges(text,head):
                       if any(m in b for m in marks): ranges.append((s,e))
-              for s,e in sorted(set(ranges),reverse=True):
-                  text=text[:s]+text[e:]
+              for s,e in sorted(set(ranges),reverse=True): text=text[:s]+text[e:]
               return text
-
           def uid(): return str(uuid.uuid4())
-          def seg(a,b,net,width=0.15):
-              return f'\t(segment\n\t\t(start {a[0]} {a[1]})\n\t\t(end {b[0]} {b[1]})\n\t\t(width {width})\n\t\t(layer "B.Cu")\n\t\t(net {net})\n\t\t(uuid "{uid()}")\n\t)\n'
+          def seg(a,b,net):
+              return f'\t(segment\n\t\t(start {a[0]} {a[1]})\n\t\t(end {b[0]} {b[1]})\n\t\t(width 0.15)\n\t\t(layer "B.Cu")\n\t\t(net {net})\n\t\t(uuid "{uid()}")\n\t)\n'
           def path(points,net): return ''.join(seg(a,b,net) for a,b in zip(points,points[1:]))
-
           specs={
-            'LEFT':{
-              'file':Path('DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb'),
-              'routes':[
-                (18,[(122.75,115.85),(130.91,116.0)]),
-                (12,[(123.25,115.85),(132.18,116.0)]),
-                (13,[(123.75,115.85),(133.45,116.0)]),
-                (14,[(124.25,115.85),(134.72,116.0)]),
-                (15,[(124.75,115.85),(135.99,116.0)]),
-                (17,[(125.25,115.85),(125.25,116.6),(129.64,116.6),(129.64,116.0)]),
-              ]},
-            'RIGHT':{
-              'file':Path('DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb'),
-              'routes':[
-                (14,[(198.95,115.05),(185.073,116.0)]),
-                (16,[(199.45,115.05),(186.343,116.0)]),
-                (17,[(199.95,115.05),(187.613,116.0)]),
-                (18,[(200.45,115.05),(188.883,116.0)]),
-                (19,[(200.95,115.05),(190.153,116.0)]),
-                (21,[(201.45,115.05),(201.45,113.5),(183.803,113.5),(183.803,116.0)]),
-              ]}
-          }
-          for side,s in specs.items():
-              text=s['file'].read_text()
-              text=remove_generated(text,side)
-              routing='\n'+''.join(path(points,net) for net,points in s['routes'])
+            'LEFT':(Path('DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb'),[(18,[(122.75,115.85),(130.91,116.0)]),(12,[(123.25,115.85),(132.18,116.0)]),(13,[(123.75,115.85),(133.45,116.0)]),(14,[(124.25,115.85),(134.72,116.0)]),(15,[(124.75,115.85),(135.99,116.0)]),(17,[(125.25,115.85),(125.25,116.6),(129.64,116.6),(129.64,116.0)])]),
+            'RIGHT':(Path('DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb'),[(14,[(198.95,115.05),(185.073,116.0)]),(16,[(199.45,115.05),(186.343,116.0)]),(17,[(199.95,115.05),(187.613,116.0)]),(18,[(200.45,115.05),(188.883,116.0)]),(19,[(200.95,115.05),(190.153,116.0)]),(21,[(201.45,115.05),(201.45,113.5),(183.803,113.5),(183.803,116.0)])])}
+          for side,(p,routes) in specs.items():
+              text=remove_generated(p.read_text(),side)
               pos=text.rfind('\n\t(embedded_fonts no)')
               if pos<0: raise RuntimeError('insertion point missing')
-              text=text[:pos]+routing+text[pos:]
-              s['file'].write_text(text)
-
+              text=text[:pos]+'\n'+''.join(path(points,net) for net,points in routes)+text[pos:]
+              p.write_text(text)
+      - name: Commit repaired fanout before DRC
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb
+          git diff --cached --quiet || git commit -m "Repair parallel FFC direct fanout"
+          git push
       - name: Install KiCad 9
         run: |
           sudo add-apt-repository --yes ppa:kicad/kicad-9.0-releases
@@ -105,19 +80,9 @@ jobs:
           left_rc=$?
           kicad-cli pcb drc --exit-code-violations -o /tmp/RIGHT.rpt DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb
           right_rc=$?
-          {
-            echo '=== KiCad 9 Ver001 FFC validation pass 2 ==='
-            echo "LEFT_EXIT=$left_rc"
-            cat /tmp/LEFT.rpt
-            echo
-            echo "RIGHT_EXIT=$right_rc"
-            cat /tmp/RIGHT.rpt
-          } > DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
-          cat DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
-      - name: Commit repair and report
+          { echo '=== KiCad 9 Ver001 FFC validation pass 2 ==='; echo "LEFT_EXIT=$left_rc"; cat /tmp/LEFT.rpt; echo; echo "RIGHT_EXIT=$right_rc"; cat /tmp/RIGHT.rpt; } > DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
+      - name: Publish DRC report
         run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
-          git commit -m "Repair parallel FFC fanout and publish DRC pass 2"
+          git add DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
+          git commit -m "Publish repaired FFC KiCad DRC report"
           git push
