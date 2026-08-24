@@ -1,0 +1,53 @@
+name: Unpack Ver012 archive
+
+on:
+  push:
+    branches:
+      - unpack-ver012
+    paths:
+      - .github/workflows/unpack-ver012.yml
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: unpack-ver012
+
+      - name: Unpack Ver012
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/ver012
+          mkdir -p /tmp/ver012
+          unzip -q splitchoc64_Ver012.zip -d /tmp/ver012
+
+          target="hardware/main-pcb/Ver012/source"
+          rm -rf "$target"
+          mkdir -p "$target"
+
+          shopt -s dotglob nullglob
+          entries=(/tmp/ver012/*)
+          if [ "${#entries[@]}" -eq 1 ] && [ -d "${entries[0]}" ]; then
+            cp -a "${entries[0]}"/. "$target"/
+          else
+            cp -a /tmp/ver012/. "$target"/
+          fi
+
+          find "$target" -type f -print | LC_ALL=C sort > hardware/main-pcb/Ver012/ARCHIVE_CONTENTS.txt
+          sha256sum splitchoc64_Ver012.zip > hardware/main-pcb/Ver012/ARCHIVE_SHA256.txt
+
+      - name: Commit extracted Ver012 source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add hardware/main-pcb/Ver012
+          git commit -m "Extract Ver012 production source archive" || exit 0
+          git push origin HEAD:unpack-ver012
