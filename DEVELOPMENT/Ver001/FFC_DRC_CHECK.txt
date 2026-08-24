@@ -1,10 +1,122 @@
 === KiCad 9 Ver001 FFC validation pass 2 ===
 LEFT_EXIT=5
 ** Drc report for SplitChoc64_LEFT.kicad_pcb **
-** Created on 2026-08-24T14:32:18+0000 **
+** Created on 2026-08-24T14:33:37+0000 **
 ** Report includes: Errors, Warnings **
 
-** Found 44 DRC violations **
+** Found 76 DRC violations **
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.2500 mm, 115.8500 mm): Track [L_JOY_X] on B.Cu, length 8.9313 mm
+    @(129.6400 mm, 116.0000 mm): PTH pad 1 [L_3V3] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.2500 mm, 115.8500 mm): Track [L_JOY_X] on B.Cu, length 8.9313 mm
+    @(130.9100 mm, 116.0000 mm): PTH pad 2 [L_GND] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.2500 mm, 115.8500 mm): Track [L_JOY_X] on B.Cu, length 8.9313 mm
+    @(125.2500 mm, 115.8500 mm): Pad 6 [L_3V3] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.2500 mm, 115.8500 mm): Track [L_JOY_X] on B.Cu, length 8.9313 mm
+    @(126.5500 mm, 115.4500 mm): Pad MP [<no net>] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.2500 mm, 115.8500 mm): Track [L_JOY_X] on B.Cu, length 8.9313 mm
+    @(123.7500 mm, 115.8500 mm): Pad 3 [L_JOY_Y] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.2500 mm, 115.8500 mm): Track [L_JOY_X] on B.Cu, length 8.9313 mm
+    @(124.2500 mm, 115.8500 mm): Pad 4 [L_JOY_SW] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.2500 mm, 115.8500 mm): Track [L_JOY_X] on B.Cu, length 8.9313 mm
+    @(124.7500 mm, 115.8500 mm): Pad 5 [L_JOY_SDA] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.7500 mm, 115.8500 mm): Track [L_JOY_Y] on B.Cu, length 9.7012 mm
+    @(129.6400 mm, 116.0000 mm): PTH pad 1 [L_3V3] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.7500 mm, 115.8500 mm): Track [L_JOY_Y] on B.Cu, length 9.7012 mm
+    @(130.9100 mm, 116.0000 mm): PTH pad 2 [L_GND] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.7500 mm, 115.8500 mm): Track [L_JOY_Y] on B.Cu, length 9.7012 mm
+    @(125.2500 mm, 115.8500 mm): Pad 6 [L_3V3] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.7500 mm, 115.8500 mm): Track [L_JOY_Y] on B.Cu, length 9.7012 mm
+    @(126.5500 mm, 115.4500 mm): Pad MP [<no net>] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.7500 mm, 115.8500 mm): Track [L_JOY_Y] on B.Cu, length 9.7012 mm
+    @(132.1800 mm, 116.0000 mm): PTH pad 3 [L_JOY_X] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.7500 mm, 115.8500 mm): Track [L_JOY_Y] on B.Cu, length 9.7012 mm
+    @(124.2500 mm, 115.8500 mm): Pad 4 [L_JOY_SW] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(123.7500 mm, 115.8500 mm): Track [L_JOY_Y] on B.Cu, length 9.7012 mm
+    @(124.7500 mm, 115.8500 mm): Pad 5 [L_JOY_SDA] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.2500 mm, 115.8500 mm): Track [L_JOY_SW] on B.Cu, length 10.4711 mm
+    @(129.6400 mm, 116.0000 mm): PTH pad 1 [L_3V3] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.2500 mm, 115.8500 mm): Track [L_JOY_SW] on B.Cu, length 10.4711 mm
+    @(130.9100 mm, 116.0000 mm): PTH pad 2 [L_GND] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.2500 mm, 115.8500 mm): Track [L_JOY_SW] on B.Cu, length 10.4711 mm
+    @(125.2500 mm, 115.8500 mm): Pad 6 [L_3V3] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.2500 mm, 115.8500 mm): Track [L_JOY_SW] on B.Cu, length 10.4711 mm
+    @(126.5500 mm, 115.4500 mm): Pad MP [<no net>] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.2500 mm, 115.8500 mm): Track [L_JOY_SW] on B.Cu, length 10.4711 mm
+    @(132.1800 mm, 116.0000 mm): PTH pad 3 [L_JOY_X] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.2500 mm, 115.8500 mm): Track [L_JOY_SW] on B.Cu, length 10.4711 mm
+    @(133.4500 mm, 116.0000 mm): PTH pad 4 [L_JOY_Y] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.2500 mm, 115.8500 mm): Track [L_JOY_SW] on B.Cu, length 10.4711 mm
+    @(124.7500 mm, 115.8500 mm): Pad 5 [L_JOY_SDA] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.7500 mm, 115.8500 mm): Track [L_JOY_SDA] on B.Cu, length 11.2410 mm
+    @(129.6400 mm, 116.0000 mm): PTH pad 1 [L_3V3] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.7500 mm, 115.8500 mm): Track [L_JOY_SDA] on B.Cu, length 11.2410 mm
+    @(130.9100 mm, 116.0000 mm): PTH pad 2 [L_GND] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.7500 mm, 115.8500 mm): Track [L_JOY_SDA] on B.Cu, length 11.2410 mm
+    @(125.2500 mm, 115.8500 mm): Pad 6 [L_3V3] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.7500 mm, 115.8500 mm): Track [L_JOY_SDA] on B.Cu, length 11.2410 mm
+    @(126.5500 mm, 115.4500 mm): Pad MP [<no net>] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.7500 mm, 115.8500 mm): Track [L_JOY_SDA] on B.Cu, length 11.2410 mm
+    @(132.1800 mm, 116.0000 mm): PTH pad 3 [L_JOY_X] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.7500 mm, 115.8500 mm): Track [L_JOY_SDA] on B.Cu, length 11.2410 mm
+    @(133.4500 mm, 116.0000 mm): PTH pad 4 [L_JOY_Y] of J3
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(124.7500 mm, 115.8500 mm): Track [L_JOY_SDA] on B.Cu, length 11.2410 mm
+    @(134.7200 mm, 116.0000 mm): PTH pad 5 [L_JOY_SW] of J3
 [solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
     Rule: board setup solder mask min width; error
     @(122.7500 mm, 115.8500 mm): Track [L_GND] on B.Cu, length 8.1614 mm
@@ -153,34 +265,50 @@ LEFT_EXIT=5
     Local override; error
     @(123.2500 mm, 115.8500 mm): Track [L_JOY_X] on B.Cu, length 8.9313 mm
     @(130.9100 mm, 116.0000 mm): Track [L_GND] on B.Cu, length 4.4614 mm
-[shorting_items]: Items shorting two nets (nets L_GND and L_3V3)
+[shorting_items]: Items shorting two nets (nets L_JOY_X and L_GND)
     Local override; error
-    @(122.7500 mm, 115.8500 mm): Track [L_GND] on B.Cu, length 8.1614 mm
-    @(129.6400 mm, 116.6000 mm): Track [L_3V3] on B.Cu, length 0.6000 mm
-[tracks_crossing]: Tracks crossing
-    Local override; error
-    @(129.6400 mm, 116.0000 mm): Track [L_3V3] on B.Cu, length 1.7085 mm
     @(123.2500 mm, 115.8500 mm): Track [L_JOY_X] on B.Cu, length 8.9313 mm
+    @(122.7500 mm, 115.8500 mm): Track [L_GND] on B.Cu, length 8.1614 mm
 [tracks_crossing]: Tracks crossing
     Local override; error
-    @(129.6400 mm, 116.0000 mm): Track [L_3V3] on B.Cu, length 1.7085 mm
+    @(130.9100 mm, 116.0000 mm): Track [L_GND] on B.Cu, length 4.4614 mm
     @(123.7500 mm, 115.8500 mm): Track [L_JOY_Y] on B.Cu, length 9.7012 mm
 [tracks_crossing]: Tracks crossing
     Local override; error
-    @(129.6400 mm, 116.0000 mm): Track [L_3V3] on B.Cu, length 1.7085 mm
+    @(130.9100 mm, 116.0000 mm): Track [L_GND] on B.Cu, length 4.4614 mm
     @(124.2500 mm, 115.8500 mm): Track [L_JOY_SW] on B.Cu, length 10.4711 mm
 [tracks_crossing]: Tracks crossing
     Local override; error
-    @(129.6400 mm, 116.0000 mm): Track [L_3V3] on B.Cu, length 1.7085 mm
+    @(130.9100 mm, 116.0000 mm): Track [L_GND] on B.Cu, length 4.4614 mm
     @(124.7500 mm, 115.8500 mm): Track [L_JOY_SDA] on B.Cu, length 11.2410 mm
+[shorting_items]: Items shorting two nets (nets L_JOY_X and L_GND)
+    Local override; error
+    @(123.2500 mm, 115.8500 mm): Pad 2 [L_JOY_X] of J5 on B.Cu
+    @(122.7500 mm, 115.8500 mm): Track [L_GND] on B.Cu, length 8.1614 mm
 [tracks_crossing]: Tracks crossing
     Local override; error
-    @(122.7500 mm, 115.8500 mm): Track [L_GND] on B.Cu, length 8.1614 mm
-    @(125.2500 mm, 115.8500 mm): Track [L_3V3] on B.Cu, length 0.7500 mm
-[shorting_items]: Items shorting two nets (nets L_JOY_X and L_3V3)
-    Local override; error
+    @(130.9100 mm, 116.0000 mm): Track [L_GND] on B.Cu, length 4.4614 mm
     @(123.2500 mm, 115.8500 mm): Track [L_JOY_X] on B.Cu, length 8.9313 mm
+[tracks_crossing]: Tracks crossing
+    Local override; error
+    @(130.9100 mm, 116.0000 mm): Track [L_GND] on B.Cu, length 4.4614 mm
+    @(123.7500 mm, 115.8500 mm): Track [L_JOY_Y] on B.Cu, length 9.7012 mm
+[tracks_crossing]: Tracks crossing
+    Local override; error
+    @(130.9100 mm, 116.0000 mm): Track [L_GND] on B.Cu, length 4.4614 mm
+    @(124.2500 mm, 115.8500 mm): Track [L_JOY_SW] on B.Cu, length 10.4711 mm
+[tracks_crossing]: Tracks crossing
+    Local override; error
+    @(124.7500 mm, 115.8500 mm): Track [L_JOY_SDA] on B.Cu, length 11.2410 mm
+    @(130.9100 mm, 116.0000 mm): Track [L_GND] on B.Cu, length 4.4614 mm
+[tracks_crossing]: Tracks crossing
+    Local override; error
+    @(125.2500 mm, 115.8500 mm): Track [L_3V3] on B.Cu, length 0.7500 mm
+    @(122.7500 mm, 115.8500 mm): Track [L_GND] on B.Cu, length 8.1614 mm
+[shorting_items]: Items shorting two nets (nets L_3V3 and L_GND)
+    Local override; error
     @(129.6400 mm, 116.6000 mm): Track [L_3V3] on B.Cu, length 0.6000 mm
+    @(122.7500 mm, 115.8500 mm): Track [L_GND] on B.Cu, length 8.1614 mm
 
 ** Found 0 unconnected pads **
 
@@ -190,7 +318,7 @@ LEFT_EXIT=5
 
 RIGHT_EXIT=5
 ** Drc report for SplitChoc64_RIGHT.kicad_pcb **
-** Created on 2026-08-24T14:32:18+0000 **
+** Created on 2026-08-24T14:33:38+0000 **
 ** Report includes: Errors, Warnings **
 
 ** Found 42 DRC violations **
@@ -332,24 +460,24 @@ RIGHT_EXIT=5
     @(193.8922 mm, 115.6245 mm): Via [R_3V3] on F.Cu - B.Cu
 [clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0748 mm)
     Local override; error
-    @(184.6030 mm, 115.2000 mm): Track [R_3V3] on B.Cu, length 8.8647 mm
     @(198.9500 mm, 115.0500 mm): Track [R_GND] on B.Cu, length 13.9095 mm
+    @(184.6030 mm, 115.2000 mm): Track [R_3V3] on B.Cu, length 8.8647 mm
 [tracks_crossing]: Tracks crossing
     Local override; error
+    @(198.9500 mm, 115.0500 mm): Track [R_GND] on B.Cu, length 13.9095 mm
     @(193.4677 mm, 115.2000 mm): Track [R_3V3] on B.Cu, length 0.6003 mm
-    @(198.9500 mm, 115.0500 mm): Track [R_GND] on B.Cu, length 13.9095 mm
-[shorting_items]: Items shorting two nets (nets R_GND and R_JOY_X)
+[shorting_items]: Items shorting two nets (nets R_JOY_X and R_GND)
     Local override; error
-    @(198.9500 mm, 115.0500 mm): Track [R_GND] on B.Cu, length 13.9095 mm
     @(199.4500 mm, 115.0500 mm): Track [R_JOY_X] on B.Cu, length 13.1414 mm
+    @(198.9500 mm, 115.0500 mm): Track [R_GND] on B.Cu, length 13.9095 mm
 [shorting_items]: Items shorting two nets (nets R_JOY_X and R_3V3)
     Local override; error
     @(199.4500 mm, 115.0500 mm): Track [R_JOY_X] on B.Cu, length 13.1414 mm
     @(193.8922 mm, 115.6245 mm): Via [R_3V3] on F.Cu - B.Cu
-[shorting_items]: Items shorting two nets (nets R_3V3 and R_JOY_Y)
+[shorting_items]: Items shorting two nets (nets R_JOY_Y and R_3V3)
     Local override; error
-    @(193.8922 mm, 115.6245 mm): Via [R_3V3] on F.Cu - B.Cu
     @(199.9500 mm, 115.0500 mm): Track [R_JOY_Y] on B.Cu, length 12.3735 mm
+    @(193.8922 mm, 115.6245 mm): Via [R_3V3] on F.Cu - B.Cu
 [clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0579 mm)
     Local override; error
     @(191.4230 mm, 116.0000 mm): Track [R_JOY_SCL] on B.Cu, length 0.1078 mm
