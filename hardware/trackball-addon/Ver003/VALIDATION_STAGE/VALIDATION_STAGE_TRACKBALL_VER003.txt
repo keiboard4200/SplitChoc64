@@ -1,0 +1,13 @@
+SplitChoc64 Trackball Add-on Ver003 validation
+
+3D manufacturing data separated into three standalone STEP files:
+- Torabo-tsuki 19 mm holder: 1 solid, valid
+- SplitChoc64 trackball adapter: 1 solid, valid
+- SplitChoc64 RIGHT bottom case: 1 solid, valid
+
+Adapter source: final R27 (M2 countersunk mounting holes).
+Bottom-case source: final R27 case, including the accepted sidewall FFC pass-through.
+Torabo holder source: user-provided Fusion-converted Torabo 19 mm STEP.
+R26 is retained only as a reference assembly.
+
+Historical DRC reports are intentionally not included.
