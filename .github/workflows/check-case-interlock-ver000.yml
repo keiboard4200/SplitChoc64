@@ -1,0 +1,79 @@
+name: Check Ver000 case interlock
+
+on:
+  push:
+    branches:
+      - check-case-interlock-ver000
+    paths:
+      - .github/workflows/check-case-interlock-ver000.yml
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install FreeCAD
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y freecad-python3
+
+      - name: Compute LEFT/RIGHT case intersection
+        shell: bash
+        run: |
+          cat > /tmp/check_case.py <<'PY'
+          import json
+          import Part
+
+          left_path = 'hardware/main-pcb/Ver000/4_CASE/SplitChoc64_LEFT_BOTTOM_CASE_Ver010.step'
+          right_path = 'hardware/main-pcb/Ver000/4_CASE/SplitChoc64_RIGHT_BOTTOM_CASE_Ver010.step'
+
+          left = Part.read(left_path)
+          right = Part.read(right_path)
+
+          inter = left.common(right)
+          dist, pts, infos = left.distToShape(right)
+
+          def bb(shape):
+              b = shape.BoundBox
+              return {
+                  'xmin': b.XMin, 'xmax': b.XMax,
+                  'ymin': b.YMin, 'ymax': b.YMax,
+                  'zmin': b.ZMin, 'zmax': b.ZMax,
+                  'xlen': b.XLength, 'ylen': b.YLength, 'zlen': b.ZLength,
+              }
+
+          result = {
+              'left_bbox_mm': bb(left),
+              'right_bbox_mm': bb(right),
+              'minimum_distance_mm': dist,
+              'intersection_volume_mm3': inter.Volume,
+              'intersection_bbox_mm': bb(inter) if not inter.isNull() and inter.Volume > 1e-9 else None,
+              'left_volume_mm3': left.Volume,
+              'right_volume_mm3': right.Volume,
+          }
+
+          if inter.Volume > 1e-9:
+              result['conclusion'] = 'INTERFERENCE'
+          elif dist <= 1e-6:
+              result['conclusion'] = 'TOUCHING_NO_VOLUME'
+          else:
+              result['conclusion'] = 'CLEARANCE'
+
+          with open('CASE_INTERLOCK_CHECK_Ver000.json','w') as f:
+              json.dump(result, f, indent=2)
+          print(json.dumps(result, indent=2))
+          PY
+          freecadcmd /tmp/check_case.py
+
+      - name: Commit result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add CASE_INTERLOCK_CHECK_Ver000.json
+          git commit -m "Add Ver000 case interlock analysis result"
+          git push origin HEAD:check-case-interlock-ver000
