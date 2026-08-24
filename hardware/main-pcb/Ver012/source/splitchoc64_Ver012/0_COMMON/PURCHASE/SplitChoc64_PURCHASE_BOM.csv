@@ -1,0 +1,13 @@
+﻿Category,Part,MPN,Left,Right,Total,Recommended purchase qty,Recommended source,Notes
+MCU,Seeed Studio XIAO nRF52840 Plus,102010672,1,1,2,3,Seeed Studio Japan,Exact Plus version required; one spare recommended.
+Keyboard diode,1N4148WS SOD-323,JSCJ 1N4148WS / LCSC C2128,29,35,64,70,LCSC,SOD-323. Pin 1 = cathode (K). Align the diode body cathode band with the PCB K/bar mark.
+Status LED,Blue LED 0603,KT-0603B / C2288,1,1,2,50,LCSC,LCSC minimum 50; polarity critical.
+LED resistor,100Ω 1% 0603,0603WAF1000T5E / C22775,1,1,2,100,LCSC,Any equivalent 100Ω 0603 1% is acceptable.
+Power switch,SPDT slide switch,C&K PCM12SMTR,1,1,2,4,DigiKey,Obsolete; buy spares. Exact mechanical footprint matters.
+Battery PCB connector,JST SH 2-pin SMT,BM02B-SRSS-TB(LF)(SN) / C160388,1,1,2,5,LCSC,1.0mm pitch; fine hand-soldering.
+Joystick header,1.27mm 1x7 male header,generic,1,1,2,4,DigiKey/Mouser/Akizuki,Confirm pin diameter fits 0.70mm drill.
+Joystick,2-axis analog joystick,JT8P-3.2T-B10K-1-16Y,1,1,2,3,Akizuki,Requires wiring/adapter to J3/J4.
+Hotswap socket,Kailh Choc hotswap socket,CPG135001S30,29,35,64,70,Yusha Kobo,10-pack product; buy 7 packs.
+Key switch,Kailh Choc V2,e.g. CPG135301D01 Red,29,35,64,70,Yusha Kobo / Marutsu Eleshop,Two 35-packs gives 70.
+Battery mating lead,JST SH 2-pin housing/contact,SHR-02V-S(-B) + SSH-003T-P0.2-H,1,1,2,3,DigiKey/Mouser,Pre-crimped lead recommended.
+Battery,LiPo ~502535 3.7V ~400mAh,DTP502535 or equivalent,1,1,2,2,Reputable battery seller,"Check polarity, protection circuit and actual thickness."

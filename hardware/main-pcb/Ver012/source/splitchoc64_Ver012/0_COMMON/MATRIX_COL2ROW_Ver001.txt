@@ -1,0 +1,16 @@
+SplitChoc64 matrix diode direction — Ver001
+
+Canonical direction: COL2ROW
+
+ZMK:
+    diode-direction = "col2row";
+
+Electrical path for every key:
+    COL -> diode A (pad 2) -> diode K (pad 1) -> switch -> ROW
+
+Conventions:
+- Diode pad 1 = K / cathode / ROW-switch side.
+- Diode pad 2 = A / anode / COL side.
+- B.SilkS K + cathode bar marks pad 1.
+- Schematic cathode bar is drawn on pin 1 / K side.
+- All 64 keys were audited to this convention.

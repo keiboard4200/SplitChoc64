@@ -1,0 +1,28 @@
+(footprint "M2_CASE_MOUNT"
+  (version 20240108)
+  (generator "pcbnew")
+  (layer "F.Cu")
+  (property "Reference" "REF**"
+    (at 0 0 0)
+    (layer "F.SilkS")
+    (hide yes)
+    (uuid "96ffa145-2c84-4d18-88f0-a7983d91e079")
+    (effects (font (size 1.27 1.27) (thickness 0.15)))
+  )
+  (property "Value" "M2_CASE_MOUNT"
+    (at 0 0 0)
+    (layer "F.Fab")
+    (hide yes)
+    (uuid "196dc796-9a36-41b5-abbf-9c2b41e68843")
+    (effects (font (size 1.27 1.27) (thickness 0.15)))
+  )
+  (attr exclude_from_pos_files exclude_from_bom)
+  (pad "" np_thru_hole circle
+    (at 0 0)
+    (size 2.2 2.2)
+    (drill 2.2)
+    (layers "*.Cu" "*.Mask")
+    (uuid "fdc88e07-345e-4c13-96c8-ac0d0dce9f9e")
+  )
+  (embedded_fonts no)
+)

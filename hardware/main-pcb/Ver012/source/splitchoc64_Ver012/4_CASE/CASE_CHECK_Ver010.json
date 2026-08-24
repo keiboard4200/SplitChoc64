@@ -1,0 +1,40 @@
+{
+  "LEFT": {
+    "mcu_at_mm": [
+      20.25,
+      87.675,
+      180.0
+    ],
+    "case_outer_side_x_mm": 8.35,
+    "usb_tip_x_mm": 8.185,
+    "usb_tip_protrusion_past_case_outer_surface_mm": 0.165,
+    "usb_opening_interference_mm3": 0.0,
+    "switch_opening_interference_mm3": 0.0,
+    "led_opening_interference_mm3": 0.0,
+    "m2_axis_offset_mm": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "RIGHT": {
+    "mcu_at_mm": [
+      319.813,
+      87.675,
+      0.0
+    ],
+    "case_outer_side_x_mm": 331.713,
+    "usb_tip_x_mm": 331.878,
+    "usb_tip_protrusion_past_case_outer_surface_mm": 0.165,
+    "usb_opening_interference_mm3": 0.0,
+    "switch_opening_interference_mm3": 0.0,
+    "led_opening_interference_mm3": 0.0,
+    "m2_axis_offset_mm": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  }
+}
