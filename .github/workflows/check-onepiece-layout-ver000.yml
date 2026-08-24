@@ -1,0 +1,105 @@
+name: Check Ver000 one-piece layout
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Analyze switch centers across split
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import re, json, math
+          from pathlib import Path
+
+          files = {
+            'LEFT': Path('hardware/main-pcb/Ver000/2_LEFT/SplitChoc64_LEFT.kicad_pcb'),
+            'RIGHT': Path('hardware/main-pcb/Ver000/1_RIGHT/SplitChoc64_RIGHT.kicad_pcb'),
+          }
+
+          def extract_footprints(text):
+              out=[]; i=0
+              while True:
+                  s=text.find('(footprint', i)
+                  if s<0: break
+                  depth=0; in_str=False; esc=False; e=None
+                  for j in range(s, len(text)):
+                      c=text[j]
+                      if in_str:
+                          if esc: esc=False
+                          elif c=='\\': esc=True
+                          elif c=='"': in_str=False
+                      else:
+                          if c=='"': in_str=True
+                          elif c=='(': depth+=1
+                          elif c==')':
+                              depth-=1
+                              if depth==0:
+                                  e=j+1; break
+                  if e is None: break
+                  out.append(text[s:e]); i=e
+              return out
+
+          def first_top_at(block):
+              # Footprint placement `(at x y [rot])` occurs near the footprint header,
+              # before nested fp_text/pads. Limit search to first 2 kB.
+              m=re.search(r'\(at\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)(?:\s+(-?\d+(?:\.\d+)?))?\)', block[:2500])
+              return tuple(map(float,m.groups(default='0'))) if m else None
+
+          data={}
+          for side,p in files.items():
+              text=p.read_text(errors='replace')
+              sw=[]
+              for b in extract_footprints(text):
+                  mr=re.search(r'\(property\s+"Reference"\s+"([^"]+)"', b)
+                  if not mr:
+                      mr=re.search(r'\(fp_text\s+reference\s+"?([^"\s\)]+)', b)
+                  if not mr: continue
+                  ref=mr.group(1)
+                  if not re.fullmatch(r'SW\d+', ref): continue
+                  at=first_top_at(b)
+                  if at:
+                      sw.append({'ref':ref,'x':at[0],'y':at[1],'rot':at[2]})
+              data[side]=sorted(sw,key=lambda q:(q['y'],q['x']))
+
+          # Pair seam-nearest switches by closest Y, using each LEFT switch's nearest RIGHT switch.
+          # The seam-nearest candidates are the largest-X switch on LEFT for a row and smallest-X on RIGHT.
+          def cluster_rows(items, tol=0.6):
+              rows=[]
+              for q in sorted(items,key=lambda z:z['y']):
+                  placed=False
+                  for r in rows:
+                      if abs(q['y']-sum(x['y'] for x in r)/len(r))<=tol:
+                          r.append(q); placed=True; break
+                  if not placed: rows.append([q])
+              return rows
+
+          Lrows=cluster_rows(data['LEFT']); Rrows=cluster_rows(data['RIGHT'])
+          pairs=[]
+          for lr in Lrows:
+              ly=sum(q['y'] for q in lr)/len(lr)
+              rr=min(Rrows,key=lambda r:abs(sum(q['y'] for q in r)/len(r)-ly))
+              ry=sum(q['y'] for q in rr)/len(rr)
+              l=max(lr,key=lambda q:q['x']); r=min(rr,key=lambda q:q['x'])
+              dx=r['x']-l['x']; dy=r['y']-l['y']; d=math.hypot(dx,dy)
+              pairs.append({'left':l,'right':r,'row_y_left':ly,'row_y_right':ry,'dx_mm':dx,'dy_mm':dy,'center_distance_mm':d,'pitch_error_vs_19_05_mm':d-19.05})
+
+          result={
+            'switch_count_left':len(data['LEFT']),
+            'switch_count_right':len(data['RIGHT']),
+            'left_switches':data['LEFT'],
+            'right_switches':data['RIGHT'],
+            'seam_pairs_by_row':pairs,
+          }
+          print('ONEPIECE_LAYOUT_RESULT_BEGIN')
+          print(json.dumps(result,indent=2))
+          print('ONEPIECE_LAYOUT_RESULT_END')
+          PY
