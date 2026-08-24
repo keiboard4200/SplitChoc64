@@ -1,27 +1,24 @@
-name: Restore footprint-only Ver001 FFC state
+name: Package current Ver001 FFC unrouted data
 on:
   push:
     paths:
       - '.github/workflows/inspect-ffc-placement.yml'
 permissions:
-  contents: write
+  contents: read
 jobs:
-  restore:
+  package:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Prepare package
+        run: |
+          mkdir -p package
+          cp -a DEVELOPMENT/Ver001 package/Ver001
+          rm -f package/Ver001/FFC_DRC_CHECK.txt package/Ver001/FFC_PLACEMENT_INSPECT.txt
+          printf '%s\n' 'SplitChoc64 Ver001 - FFC footprints added, FFC nets intentionally unrouted for Freerouting.' > package/README_FREEROUTING.txt
+      - name: Upload package
+        uses: actions/upload-artifact@v4
         with:
-          fetch-depth: 0
-      - name: Restore un-routed FFC PCB state
-        run: |
-          git checkout 2dd0688ed56775100c838c6da532f15935b4b0af -- \
-            DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb \
-            DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb \
-            DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
-      - name: Commit footprint-only state
-        run: |
-          git config user.name github-actions[bot]
-          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
-          git commit -m "Restore un-routed FFC footprints for Freerouting"
-          git push
+          name: SplitChoc64_Ver001_FFC_UNROUTED
+          path: package/
+          compression-level: 9
