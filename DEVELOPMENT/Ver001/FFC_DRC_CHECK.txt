@@ -1,0 +1,114 @@
+=== KiCad 9 Ver001 FFC validation ===
+LEFT_EXIT=5
+** Drc report for SplitChoc64_LEFT.kicad_pcb **
+** Created on 2026-08-24T14:29:49+0000 **
+** Report includes: Errors, Warnings **
+
+** Found 10 DRC violations **
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(121.5000 mm, 116.3000 mm): Track [L_GND] on B.Cu, length 3.3000 mm
+    @(121.4500 mm, 115.4500 mm): Pad MP [<no net>] of J5 on B.Cu
+[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
+    Rule: board setup solder mask min width; error
+    @(125.2500 mm, 115.8500 mm): Track [L_3V3] on B.Cu, length 4.4039 mm
+    @(126.5500 mm, 115.4500 mm): Pad MP [<no net>] of J5 on B.Cu
+[shorting_items]: Items shorting two nets (nets L_GND and )
+    Local override; error
+    @(121.5000 mm, 116.3000 mm): Track [L_GND] on B.Cu, length 3.3000 mm
+    @(121.4500 mm, 115.4500 mm): Pad MP [<no net>] of J5 on B.Cu
+[tracks_crossing]: Tracks crossing
+    Local override; error
+    @(121.5000 mm, 113.0000 mm): Track [L_GND] on B.Cu, length 9.4100 mm
+    @(129.6400 mm, 114.2915 mm): Track [L_3V3] on B.Cu, length 15.6846 mm
+[shorting_items]: Items shorting two nets (nets L_JOY_Y and L_JOY_X)
+    Local override; error
+    @(19.7180 mm, 115.0957 mm): Track [L_JOY_Y] on F.Cu, length 108.2095 mm
+    @(123.3000 mm, 115.3500 mm): Via [L_JOY_X] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.1043 mm)
+    Local override; error
+    @(19.7180 mm, 115.0957 mm): Track [L_JOY_Y] on F.Cu, length 108.2095 mm
+    @(123.3000 mm, 115.3500 mm): Track [L_JOY_X] on F.Cu, length 0.1974 mm
+[shorting_items]: Items shorting two nets (nets L_JOY_Y and L_JOY_SW)
+    Local override; error
+    @(123.9000 mm, 114.8500 mm): Via [L_JOY_Y] on F.Cu - B.Cu
+    @(25.6154 mm, 114.6199 mm): Track [L_JOY_SW] on F.Cu, length 107.7245 mm
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0791 mm)
+    Local override; error
+    @(123.3000 mm, 115.3500 mm): Via [L_JOY_X] on F.Cu - B.Cu
+    @(123.7500 mm, 115.8500 mm): Pad 3 [L_JOY_Y] of J5 on B.Cu
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0801 mm)
+    Local override; error
+    @(123.9000 mm, 114.8500 mm): Track [L_JOY_Y] on F.Cu, length 0.2457 mm
+    @(25.6154 mm, 114.6199 mm): Track [L_JOY_SW] on F.Cu, length 107.7245 mm
+[shorting_items]: Items shorting two nets (nets  and L_3V3)
+    Local override; error
+    @(126.5500 mm, 115.4500 mm): Pad MP [<no net>] of J5 on B.Cu
+    @(125.2500 mm, 115.8500 mm): Track [L_3V3] on B.Cu, length 4.4039 mm
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **
+
+RIGHT_EXIT=5
+** Drc report for SplitChoc64_RIGHT.kicad_pcb **
+** Created on 2026-08-24T14:29:50+0000 **
+** Report includes: Errors, Warnings **
+
+** Found 12 DRC violations **
+[shorting_items]: Items shorting two nets (nets R_3V3 and R_JOY_SDA)
+    Local override; error
+    @(201.6000 mm, 115.4000 mm): Via [R_3V3] on F.Cu - B.Cu
+    @(190.9803 mm, 115.1727 mm): Track [R_JOY_SDA] on F.Cu, length 125.9619 mm
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0017 mm)
+    Local override; error
+    @(198.8000 mm, 110.3966 mm): Via [R_JOY_X] on F.Cu - B.Cu
+    @(206.8477 mm, 110.0949 mm): Track [R_GND] on F.Cu, length 18.1427 mm
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0017 mm)
+    Local override; error
+    @(198.0000 mm, 110.0949 mm): Via [R_GND] on F.Cu - B.Cu
+    @(188.8357 mm, 110.3966 mm): Track [R_JOY_X] on F.Cu, length 38.6448 mm
+[shorting_items]: Items shorting two nets (nets R_JOY_SW and R_JOY_Y)
+    Local override; error
+    @(200.4000 mm, 114.7200 mm): Via [R_JOY_SW] on F.Cu - B.Cu
+    @(315.2390 mm, 114.5693 mm): Track [R_JOY_Y] on F.Cu, length 126.1953 mm
+[shorting_items]: Items shorting two nets (nets R_JOY_SW and R_JOY_SDA)
+    Local override; error
+    @(190.0120 mm, 114.8710 mm): Track [R_JOY_SW] on F.Cu, length 125.5641 mm
+    @(201.0000 mm, 114.9800 mm): Via [R_JOY_SDA] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.1356 mm)
+    Local override; error
+    @(199.8000 mm, 114.3000 mm): Via [R_JOY_Y] on F.Cu - B.Cu
+    @(199.4500 mm, 115.0500 mm): Pad 2 [R_JOY_X] of J6 on B.Cu
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0750 mm)
+    Local override; error
+    @(200.4000 mm, 114.7200 mm): Via [R_JOY_SW] on F.Cu - B.Cu
+    @(199.9500 mm, 115.0500 mm): Pad 3 [R_JOY_Y] of J6 on B.Cu
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.1107 mm)
+    Local override; error
+    @(315.2390 mm, 114.5693 mm): Track [R_JOY_Y] on F.Cu, length 126.1953 mm
+    @(201.0000 mm, 114.9800 mm): Via [R_JOY_SDA] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0750 mm)
+    Local override; error
+    @(201.4500 mm, 115.0500 mm): Pad 6 [R_3V3] of J6 on B.Cu
+    @(201.0000 mm, 114.9800 mm): Via [R_JOY_SDA] on F.Cu - B.Cu
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0007 mm)
+    Local override; error
+    @(200.4000 mm, 114.7200 mm): Track [R_JOY_SW] on F.Cu, length 0.1510 mm
+    @(315.2390 mm, 114.5693 mm): Track [R_JOY_Y] on F.Cu, length 126.1953 mm
+[shorting_items]: Items shorting two nets (nets R_JOY_SW and R_JOY_SDA)
+    Local override; error
+    @(190.0120 mm, 114.8710 mm): Track [R_JOY_SW] on F.Cu, length 125.5641 mm
+    @(201.0000 mm, 114.9800 mm): Track [R_JOY_SDA] on F.Cu, length 0.1927 mm
+[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0773 mm)
+    Local override; error
+    @(201.6000 mm, 115.4000 mm): Track [R_3V3] on F.Cu, length 0.2065 mm
+    @(190.9803 mm, 115.1727 mm): Track [R_JOY_SDA] on F.Cu, length 125.9619 mm
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **
