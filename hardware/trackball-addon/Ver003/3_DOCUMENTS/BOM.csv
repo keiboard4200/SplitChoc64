@@ -1,0 +1,6 @@
+Ref,Item,Specification,Qty,Notes
+J1,Low-profile pin header/socket,1x7 1.27mm pitch,1,Mates with SplitChoc64 Ver012 J4
+J2,FFC/FPC connector,Hirose FH19C-6S-0.5SH(10) or footprint-compatible,1,6P 0.5mm; B-side mount
+FFC,Flat flexible cable,6P 0.5mm same-contact-side,1,U-fold 180 degrees; no twist
+SENSOR,Mouse sensor module,14mm PAW3222 module,1,Purchased module; not fabricated in this package
+BALL,Trackball,19.05mm nominal,1,Torabo-tsuki LP 19mm configuration
