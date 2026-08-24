@@ -15,48 +15,46 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install FreeCAD
-        run: |
-          sudo add-apt-repository -y universe
-          sudo apt-get update
-          sudo apt-get install -y freecad
+      - name: Install CAD kernel
+        run: python3 -m pip install --user cadquery
 
       - name: Compute LEFT/RIGHT case intersection
         shell: bash
         run: |
           cat > /tmp/check_case.py <<'PY'
           import json
-          import Part
+          import cadquery as cq
 
           left_path = 'hardware/main-pcb/Ver000/4_CASE/SplitChoc64_LEFT_BOTTOM_CASE_Ver010.step'
           right_path = 'hardware/main-pcb/Ver000/4_CASE/SplitChoc64_RIGHT_BOTTOM_CASE_Ver010.step'
 
-          left = Part.read(left_path)
-          right = Part.read(right_path)
-          inter = left.common(right)
-          dist, pts, infos = left.distToShape(right)
+          left = cq.importers.importStep(left_path).val()
+          right = cq.importers.importStep(right_path).val()
+          inter = left.intersect(right)
+          dist = left.distance(right)
 
           def bb(shape):
-              b = shape.BoundBox
+              b = shape.BoundingBox()
               return {
-                  'xmin': b.XMin, 'xmax': b.XMax,
-                  'ymin': b.YMin, 'ymax': b.YMax,
-                  'zmin': b.ZMin, 'zmax': b.ZMax,
-                  'xlen': b.XLength, 'ylen': b.YLength, 'zlen': b.ZLength,
+                  'xmin': b.xmin, 'xmax': b.xmax,
+                  'ymin': b.ymin, 'ymax': b.ymax,
+                  'zmin': b.zmin, 'zmax': b.zmax,
+                  'xlen': b.xlen, 'ylen': b.ylen, 'zlen': b.zlen,
               }
 
+          vol = inter.Volume()
           result = {
               'left_bbox_mm': bb(left),
               'right_bbox_mm': bb(right),
               'minimum_distance_mm': dist,
-              'intersection_volume_mm3': inter.Volume,
-              'intersection_bbox_mm': bb(inter) if not inter.isNull() and inter.Volume > 1e-9 else None,
-              'left_volume_mm3': left.Volume,
-              'right_volume_mm3': right.Volume,
-              'conclusion': 'INTERFERENCE' if inter.Volume > 1e-9 else ('TOUCHING_NO_VOLUME' if dist <= 1e-6 else 'CLEARANCE')
+              'intersection_volume_mm3': vol,
+              'intersection_bbox_mm': bb(inter) if vol > 1e-9 else None,
+              'left_volume_mm3': left.Volume(),
+              'right_volume_mm3': right.Volume(),
+              'conclusion': 'INTERFERENCE' if vol > 1e-9 else ('TOUCHING_NO_VOLUME' if dist <= 1e-6 else 'CLEARANCE')
           }
           print('CASE_INTERLOCK_RESULT_BEGIN')
           print(json.dumps(result, indent=2))
           print('CASE_INTERLOCK_RESULT_END')
           PY
-          FreeCADCmd /tmp/check_case.py
+          python3 /tmp/check_case.py
