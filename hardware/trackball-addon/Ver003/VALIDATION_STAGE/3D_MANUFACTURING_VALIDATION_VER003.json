@@ -1,0 +1,38 @@
+[
+  {
+    "part": "Torabo holder",
+    "file": "2_3D_PRINT/1_TORABO_TRACKBALL_HOLDER/Torabo-tsuki_Trackball_Holder_19mm.step",
+    "solids": 1,
+    "valid": true,
+    "bbox_mm": [
+      29.820313,
+      19.366352,
+      19.842381
+    ],
+    "volume_mm3": 2668.458983
+  },
+  {
+    "part": "Adapter",
+    "file": "2_3D_PRINT/2_ADAPTER/SplitChoc64_Trackball_Adapter.step",
+    "solids": 1,
+    "valid": true,
+    "bbox_mm": [
+      46.0,
+      23.166352,
+      8.0
+    ],
+    "volume_mm3": 2240.418413
+  },
+  {
+    "part": "Bottom case",
+    "file": "2_3D_PRINT/3_BOTTOM_CASE/SplitChoc64_RIGHT_BottomCase_Trackball.step",
+    "solids": 1,
+    "valid": true,
+    "bbox_mm": [
+      180.05,
+      99.15,
+      14.7
+    ],
+    "volume_mm3": 24697.408631
+  }
+]

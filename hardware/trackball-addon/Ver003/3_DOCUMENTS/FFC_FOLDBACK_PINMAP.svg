@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="660" viewBox="0 0 1100 660">
+<style>text{font-family:Arial,'Noto Sans JP',sans-serif;fill:#111}.h{font-size:24px;font-weight:bold}.t{font-size:18px}.s{font-size:15px}.box{fill:none;stroke:#222;stroke-width:2}.wire{fill:none;stroke:#333;stroke-width:2}.dash{fill:none;stroke:#666;stroke-width:2;stroke-dasharray:8 6}</style>
+<text x="40" y="42" class="h">SplitChoc64 FFC Adapter R03 — side/orientation concept</text>
+<text x="55" y="92" class="t">MAIN PCB / top side</text>
+<rect x="60" y="110" width="420" height="28" class="box"/><text x="180" y="132" class="s">SplitChoc64 MAIN PCB</text>
+<line x1="270" y1="138" x2="270" y2="185" class="wire"/><text x="282" y="166" class="s">J4 1.27 mm</text>
+<rect x="135" y="185" width="270" height="54" class="box"/><text x="185" y="218" class="t">J1 / F.Cu side</text>
+<rect x="135" y="239" width="270" height="16" class="box"/><text x="420" y="252" class="s">0.8 mm adapter PCB</text>
+<rect x="195" y="255" width="150" height="46" class="box"/><text x="220" y="284" class="t">J2 / B.Cu</text>
+<text x="55" y="330" class="t">BOTTOM CASE side</text>
+<path d="M270 301 C270 355 130 350 130 420 C130 485 460 470 540 470" class="wire"/>
+<text x="95" y="382" class="s">same-contact-side 6P FFC</text><text x="150" y="445" class="s">180° U-fold (no twist)</text>
+<rect x="540" y="438" width="38" height="64" class="box"/><text x="588" y="475" class="s">case pass-through</text>
+<path d="M578 470 L720 470" class="wire"/>
+<rect x="720" y="410" width="300" height="130" class="box"/><text x="760" y="440" class="t">PAW3222 sensor PCB</text>
+<text x="750" y="472" class="s">sensor connector pins:</text>
+<text x="750" y="496" class="s">1 3V3 · 2 CS · 3 MOTION</text>
+<text x="750" y="520" class="s">4 SDIO · 5 SCLK · 6 GND</text>
+<text x="520" y="110" class="h">Pin mapping</text>
+<text x="520" y="145" class="t">Adapter J2 (B-side) → Sensor</text>
+<text x="540" y="180" class="t">1 GND    → 6 GND</text>
+<text x="540" y="210" class="t">2 SCLK   → 5 SCLK</text>
+<text x="540" y="240" class="t">3 SDIO   → 4 SDIO</text>
+<text x="540" y="270" class="t">4 MOTION → 3 MOTION</text>
+<text x="540" y="300" class="t">5 CS     → 2 CS</text>
+<text x="540" y="330" class="t">6 3V3    → 1 3V3</text>
+<text x="40" y="610" class="s">Important: J2 is mounted on the B-side. The FFC is folded back without twisting; connector pin numbering is electrical pin numbering, not left/right appearance when viewed from the top.</text>
+</svg>

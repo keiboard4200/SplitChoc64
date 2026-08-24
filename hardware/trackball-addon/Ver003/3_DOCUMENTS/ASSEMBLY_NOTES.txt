@@ -1,0 +1,23 @@
+SplitChoc64 Trackball Add-on assembly notes
+
+Signal path:
+SplitChoc64 RIGHT J4 -> J1 on adapter PCB -> J2 (B-side) -> 6P 0.5 mm FFC -> PAW3222 14 mm sensor module.
+
+Adapter J2 pin map:
+1 GND
+2 SCLK
+3 SDIO
+4 MOTION
+5 CS
+6 3V3
+
+Sensor module connector pin map:
+1 3V3
+2 CS
+3 MOTION
+4 SDIO
+5 SCLK
+6 GND
+
+With the intended connector facing arrangement and same-contact-side FFC, the physical conductor mapping is adapter 1..6 -> sensor 6..1.
+The FFC is U-folded for routing; it is not twisted.
