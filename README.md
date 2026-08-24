@@ -6,8 +6,9 @@ This repository is the single source for firmware, PCB design, mechanical/3D-pri
 
 ## Hardware baseline
 
-- Main PCB production baseline: **Ver012**
-- Ver012 PCB outline, key positions, and interlocking geometry are treated as frozen production geometry.
+- Main PCB production baseline: **Ver000**
+- Ver000 corresponds to the hardware originally developed and manufactured under the internal label **Ver012**.
+- Ver000 PCB outline, key positions, and interlocking geometry are treated as frozen production geometry.
 - RIGHT half: Central / USB-BLE host
 - LEFT half: Peripheral
 - Kailh Choc V2 hot-swap switches
@@ -33,12 +34,20 @@ SplitChoc64/
 │  └─ trackball/       # PAW3222/Torabo ZMK implementation
 ├─ hardware/
 │  ├─ main-pcb/
-│  │  └─ Ver012/
+│  │  └─ Ver000/
 │  └─ trackball-addon/
 ├─ mechanical/
 ├─ docs/
 └─ .github/
 ```
+
+## Versioning policy
+
+- **Ver000** = first manufactured SplitChoc64 production hardware baseline (legacy internal name: Ver012)
+- **Ver001** = first future hardware revision
+- Later revisions increment sequentially.
+
+Legacy filenames inside Ver000 may still contain `Ver012`; these are intentionally retained unchanged for traceability and to preserve the exact manufactured source data.
 
 ## Migration status
 
