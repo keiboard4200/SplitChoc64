@@ -1,0 +1,21 @@
+=== LEFT J3 at=(133.450,116.000) rot=90.0 layer=B.Cu ===
+FOOTPRINTS within 30mm:
+J3 x=133.450 y=116.000 rot=90.0 layer=B.Cu d=0.00 lib=SplitChoc64_BoardExact:J3
+SWL29 x=130.538 y=106.725 rot=180.0 layer=F.Cu d=9.72 lib=SplitChoc64_BoardExact:SWL29
+H4 x=143.000 y=113.250 rot=0.0 layer=F.Cu d=9.94 lib=SplitChoc64_Custom:M2_CASE_MOUNT
+DL29 x=123.538 y=103.525 rot=0.0 layer=B.Cu d=15.93 lib=SplitChoc64_BoardExact:DL29
+SWL23 x=130.538 y=87.675 rot=0.0 layer=F.Cu d=28.47 lib=SplitChoc64_BoardExact:SWL23
+EDGE.CUTS nearby:
+SEGMENTS/VIAS within 18mm:
+
+=== RIGHT J4 at=(187.613,116.000) rot=90.0 layer=B.Cu ===
+FOOTPRINTS within 30mm:
+J4 x=187.613 y=116.000 rot=90.0 layer=B.Cu d=0.00 lib=SplitChoc64_BoardExact:J4
+SWR30 x=189.332 y=106.725 rot=0.0 layer=F.Cu d=9.43 lib=SplitChoc64_BoardExact:SWR30
+DR30 x=182.332 y=103.525 rot=0.0 layer=B.Cu d=13.55 lib=SplitChoc64_BoardExact:DR30
+R_H2 x=174.063 y=113.250 rot=0.0 layer=F.Cu d=13.83 lib=SplitChoc64_Custom:M2_CASE_MOUNT
+SWR24 x=186.950 y=87.675 rot=0.0 layer=F.Cu d=28.33 lib=SplitChoc64_BoardExact:SWR24
+DR31 x=213.288 y=103.525 rot=0.0 layer=B.Cu d=28.55 lib=SplitChoc64_BoardExact:DR31
+EDGE.CUTS nearby:
+SEGMENTS/VIAS within 18mm:
+
