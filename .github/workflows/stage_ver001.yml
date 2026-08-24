@@ -3,7 +3,7 @@ name: Stage Ver001 development checkpoint
 on:
   push:
     paths:
-      - tools/stage_ver001.py
+      - tools/stage_ver001.trigger
 
 permissions:
   contents: write
