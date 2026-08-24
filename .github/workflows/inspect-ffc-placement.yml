@@ -1,100 +1,73 @@
-name: Rebuild clean Ver001 FFC placement
+name: Route Ver001 FFC power nets
 on:
   push:
     paths:
       - '.github/workflows/inspect-ffc-placement.yml'
 concurrency:
-  group: ver001-ffc-rebuild
+  group: ver001-ffc-power
   cancel-in-progress: true
 permissions:
   contents: write
 jobs:
-  rebuild:
+  route:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Restore DRC-clean Ver001 PCB baseline
-        run: |
-          git checkout a2189b1510437ab9d1b4cf62ddab45240bf99cb0 -- \
-            DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb \
-            DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb \
-            DEVELOPMENT/Ver001/LEFT/fp-lib-table \
-            DEVELOPMENT/Ver001/RIGHT/fp-lib-table
-      - name: Add FFC footprints only
+      - name: Add GND and 3V3 routing only
         shell: python
         run: |
           from pathlib import Path
-          import re, uuid
-          def blocks(text,head):
-              out=[]; pos=0
-              while True:
-                  s=text.find(head,pos)
-                  if s<0: break
-                  d=0; ins=False; esc=False; e=None
-                  for i in range(s,len(text)):
-                      c=text[i]
-                      if ins:
-                          if esc: esc=False
-                          elif c=='\\': esc=True
-                          elif c=='"': ins=False
-                          continue
-                      if c=='"': ins=True
-                      elif c=='(': d+=1
-                      elif c==')':
-                          d-=1
-                          if d==0: e=i+1; break
-                  if e is None: raise RuntimeError('unterminated')
-                  out.append(text[s:e]); pos=e
-              return out
-          def get_ref(text,ref):
-              for b in blocks(text,'(footprint'):
-                  if f'(property "Reference" "{ref}"' in b: return b
-              raise RuntimeError(ref)
-          def net_id(text,name):
-              m=re.search(rf'\(net\s+(\d+)\s+"{re.escape(name)}"\)',text)
-              if not m: raise RuntimeError(name)
-              return int(m.group(1))
+          import uuid
           def uid(): return str(uuid.uuid4())
-          adapter=Path('hardware/trackball-addon/Ver000/1_FFC_ADAPTER/SplitChoc64_FFC_Adapter.kicad_pcb').read_text()
-          template=get_ref(adapter,'J2')
-          specs={
-            'LEFT':(Path('DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb'),'J5',(118.5,112.8),['L_GND','L_JOY_X','L_JOY_Y','L_JOY_SW','L_JOY_SDA','L_3V3']),
-            'RIGHT':(Path('DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb'),'J6',(194.7,112.0),['R_GND','R_JOY_X','R_JOY_Y','R_JOY_SW','R_JOY_SDA','R_3V3'])}
-          old=['GND','PAW_SCLK','PAW_SDIO','PAW_MOTION','PAW_CS','3V3']
-          for side,(p,ref,at,names) in specs.items():
-              text=p.read_text(); ids={n:net_id(text,n) for n in names}; fp=template
-              fp=re.sub(r'^\(footprint "[^"]+"','(footprint "SplitChoc64_FFC:FH19C-6S-0.5SH_HandSolder"',fp,count=1)
-              fp=re.sub(r'\n\s*\(at\s+[-0-9.]+\s+[-0-9.]+(?:\s+[-0-9.]+)?\)',f'\n\t\t(at {at[0]} {at[1]})',fp,count=1)
-              fp=fp.replace('(property "Reference" "J2"',f'(property "Reference" "{ref}"',1)
-              fp=re.sub(r'\(uuid "[0-9a-f-]+"\)',lambda m:f'(uuid "{uid()}")',fp)
-              for a,b in zip(old,names): fp=re.sub(rf'\(net\s+\d+\s+"{re.escape(a)}"\)',f'(net {ids[b]} "{b}")',fp)
-              insert=min(x for x in [text.find('\n\t(gr_line'),text.find('\n\t(gr_arc'),text.find('\n\t(gr_text')] if x>=0)
-              p.write_text(text[:insert]+'\n\t'+fp.replace('\n','\n\t').rstrip('\t')+'\n'+text[insert:])
-          lib=Path('DEVELOPMENT/Ver001/0_COMMON/SplitChoc64_FFC.pretty'); lib.mkdir(parents=True,exist_ok=True)
-          src=Path('hardware/trackball-addon/Ver000/1_FFC_ADAPTER/SplitChoc64.pretty/FH19C-6S-0.5SH_HandSolder.kicad_mod').read_text()
-          (lib/'FH19C-6S-0.5SH_HandSolder.kicad_mod').write_text(src)
-          for side in ('LEFT','RIGHT'):
-              p=Path(f'DEVELOPMENT/Ver001/{side}/fp-lib-table'); t=p.read_text()
-              line='  (lib (name "SplitChoc64_FFC")(type "KiCad")(uri "${KIPRJMOD}/../0_COMMON/SplitChoc64_FFC.pretty")(options "")(descr "Trackball FFC connector"))\n'
-              if 'SplitChoc64_FFC' not in t: p.write_text(t.replace('\n)\n','\n'+line+')\n'))
+          def seg(a,b,net,layer='B.Cu'):
+              return f'\t(segment\n\t\t(start {a[0]} {a[1]})\n\t\t(end {b[0]} {b[1]})\n\t\t(width 0.15)\n\t\t(layer "{layer}")\n\t\t(net {net})\n\t\t(uuid "{uid()}")\n\t)\n'
+          def via(p,net):
+              return f'\t(via\n\t\t(at {p[0]} {p[1]})\n\t\t(size 0.45)\n\t\t(drill 0.2)\n\t\t(layers "F.Cu" "B.Cu")\n\t\t(net {net})\n\t\t(uuid "{uid()}")\n\t)\n'
+          def add(path,items):
+              t=path.read_text(); s='\n'
+              for item in items:
+                  if item[0]=='seg': s+=seg(item[1],item[2],item[3],item[4] if len(item)>4 else 'B.Cu')
+                  elif item[0]=='via': s+=via(item[1],item[2])
+              pos=t.rfind('\n\t(embedded_fonts no)')
+              if pos<0: raise RuntimeError('insertion point not found')
+              path.write_text(t[:pos]+s+t[pos:])
+          # LEFT 3V3 escapes rearward around J5 MP and joins the existing J3 3V3 B.Cu trace.
+          # LEFT GND goes left/rear, crosses to F.Cu below the existing 3V3 diagonal, and lands exactly on the existing GND F.Cu diagonal.
+          add(Path('DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb'),[
+            ('seg',(125.25,115.85),(125.25,113.0),17),
+            ('seg',(125.25,113.0),(128.5,113.0),17),
+            ('seg',(128.5,113.0),(129.64,114.2915),17),
+            ('seg',(122.75,115.85),(122.75,113.4),18),
+            ('seg',(122.75,113.4),(117.5,113.4),18),
+            ('seg',(117.5,113.4),(117.5,101.0),18),
+            ('seg',(117.5,101.0),(120.0,99.8147),18),
+            ('via',(120.0,99.8147),18),
+          ])
+          # RIGHT GND lands on the existing GND F.Cu diagonal; 3V3 joins the existing B.Cu 3V3 segment.
+          add(Path('DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb'),[
+            ('seg',(198.95,115.05),(198.95,113.0),14),
+            ('seg',(198.95,113.0),(186.0,112.7999),14),
+            ('via',(186.0,112.7999),14),
+            ('seg',(201.45,115.05),(201.45,114.2),21),
+            ('seg',(201.45,114.2),(194.5,114.2),21),
+            ('seg',(194.5,114.2),(193.4677,115.2),21),
+          ])
       - name: Install KiCad 9
         run: |
           sudo add-apt-repository --yes ppa:kicad/kicad-9.0-releases
           sudo apt-get update
           sudo apt-get install -y kicad
-      - name: DRC footprint placement only
+      - name: Run DRC
         shell: bash
         run: |
           set +e
           kicad-cli pcb drc --exit-code-violations -o /tmp/L.rpt DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb; l=$?
           kicad-cli pcb drc --exit-code-violations -o /tmp/R.rpt DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb; r=$?
-          { echo '=== CLEAN REBUILD / FFC FOOTPRINT ONLY ==='; echo "LEFT_EXIT=$l"; cat /tmp/L.rpt; echo; echo "RIGHT_EXIT=$r"; cat /tmp/R.rpt; } > DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
-      - name: Commit clean footprint-only state and report
+          { echo '=== FFC POWER NETS ONLY ==='; echo "LEFT_EXIT=$l"; cat /tmp/L.rpt; echo; echo "RIGHT_EXIT=$r"; cat /tmp/R.rpt; } > DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
+      - name: Commit power routing and report
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb DEVELOPMENT/Ver001/LEFT/fp-lib-table DEVELOPMENT/Ver001/RIGHT/fp-lib-table DEVELOPMENT/Ver001/0_COMMON/SplitChoc64_FFC.pretty/FH19C-6S-0.5SH_HandSolder.kicad_mod DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
-          git commit -m "Rebuild clean Ver001 FFC footprint placement and DRC"
+          git add DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
+          git commit -m "Route Ver001 FFC power nets and publish DRC"
           git push
