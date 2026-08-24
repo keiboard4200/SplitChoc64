@@ -1,7 +1,38 @@
-name: Stage Ver001
-on: workflow_dispatch
+name: Stage Ver001 development checkpoint
+
+on:
+  push:
+    paths:
+      - tools/stage_ver001.py
+
+permissions:
+  contents: write
+
 jobs:
-  test:
+  stage:
     runs-on: ubuntu-latest
     steps:
-      - run: echo ok
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate DEVELOPMENT/Ver001
+        run: python3 tools/stage_ver001.py
+
+      - name: Sanity check generated PCB files
+        shell: bash
+        run: |
+          test -s DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb
+          test -s DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb
+          grep -q 'Reference" "H4' DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb
+          grep -q '(at 143 113.25' DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb
+          grep -q '(start 150.513 90.8)' DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb
+          grep -q '(start 166.913 42.905513)' DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb
+          test -f DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pro
+          test -f DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pro
+
+      - name: Commit generated checkpoint
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Stage DRC 0/0 Ver001 development checkpoint
+          file_pattern: DEVELOPMENT/Ver001
