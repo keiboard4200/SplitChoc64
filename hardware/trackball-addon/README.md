@@ -2,6 +2,13 @@
 
 This directory is the canonical location for the SplitChoc64 trackball add-on.
 
+## Version baseline
+
+- Formal repository production version: **Ver000**
+- Legacy/internal package label: **Ver003**
+- Ver000 preserves the approved Ver003 payload unchanged; only repository-level version designation is changed.
+- Next trackball add-on revision: **Ver001**
+
 ## Mechanical baseline
 
 - Torabo-tsuki LP 19 mm holder geometry
@@ -42,3 +49,5 @@ The physical connector orientation and same-side FFC contact direction must be c
 ## Manufacturing baseline
 
 The approved adapter mechanical revision is R27. Reference assemblies are for fit/visualization only and are not themselves manufacturing parts.
+
+Legacy filenames and internal documents may still contain `Ver003`, `R27`, or `R26`; those names are intentionally retained for traceability to the approved manufacturing data.

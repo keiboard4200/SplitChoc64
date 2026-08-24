@@ -36,12 +36,17 @@ SplitChoc64/
 │  ├─ main-pcb/
 │  │  └─ Ver000/
 │  └─ trackball-addon/
+│     └─ Ver000/
 ├─ mechanical/
 ├─ docs/
 └─ .github/
 ```
 
 ## Versioning policy
+
+- **Main PCB Ver000** = first manufactured main PCB baseline (legacy internal name: Ver012)
+- **Trackball add-on Ver000** = first approved trackball add-on baseline (legacy internal name: Ver003)
+
 
 - **Ver000** = first manufactured SplitChoc64 production hardware baseline (legacy internal name: Ver012)
 - **Ver001** = first future hardware revision
