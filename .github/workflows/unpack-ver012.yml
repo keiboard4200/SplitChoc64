@@ -19,7 +19,7 @@ jobs:
         with:
           ref: unpack-ver012
 
-      - name: Unpack Ver012
+      - name: Unpack and place Ver012
         shell: bash
         run: |
           set -euo pipefail
@@ -27,27 +27,33 @@ jobs:
           mkdir -p /tmp/ver012
           unzip -q splitchoc64_Ver012.zip -d /tmp/ver012
 
-          target="hardware/main-pcb/Ver012/source"
-          rm -rf "$target"
-          mkdir -p "$target"
+          base="hardware/main-pcb/Ver012"
+          rm -rf "$base/source"
 
-          shopt -s dotglob nullglob
-          entries=(/tmp/ver012/*)
-          if [ "${#entries[@]}" -eq 1 ] && [ -d "${entries[0]}" ]; then
-            cp -a "${entries[0]}"/. "$target"/
-          else
-            cp -a /tmp/ver012/. "$target"/
-          fi
+          # Preserve the original Ver012 directory structure directly under the
+          # production baseline folder. Do not rename or modify design files.
+          for d in 0_COMMON 1_RIGHT 2_LEFT 3_PLATE 4_CASE 5_MANIFUCTUR; do
+            rm -rf "$base/$d"
+            cp -a "/tmp/ver012/splitchoc64_Ver012/$d" "$base/$d"
+          done
+          cp -a /tmp/ver012/splitchoc64_Ver012/README.txt "$base/README_ORIGINAL.txt"
+          cp -a /tmp/ver012/splitchoc64_Ver012/README_3D_AND_JLCPCB.txt "$base/README_3D_AND_JLCPCB.txt"
 
-          find "$target" -type f -print | LC_ALL=C sort > hardware/main-pcb/Ver012/ARCHIVE_CONTENTS.txt
-          sha256sum splitchoc64_Ver012.zip > hardware/main-pcb/Ver012/ARCHIVE_SHA256.txt
+          # Keep prebuilt Ver012 JOY firmware separate from hardware sources.
+          fw="firmware/joystick/releases/Ver012"
+          rm -rf "$fw"
+          mkdir -p "$fw"
+          cp -a /tmp/ver012/firmware/. "$fw"/
 
-      - name: Commit extracted Ver012 source
+          find "$base" -type f -print | LC_ALL=C sort > "$base/ARCHIVE_CONTENTS.txt"
+          sha256sum splitchoc64_Ver012.zip > "$base/ARCHIVE_SHA256.txt"
+
+      - name: Commit finalized Ver012 layout
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add hardware/main-pcb/Ver012
-          git commit -m "Extract Ver012 production source archive" || exit 0
+          git add hardware/main-pcb/Ver012 firmware/joystick/releases/Ver012
+          git commit -m "Place Ver012 production sources and firmware" || exit 0
           git push origin HEAD:unpack-ver012
