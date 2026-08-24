@@ -1,0 +1,75 @@
+name: Inspect Ver000 PCB staircase
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract central Edge.Cuts staircase
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import re, json
+          from pathlib import Path
+
+          files = {
+            'LEFT': Path('hardware/main-pcb/Ver000/2_LEFT/SplitChoc64_LEFT.kicad_pcb'),
+            'RIGHT': Path('hardware/main-pcb/Ver000/1_RIGHT/SplitChoc64_RIGHT.kicad_pcb'),
+          }
+
+          def sexpr_blocks(text, head):
+              out=[]; i=0; needle='('+head
+              while True:
+                  s=text.find(needle,i)
+                  if s<0: break
+                  depth=0; ins=False; esc=False
+                  for j in range(s,len(text)):
+                      c=text[j]
+                      if ins:
+                          if esc: esc=False
+                          elif c=='\\': esc=True
+                          elif c=='"': ins=False
+                      else:
+                          if c=='"': ins=True
+                          elif c=='(': depth += 1
+                          elif c==')':
+                              depth -= 1
+                              if depth==0:
+                                  out.append(text[s:j+1]); i=j+1; break
+                  else: break
+              return out
+
+          def point(block, key):
+              m=re.search(r'\('+key+r'\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\)',block)
+              return (float(m.group(1)),float(m.group(2))) if m else None
+
+          for side,p in files.items():
+              text=p.read_text(errors='replace')
+              segs=[]
+              for head in ('gr_line','gr_arc'):
+                  for b in sexpr_blocks(text,head):
+                      if '(layer "Edge.Cuts")' not in b: continue
+                      if head=='gr_line':
+                          s=point(b,'start'); e=point(b,'end')
+                          if s and e: segs.append({'type':'line','start':s,'end':e})
+                      else:
+                          s=point(b,'start'); m=point(b,'mid'); e=point(b,'end')
+                          if s and m and e: segs.append({'type':'arc','start':s,'mid':m,'end':e})
+              xs=[v for q in segs for pt in (q['start'],q['end']) for v in [pt[0]]]
+              ys=[v for q in segs for pt in (q['start'],q['end']) for v in [pt[1]]]
+              minx,maxx,miny,maxy=min(xs),max(xs),min(ys),max(ys)
+              if side=='LEFT':
+                  selected=[q for q in segs if max(q['start'][0],q['end'][0]) >= maxx-35]
+              else:
+                  selected=[q for q in segs if min(q['start'][0],q['end'][0]) <= minx+35]
+              print(f'PCB_STAIRCASE_{side}_BEGIN')
+              print(json.dumps({'bbox':[minx,maxx,miny,maxy],'segments':selected},indent=2))
+              print(f'PCB_STAIRCASE_{side}_END')
+          PY
