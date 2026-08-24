@@ -1,16 +1,12 @@
-=== FFC POWER NETS ONLY ===
+=== CLEAN REBUILD / FFC FOOTPRINT ONLY ===
 LEFT_EXIT=5
 ** Drc report for SplitChoc64_LEFT.kicad_pcb **
-** Created on 2026-08-24T14:42:12+0000 **
+** Created on 2026-08-24T14:37:12+0000 **
 ** Report includes: Errors, Warnings **
 
-** Found 1 DRC violations **
-[tracks_crossing]: Tracks crossing
-    Local override; error
-    @(122.8890 mm, 102.7486 mm): Track [L_ROW4] on B.Cu, length 7.3496 mm
-    @(117.5000 mm, 113.4000 mm): Track [L_GND] on B.Cu, length 12.4000 mm
+** Found 0 DRC violations **
 
-** Found 4 unconnected pads **
+** Found 6 unconnected pads **
 [unconnected_items]: Missing connection between items
     Local override; error
     @(20.1269 mm, 115.5474 mm): Track [L_JOY_X] on F.Cu, length 107.7756 mm
@@ -18,7 +14,7 @@ LEFT_EXIT=5
 [unconnected_items]: Missing connection between items
     Local override; error
     @(123.7500 mm, 115.8500 mm): Pad 3 [L_JOY_Y] of J5 on B.Cu
-    @(19.7180 mm, 115.0957 mm): Track [L_JOY_Y] on F.Cu, length 108.2095 mm
+    @(127.9275 mm, 115.0957 mm): Track [L_JOY_Y] on F.Cu, length 0.2462 mm
 [unconnected_items]: Missing connection between items
     Local override; error
     @(133.3399 mm, 114.6199 mm): Track [L_JOY_SW] on F.Cu, length 1.9518 mm
@@ -27,6 +23,14 @@ LEFT_EXIT=5
     Local override; error
     @(126.4939 mm, 114.3182 mm): Track [L_JOY_SDA] on F.Cu, length 7.8143 mm
     @(124.7500 mm, 115.8500 mm): Pad 5 [L_JOY_SDA] of J5 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(125.2500 mm, 115.8500 mm): Pad 6 [L_3V3] of J5 on B.Cu
+    @(129.6400 mm, 116.0000 mm): Track [L_3V3] on B.Cu, length 1.7085 mm
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(122.7500 mm, 115.8500 mm): Pad 1 [L_GND] of J5 on B.Cu
+    @(130.9100 mm, 116.0000 mm): Track [L_GND] on B.Cu, length 4.4614 mm
 
 ** Found 0 Footprint errors **
 
@@ -34,44 +38,16 @@ LEFT_EXIT=5
 
 RIGHT_EXIT=5
 ** Drc report for SplitChoc64_RIGHT.kicad_pcb **
-** Created on 2026-08-24T14:42:13+0000 **
+** Created on 2026-08-24T14:37:13+0000 **
 ** Report includes: Errors, Warnings **
 
-** Found 8 DRC violations **
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(198.9500 mm, 113.0000 mm): Track [R_GND] on B.Cu, length 12.9515 mm
-    @(193.0320 mm, 112.6250 mm): Pad 1 [R_ROW4] of SWR30 on B.Cu
-[solder_mask_bridge]: Rear solder mask aperture bridges items with different nets
-    Rule: board setup solder mask min width; error
-    @(201.4500 mm, 114.2000 mm): Track [R_3V3] on B.Cu, length 6.9500 mm
-    @(197.6500 mm, 114.6500 mm): Pad MP [<no net>] of J6 on B.Cu
-[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.1335 mm)
-    Local override; error
-    @(198.9500 mm, 113.0000 mm): Track [R_GND] on B.Cu, length 12.9515 mm
-    @(193.0320 mm, 112.6250 mm): Track [R_ROW4] on B.Cu, length 13.9007 mm
-[tracks_crossing]: Tracks crossing
-    Local override; error
-    @(201.4500 mm, 114.2000 mm): Track [R_3V3] on B.Cu, length 6.9500 mm
-    @(198.9500 mm, 115.0500 mm): Track [R_GND] on B.Cu, length 2.0500 mm
-[shorting_items]: Items shorting two nets (nets R_GND and R_ROW4)
-    Local override; error
-    @(198.9500 mm, 113.0000 mm): Track [R_GND] on B.Cu, length 12.9515 mm
-    @(193.0320 mm, 112.6250 mm): Pad 1 [R_ROW4] of SWR30 on B.Cu
-[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0545 mm)
-    Local override; error
-    @(186.0000 mm, 112.7999 mm): Via [R_GND] on F.Cu - B.Cu
-    @(186.3430 mm, 112.8893 mm): Track [R_JOY_X] on F.Cu, length 3.5252 mm
-[shorting_items]: Items shorting two nets (nets  and R_3V3)
-    Local override; error
-    @(197.6500 mm, 114.6500 mm): Pad MP [<no net>] of J6 on B.Cu
-    @(201.4500 mm, 114.2000 mm): Track [R_3V3] on B.Cu, length 6.9500 mm
-[clearance]: Clearance violation ( clearance 0.1500 mm; actual 0.0545 mm)
-    Local override; error
-    @(186.0000 mm, 112.7999 mm): Via [R_GND] on F.Cu - B.Cu
-    @(186.3430 mm, 116.0000 mm): Track [R_JOY_X] on F.Cu, length 3.1107 mm
+** Found 0 DRC violations **
 
-** Found 4 unconnected pads **
+** Found 6 unconnected pads **
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(198.9500 mm, 115.0500 mm): Pad 1 [R_GND] of J6 on B.Cu
+    @(219.1796 mm, 97.7630 mm): Track [R_GND] on F.Cu, length 17.4399 mm
 [unconnected_items]: Missing connection between items
     Local override; error
     @(186.3430 mm, 112.8893 mm): Track [R_JOY_X] on F.Cu, length 3.5252 mm
@@ -83,11 +59,15 @@ RIGHT_EXIT=5
 [unconnected_items]: Missing connection between items
     Local override; error
     @(200.4500 mm, 115.0500 mm): Pad 4 [R_JOY_SW] of J6 on B.Cu
-    @(188.8830 mm, 116.0000 mm): Track [R_JOY_SW] on F.Cu, length 1.5966 mm
+    @(190.0120 mm, 114.8710 mm): Track [R_JOY_SW] on F.Cu, length 125.5641 mm
 [unconnected_items]: Missing connection between items
     Local override; error
-    @(190.1530 mm, 116.0000 mm): Track [R_JOY_SDA] on F.Cu, length 1.1700 mm
+    @(190.9803 mm, 115.1727 mm): Track [R_JOY_SDA] on F.Cu, length 125.9619 mm
     @(200.9500 mm, 115.0500 mm): Pad 5 [R_JOY_SDA] of J6 on B.Cu
+[unconnected_items]: Missing connection between items
+    Local override; error
+    @(193.9102 mm, 115.6065 mm): Track [R_3V3] on F.Cu, length 0.0255 mm
+    @(201.4500 mm, 115.0500 mm): Pad 6 [R_3V3] of J6 on B.Cu
 
 ** Found 0 Footprint errors **
 
