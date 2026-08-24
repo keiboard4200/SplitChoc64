@@ -1,73 +1,27 @@
-name: Route Ver001 FFC power nets
+name: Restore footprint-only Ver001 FFC state
 on:
   push:
     paths:
       - '.github/workflows/inspect-ffc-placement.yml'
-concurrency:
-  group: ver001-ffc-power
-  cancel-in-progress: true
 permissions:
   contents: write
 jobs:
-  route:
+  restore:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Add GND and 3V3 routing only
-        shell: python
+        with:
+          fetch-depth: 0
+      - name: Restore un-routed FFC PCB state
         run: |
-          from pathlib import Path
-          import uuid
-          def uid(): return str(uuid.uuid4())
-          def seg(a,b,net,layer='B.Cu'):
-              return f'\t(segment\n\t\t(start {a[0]} {a[1]})\n\t\t(end {b[0]} {b[1]})\n\t\t(width 0.15)\n\t\t(layer "{layer}")\n\t\t(net {net})\n\t\t(uuid "{uid()}")\n\t)\n'
-          def via(p,net):
-              return f'\t(via\n\t\t(at {p[0]} {p[1]})\n\t\t(size 0.45)\n\t\t(drill 0.2)\n\t\t(layers "F.Cu" "B.Cu")\n\t\t(net {net})\n\t\t(uuid "{uid()}")\n\t)\n'
-          def add(path,items):
-              t=path.read_text(); s='\n'
-              for item in items:
-                  if item[0]=='seg': s+=seg(item[1],item[2],item[3],item[4] if len(item)>4 else 'B.Cu')
-                  elif item[0]=='via': s+=via(item[1],item[2])
-              pos=t.rfind('\n\t(embedded_fonts no)')
-              if pos<0: raise RuntimeError('insertion point not found')
-              path.write_text(t[:pos]+s+t[pos:])
-          # LEFT 3V3 escapes rearward around J5 MP and joins the existing J3 3V3 B.Cu trace.
-          # LEFT GND goes left/rear, crosses to F.Cu below the existing 3V3 diagonal, and lands exactly on the existing GND F.Cu diagonal.
-          add(Path('DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb'),[
-            ('seg',(125.25,115.85),(125.25,113.0),17),
-            ('seg',(125.25,113.0),(128.5,113.0),17),
-            ('seg',(128.5,113.0),(129.64,114.2915),17),
-            ('seg',(122.75,115.85),(122.75,113.4),18),
-            ('seg',(122.75,113.4),(117.5,113.4),18),
-            ('seg',(117.5,113.4),(117.5,101.0),18),
-            ('seg',(117.5,101.0),(120.0,99.8147),18),
-            ('via',(120.0,99.8147),18),
-          ])
-          # RIGHT GND lands on the existing GND F.Cu diagonal; 3V3 joins the existing B.Cu 3V3 segment.
-          add(Path('DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb'),[
-            ('seg',(198.95,115.05),(198.95,113.0),14),
-            ('seg',(198.95,113.0),(186.0,112.7999),14),
-            ('via',(186.0,112.7999),14),
-            ('seg',(201.45,115.05),(201.45,114.2),21),
-            ('seg',(201.45,114.2),(194.5,114.2),21),
-            ('seg',(194.5,114.2),(193.4677,115.2),21),
-          ])
-      - name: Install KiCad 9
-        run: |
-          sudo add-apt-repository --yes ppa:kicad/kicad-9.0-releases
-          sudo apt-get update
-          sudo apt-get install -y kicad
-      - name: Run DRC
-        shell: bash
-        run: |
-          set +e
-          kicad-cli pcb drc --exit-code-violations -o /tmp/L.rpt DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb; l=$?
-          kicad-cli pcb drc --exit-code-violations -o /tmp/R.rpt DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb; r=$?
-          { echo '=== FFC POWER NETS ONLY ==='; echo "LEFT_EXIT=$l"; cat /tmp/L.rpt; echo; echo "RIGHT_EXIT=$r"; cat /tmp/R.rpt; } > DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
-      - name: Commit power routing and report
+          git checkout 2dd0688ed56775100c838c6da532f15935b4b0af -- \
+            DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb \
+            DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb \
+            DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
+      - name: Commit footprint-only state
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add DEVELOPMENT/Ver001/LEFT/SplitChoc64_LEFT.kicad_pcb DEVELOPMENT/Ver001/RIGHT/SplitChoc64_RIGHT.kicad_pcb DEVELOPMENT/Ver001/FFC_DRC_CHECK.txt
-          git commit -m "Route Ver001 FFC power nets and publish DRC"
+          git commit -m "Restore un-routed FFC footprints for Freerouting"
           git push
