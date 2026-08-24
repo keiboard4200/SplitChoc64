@@ -1,9 +1,6 @@
 name: Make Ver001.001 PCB only
 on:
-  workflow_dispatch:
   pull_request:
-    paths:
-      - '.github/workflows/make-ver001001-pcb-only.yml'
 permissions:
   contents: read
 jobs:
@@ -63,7 +60,7 @@ jobs:
                       c=text[j]
                       if ins:
                           if esc: esc=False
-                          elif c=='\\\\': esc=True
+                          elif c=='\\': esc=True
                           elif c=='"': ins=False
                       else:
                           if c=='"': ins=True
@@ -78,69 +75,44 @@ jobs:
 
           pt_re = re.compile(r'\((start|end)\s+(-?\d+(?:\.\d+)?)\s+(-?\d+(?:\.\d+)?)\)')
           def key(x,y): return (round(float(x),6), round(float(y),6))
-          def fmt(v):
-              s=f'{v:.6f}'.rstrip('0').rstrip('.')
-              return s if s!='-0' else '0'
+          def fmt(v): return f'{v:.6f}'.rstrip('0').rstrip('.')
 
           Path('out').mkdir(exist_ok=True)
           report={}
           for side,cfg in jobs.items():
               text=cfg['src'].read_text(encoding='utf-8')
               mp={key(*a):b for a,b in cfg['map'].items()}
-              pieces=[]; pos=0; changed_blocks=0; changed_points=0
-              before_non_edge=[]; after_non_edge=[]
+              pieces=[]; pos=0; changed_blocks=0; counter=[0]
               for s,e,b in blocks(text):
-                  pieces.append(text[pos:s])
-                  nb=b
+                  pieces.append(text[pos:s]); nb=b
                   if '(layer "Edge.Cuts")' in b:
                       def repl(m):
-                          nonlocal changed_points
                           old=key(m.group(2),m.group(3))
                           if old not in mp: return m.group(0)
-                          nx,ny=mp[old]; changed_points+=1
+                          nx,ny=mp[old]; counter[0]+=1
                           return f'({m.group(1)} {fmt(nx)} {fmt(ny)})'
                       nb=pt_re.sub(repl,b)
                       if nb!=b: changed_blocks+=1
                   pieces.append(nb); pos=e
-              pieces.append(text[pos:])
-              new=''.join(pieces)
+              pieces.append(text[pos:]); new=''.join(pieces)
               cfg['out'].write_text(new,encoding='utf-8',newline='')
 
-              # Validate only gr_line Edge.Cuts blocks changed.
-              def strip_target_coords(t):
+              def normalize_edge_coords(t):
                   out=[]; p=0
                   for s,e,b in blocks(t):
                       out.append(t[p:s])
                       if '(layer "Edge.Cuts")' in b:
-                          # normalize coordinate lines only for comparison
                           b=pt_re.sub(lambda m:f'({m.group(1)} <EDGEPT> <EDGEPT>)',b)
                       out.append(b); p=e
-                  out.append(t[p:])
-                  return ''.join(out)
-              same_elsewhere = strip_target_coords(text)==strip_target_coords(new)
-
-              # Endpoint degree validation for Edge.Cuts lines/arcs is left to KiCad parser;
-              # ensure expected seam endpoints all occurred and no topology blocks were added/removed.
-              expected_min=18  # 8 internal vertices twice + 2 seam endpoints on connector lines, minimum
-              if changed_points < expected_min:
-                  raise RuntimeError(f'{side}: too few changed Edge.Cuts point occurrences: {changed_points}')
-              if not same_elsewhere:
-                  raise RuntimeError(f'{side}: non-coordinate content unexpectedly changed')
-              report[side]={
-                  'source_sha256':hashlib.sha256(text.encode()).hexdigest(),
-                  'output_sha256':hashlib.sha256(new.encode()).hexdigest(),
-                  'changed_edge_blocks':changed_blocks,
-                  'changed_point_occurrences':changed_points,
-                  'only_edge_coordinate_content_changed':same_elsewhere,
-                  'size':len(new.encode()),
-              }
+                  out.append(t[p:]); return ''.join(out)
+              same_elsewhere=normalize_edge_coords(text)==normalize_edge_coords(new)
+              if counter[0] < 18: raise RuntimeError(f'{side}: too few changed points {counter[0]}')
+              if not same_elsewhere: raise RuntimeError(f'{side}: unexpected non-coordinate change')
+              report[side]={'changed_edge_blocks':changed_blocks,'changed_point_occurrences':counter[0],'only_edge_coordinate_content_changed':same_elsewhere,'source_sha256':hashlib.sha256(text.encode()).hexdigest(),'output_sha256':hashlib.sha256(new.encode()).hexdigest()}
           print('PCB_EDIT_REPORT='+json.dumps(report,sort_keys=True))
           PY
-      - name: Upload PCB files only
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: SplitChoc64_Ver001.001_kicad_pcb_only
-          path: |
-            out/SplitChoc64_LEFT_Ver001.001.kicad_pcb
-            out/SplitChoc64_RIGHT_Ver001.001.kicad_pcb
+          path: out/*.kicad_pcb
           if-no-files-found: error
