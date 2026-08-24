@@ -1,0 +1,7 @@
+(fp_lib_table
+  (lib (name "XIAO_Plus")(type "KiCad")(uri "${KIPRJMOD}/../0_COMMON/XIAO_Plus.pretty")(options "")(descr ""))
+  (lib (name "SplitChoc64_Custom")(type "KiCad")(uri "${KIPRJMOD}/../0_COMMON/SplitChoc64_Custom.pretty")(options "")(descr ""))
+  (lib (name "PCM12SMTR")(type "KiCad")(uri "${KIPRJMOD}/../0_COMMON/PCM12SMTR.pretty")(options "")(descr ""))
+  (lib (name "SplitChoc64_BoardExact")(type "KiCad")(uri "${KIPRJMOD}/../0_COMMON/SplitChoc64_BoardExact.pretty")(options "")(descr ""))
+  (lib (name "SplitChoc64_Status")(type "KiCad")(uri "${KIPRJMOD}/../0_COMMON/SplitChoc64_Status.pretty")(options "")(descr ""))
+)
