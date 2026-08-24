@@ -1,0 +1,110 @@
+(footprint "DR22"
+		(layer "B.Cu")
+		(property "Reference" "DR22"
+			(at 0 1.6 180)
+			(layer "B.SilkS")
+			(uuid "cb5032b5-add7-4e88-ac11-336ff1613f7b")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.08)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Value" "1N4148WS"
+			(at 0 -1.6 180)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "80aea661-c975-409e-9515-fc78fabd9000")
+			(effects
+				(font
+					(size 0.5 0.5)
+					(thickness 0.08)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "7eb86bd8-4289-43af-9991-88c3c90e5d90")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "9ece3e43-a6d3-4dba-a17f-0726be64be4a")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" smd roundrect
+			(at -1.25 0 180)
+			(size 1.2 1)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.2)
+			(uuid "8a9d9b04-1fb9-4ebb-8d43-e4817a9eaa75")
+		)
+		(pad "2" smd roundrect
+			(at 1.25 0 180)
+			(size 1.2 1)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.2)
+			(uuid "fe2b999f-1462-4d70-a837-1470a63c4ee5")
+		)
+		(embedded_fonts no)
+		(model "${KICAD9_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SOD-323.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+		(fp_line
+			(start -2.15 -0.7)
+			(end -2.15 0.7)
+			(stroke
+				(width 0.2)
+				(type solid)
+			)
+			(layer "B.SilkS")
+			(uuid "6acca7c7-7342-4e4c-8d24-a37a5862212c")
+		)
+		(fp_text user "K"
+			(at -3.20 0 90)
+			(layer "B.SilkS")
+			(uuid "38fbc480-687f-4685-ac46-751bee36877d")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.12)
+				)
+				(justify mirror)
+			)
+		)
+		(property "POLARITY_K_MARK" "pad1=K"
+			(at 0 0 0)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "de73e5b0-47eb-4805-91e3-e088a7ca74ee")
+			(effects
+				(font (size 0.3 0.3) (thickness 0.05))
+				(justify mirror)
+			)
+		)
+	)

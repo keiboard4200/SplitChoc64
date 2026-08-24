@@ -1,0 +1,1 @@
+Ver000 case data is intentionally not presented as current. Current mechanical target: PCB-to-inner-wall clearance 0.2 mm, wall thickness 1.0 mm, accepted mating geometry at approximately 20.05 mm seam key pitch. Regenerate final case/plate data after connector changes.

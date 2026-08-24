@@ -1,0 +1,1 @@
+2026-08-24: DRC 0 errors / 0 warnings confirmed by the user after final local silk corrections. Historical DRC report files are intentionally not stored here.

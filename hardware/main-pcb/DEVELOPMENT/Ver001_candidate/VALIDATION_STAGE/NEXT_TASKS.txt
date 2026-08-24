@@ -1,0 +1,6 @@
+NEXT CHAT / DEVELOPMENT PLAN
+1. J3/J4 -> FFC connectors.
+2. Battery connector -> type compatible with unmodified battery-side terminal.
+3. Top plate -> design as 3D-printable data.
+4. Bottom plate -> define/design.
+After each electrical change, preserve accepted mating outline unless mechanically required and rerun DRC.

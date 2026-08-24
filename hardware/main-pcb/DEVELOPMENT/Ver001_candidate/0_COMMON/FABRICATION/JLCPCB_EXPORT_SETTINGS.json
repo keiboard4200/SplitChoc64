@@ -1,0 +1,64 @@
+{
+  "JLCPCB_BOM": {
+    "filename": "JLCPCB_BOM.csv",
+    "columns": [
+      "Comment",
+      "Designator",
+      "Footprint",
+      "LCSC Part #"
+    ],
+    "delimiter": ",",
+    "encoding": "UTF-8 with BOM",
+    "source_fields": {
+      "Comment": "JLCPCB Comment",
+      "Designator": "Reference",
+      "Footprint": "JLCPCB Footprint",
+      "LCSC Part #": "LCSC Part #"
+    },
+    "grouped": true
+  },
+  "JLCPCB_CPL": {
+    "filename": "JLCPCB_CPL.csv",
+    "columns": [
+      "Designator",
+      "Mid X",
+      "Mid Y",
+      "Layer",
+      "Rotation"
+    ],
+    "units": "mm",
+    "both_sides_single_file": true,
+    "layer_values": [
+      "Top",
+      "Bottom"
+    ],
+    "rotation_units": "degrees, positive CCW"
+  },
+  "KiCad_component_placement_export": {
+    "format": "CSV",
+    "units": "millimetres",
+    "file_mode": "single file for both sides",
+    "output_directory": "FABRICATION",
+    "native_headers": [
+      "Ref",
+      "Val",
+      "Package",
+      "PosX",
+      "PosY",
+      "Rot",
+      "Side"
+    ],
+    "JLCPCB_header_mapping": {
+      "Ref": "Designator",
+      "PosX": "Mid X",
+      "PosY": "Mid Y",
+      "Rot": "Rotation",
+      "Side": "Layer"
+    }
+  },
+  "DNP_policy": {
+    "U1_U2": "hand solder",
+    "J3_J4": "hand solder",
+    "SWL_SWR": "Choc socket/switch hand assembly"
+  }
+}

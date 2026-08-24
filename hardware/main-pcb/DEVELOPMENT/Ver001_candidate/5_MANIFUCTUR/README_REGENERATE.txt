@@ -1,0 +1,1 @@
+Manufacturing outputs from Ver000 are intentionally not copied into this development candidate. Regenerate Gerbers/drill/BOM/CPL only after the remaining connector and mechanical changes are complete and DRC returns 0/0 again.

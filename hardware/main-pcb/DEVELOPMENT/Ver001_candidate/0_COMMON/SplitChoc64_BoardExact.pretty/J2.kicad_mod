@@ -1,0 +1,101 @@
+(footprint "J2"
+		(layer "B.Cu")
+		(property "Reference" "J2"
+			(at 0 2.8 180)
+			(layer "B.SilkS")
+			(uuid "5c52c7bf-b7fd-42e4-b1e9-e82bca93061b")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.08)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Value" "BM02B-SRSS-TB"
+			(at 0 -2.8 180)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "f27eef29-9c15-42db-a9ab-d9f7efeeaea8")
+			(effects
+				(font
+					(size 0.45 0.45)
+					(thickness 0.07)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 180)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e5ab3ba7-bd00-4320-af33-e8b2d67d50e1")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 180)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "d80bd056-b974-43d8-b323-5cffb2284633")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(fp_rect
+			(start -2.25 -2)
+			(end 2.25 2)
+			(stroke
+				(width 0.08)
+				(type solid)
+			)
+			(fill no)
+			(layer "B.Fab")
+			(uuid "a1282993-5a3a-4629-96f2-269e5494c26c")
+		)
+		(attr smd)
+		(pad "1" smd roundrect
+			(at -0.5 -1.6)
+			(size 0.6 1.4)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.15)
+			(uuid "3770026e-9acf-464c-9cfe-8406b5888d48")
+		)
+		(pad "2" smd roundrect
+			(at 0.5 -1.6)
+			(size 0.6 1.4)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.15)
+			(uuid "36989b47-5805-42c9-9405-a9b062f4c9ea")
+		)
+		(pad "MP1" smd rect
+			(at -2 0.8)
+			(size 1.2 1.6)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(uuid "c1675412-4661-4e04-b752-9cb05c69492b")
+		)
+		(pad "MP2" smd rect
+			(at 2 0.8)
+			(size 1.2 1.6)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(uuid "701c3c6e-97f5-473a-96d0-bef02034a5ae")
+		)
+		(embedded_fonts no)
+		
+        (fp_text user "+" (at -1.35 -2.65 0) (layer "B.SilkS") (uuid "5d90e413-e7dc-4c32-90eb-5b4480dd50f5")
+          (effects (font (size 1 1) (thickness 0.16)) (justify mirror)))
+        
+
+		(model "${KIPRJMOD}/3dmodels/BM02B_SRSS_TB_PROXY.step"
+            (offset (xyz 0 0 0))
+            (scale (xyz 1 1 1))
+            (rotate (xyz 0 0 0))
+        )
+	)

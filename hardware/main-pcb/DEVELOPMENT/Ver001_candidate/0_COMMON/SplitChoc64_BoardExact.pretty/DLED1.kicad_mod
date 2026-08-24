@@ -1,0 +1,71 @@
+(footprint "DLED1"
+		(layer "B.Cu")
+		(property "Reference" "DLED1"
+			(at 0 1.8 0)
+			(layer "B.SilkS")
+			(hide yes)
+			(uuid "bf4a90db-1497-4135-bc57-0a1b84be19e1")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.12)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Value" "APA1606VRBXF/A-5MAV"
+			(at 0 -1.8 0)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "5de8bbfc-d139-4e66-8453-f8cb5b6dae7e")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.12)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 90)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c1abfafb-342d-440d-b62e-f9a1d94214f2")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 90)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "964a48ca-6a4b-4040-bd5f-20aadce18f19")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		
+		
+		
+		(pad "1" smd roundrect
+			(at -0.8 0 270)
+			(size 0.8 0.9)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.2)
+			(uuid "7b889c80-035d-4753-bba8-8dc89f474e86")
+		)
+		(pad "2" smd roundrect
+			(at 0.8 0 270)
+			(size 0.8 0.9)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.2)
+			(uuid "3b87a289-e56b-4ab1-992f-0c0c69ecd776")
+		)
+		(embedded_fonts no)
+	)

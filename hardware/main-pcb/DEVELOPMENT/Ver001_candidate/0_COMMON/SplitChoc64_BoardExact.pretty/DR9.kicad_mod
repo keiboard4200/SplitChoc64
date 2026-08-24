@@ -1,0 +1,110 @@
+(footprint "DR9"
+		(layer "B.Cu")
+		(property "Reference" "DR9"
+			(at 0 1.6 180)
+			(layer "B.SilkS")
+			(uuid "7c39ef17-dcb5-4f73-a3a3-ea38263b4b1f")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.08)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Value" "1N4148WS"
+			(at 0 -1.6 180)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "fdf0cfb6-2f40-4cbc-9dc6-c01c4db29841")
+			(effects
+				(font
+					(size 0.5 0.5)
+					(thickness 0.08)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "287e59ed-04f0-4ce2-9dd2-8b59761556fc")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "e3a1b724-1b33-4462-b785-3f3ae7b49a50")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" smd roundrect
+			(at -1.25 0 180)
+			(size 1.2 1)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.2)
+			(uuid "25f683d0-f246-44b7-b87c-9d6a22bffdfb")
+		)
+		(pad "2" smd roundrect
+			(at 1.25 0 180)
+			(size 1.2 1)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.2)
+			(uuid "e5474f6d-4eae-428f-8e82-26cd106f6d3f")
+		)
+		(embedded_fonts no)
+		(model "${KICAD9_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SOD-323.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+		(fp_line
+			(start -2.15 -0.7)
+			(end -2.15 0.7)
+			(stroke
+				(width 0.2)
+				(type solid)
+			)
+			(layer "B.SilkS")
+			(uuid "23b54f2a-a03b-4a9d-a121-f1fca95b7f28")
+		)
+		(fp_text user "K"
+			(at -2.75 1.35 90)
+			(layer "B.SilkS")
+			(uuid "cdb88a72-f164-4d43-a6f5-2f992e22d0eb")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.12)
+				)
+				(justify mirror)
+			)
+		)
+		(property "POLARITY_K_MARK" "pad1=K"
+			(at 0 0 0)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "29954ae2-6377-420a-9011-baf8ec08b913")
+			(effects
+				(font (size 0.3 0.3) (thickness 0.05))
+				(justify mirror)
+			)
+		)
+	)

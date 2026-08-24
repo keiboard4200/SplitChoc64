@@ -1,0 +1,67 @@
+﻿SplitChoc64 STAGE275 - Freerouting reroute plan
+================================================
+
+Base
+----
+Use STAGE275 only.
+Export a fresh Specctra DSN from this exact PCB.
+Do NOT reuse older DSN/SES files.
+
+Geometry now considered fixed
+-----------------------------
+- DLED1 / DLED2: rotated 180 degrees from STAGE274
+- RLED1 / RLED2: keep current position and rotation
+- M2 mounting hole positions: fixed as STAGE274
+- J3 / J4: fixed as 1.27 mm pitch 1x07 PTH headers
+- Key positions, MCU positions, switch positions, PCB mating geometry: fixed
+
+Freerouting strategy
+--------------------
+Do NOT rip up the entire board.
+
+FIX / preserve:
+- All existing ROW/COL routes that were already DRC-clean before the STAGE272 redesign
+- BAT_RAW
+- BAT_SW
+- 3V3
+- Existing GND routes
+- All routes unrelated to J3/J4 or the newly added status LED circuits
+- Existing vias belonging to those preserved routes
+
+Reroute / allow changes:
+- L_JOY_X
+- L_JOY_Y
+- L_JOY_SW
+- L_JOY_SDA
+- L_JOY_SCL
+- R_JOY_X
+- R_JOY_Y
+- R_JOY_SW
+- R_JOY_SDA
+- R_JOY_SCL
+- Local J3/J4 3V3 and GND landing connections if needed because pad centers moved
+- L_LED_CTRL
+- L_LED_A
+- R_LED_CTRL
+- R_LED_A
+- Any local trace that physically conflicts with a newly moved M2 hole
+
+Do not move
+-----------
+- Footprints
+- Edge.Cuts
+- Mounting holes
+- MCU footprints
+- Key footprints
+- Power switches
+- LED/resistor footprints
+- J3/J4 footprints
+
+After autorouting
+-----------------
+1. Export a new SES.
+2. Upload the SES before importing to KiCad if possible.
+3. Import the SES only into the same STAGE275-derived PCB.
+4. Save as a new stage.
+5. Run KiCad DRC.
+6. DRC 0/0 is required again before fabrication.

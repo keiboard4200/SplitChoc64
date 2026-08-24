@@ -1,0 +1,110 @@
+(footprint "DR28"
+		(layer "B.Cu")
+		(property "Reference" "DR28"
+			(at 0 1.6 180)
+			(layer "B.SilkS")
+			(uuid "5e821207-3995-4534-9bbd-8438c11541d3")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.08)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Value" "1N4148WS"
+			(at 0 -1.6 180)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "605ff665-615f-40eb-9253-add9378d2362")
+			(effects
+				(font
+					(size 0.5 0.5)
+					(thickness 0.08)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "72ff595d-88ae-43a2-8dac-b801b59448a1")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "c19a7d5c-6b05-42c0-a6b3-51382e9259b3")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" smd roundrect
+			(at -1.25 0 180)
+			(size 1.2 1)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.2)
+			(uuid "70ec4115-0117-499c-b39e-3342ebdafb76")
+		)
+		(pad "2" smd roundrect
+			(at 1.25 0 180)
+			(size 1.2 1)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.2)
+			(uuid "ed9bacfc-6bed-4973-b8f4-ac8f5cacf158")
+		)
+		(embedded_fonts no)
+		(model "${KICAD9_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SOD-323.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+		(fp_line
+			(start -2.15 -0.7)
+			(end -2.15 0.7)
+			(stroke
+				(width 0.2)
+				(type solid)
+			)
+			(layer "B.SilkS")
+			(uuid "29dd172d-ceb1-4aa1-a48a-e023c106f9f3")
+		)
+		(fp_text user "K"
+			(at -3.20 0 90)
+			(layer "B.SilkS")
+			(uuid "d96b9cf7-2dcb-42d7-a5fc-ed7a5f99cb15")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.12)
+				)
+				(justify mirror)
+			)
+		)
+		(property "POLARITY_K_MARK" "pad1=K"
+			(at 0 0 0)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "1a870f89-7856-4788-ab3b-e626cde694d0")
+			(effects
+				(font (size 0.3 0.3) (thickness 0.05))
+				(justify mirror)
+			)
+		)
+	)

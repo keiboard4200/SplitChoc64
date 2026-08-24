@@ -1,0 +1,110 @@
+(footprint "DR29"
+		(layer "B.Cu")
+		(property "Reference" "DR29"
+			(at 0 1.6 180)
+			(layer "B.SilkS")
+			(uuid "04c79918-6d30-464e-adfb-2bfa6b3d0d59")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.08)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Value" "1N4148WS"
+			(at 0 -1.6 180)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "b51bd191-8b0a-42a8-9221-b63bba7d401c")
+			(effects
+				(font
+					(size 0.5 0.5)
+					(thickness 0.08)
+				)
+				(justify mirror)
+			)
+		)
+		(property "Datasheet" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "76fd56ce-3bab-4140-9101-68ae323c1bb0")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 0 0 0)
+			(layer "F.Fab")
+			(hide yes)
+			(uuid "efaa25f1-a9b0-4b10-84cd-2ac9c4a1c365")
+			(effects
+				(font
+					(size 1.27 1.27)
+					(thickness 0.15)
+				)
+			)
+		)
+		(pad "1" smd roundrect
+			(at -1.25 0 180)
+			(size 1.2 1)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.2)
+			(uuid "59c60c7d-cc8b-4c86-8aba-64814c15dbd2")
+		)
+		(pad "2" smd roundrect
+			(at 1.25 0 180)
+			(size 1.2 1)
+			(layers "B.Cu" "B.Mask" "B.Paste")
+			(roundrect_rratio 0.2)
+			(uuid "e8fecda8-e4d5-45af-9988-ac6936ecb4a5")
+		)
+		(embedded_fonts no)
+		(model "${KICAD9_3DMODEL_DIR}/Diode_SMD.3dshapes/D_SOD-323.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
+		(fp_line
+			(start -2.15 -0.7)
+			(end -2.15 0.7)
+			(stroke
+				(width 0.2)
+				(type solid)
+			)
+			(layer "B.SilkS")
+			(uuid "1dbb86a3-2e6d-4ca5-ac91-46026846a0c8")
+		)
+		(fp_text user "K"
+			(at -3.20 0 90)
+			(layer "B.SilkS")
+			(uuid "a8b99e8f-184b-417a-89f1-223e12689614")
+			(effects
+				(font
+					(size 0.8 0.8)
+					(thickness 0.12)
+				)
+				(justify mirror)
+			)
+		)
+		(property "POLARITY_K_MARK" "pad1=K"
+			(at 0 0 0)
+			(layer "B.Fab")
+			(hide yes)
+			(uuid "6469a495-f199-4be5-b202-6c8c00837b19")
+			(effects
+				(font (size 0.3 0.3) (thickness 0.05))
+				(justify mirror)
+			)
+		)
+	)

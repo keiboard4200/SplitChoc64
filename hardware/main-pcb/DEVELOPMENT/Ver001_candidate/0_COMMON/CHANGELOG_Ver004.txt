@@ -1,0 +1,14 @@
+SplitChoc64 Ver004
+
+Changes from Ver003:
+- Replaced the Choc hotswap socket outline silk with a filled top-view projection.
+- Projection is generated from the complete kailh_choc_socket.step 3D model, not the bottom face.
+- Corrected the local Y orientation for B.Cu so the silk matches the actual 3D socket instead of
+  appearing mirrored about the switch X axis.
+- New socket graphic is B.SilkS solid filled polygons.
+- Applied to all 29 LEFT + 35 RIGHT switch sockets.
+- Diode/LED polarity silk, battery + marks, SplitChoc64 logos and all other Ver003 changes remain.
+- No copper, pads, tracks, nets, switch/key positions, MCU positions, mounting holes, or Edge.Cuts changed.
+- Schematics unchanged from Ver003 (user-confirmed ERC LEFT/RIGHT 0/0 before this PCB-only change).
+
+Fresh Ver004 DRC has not been run by ChatGPT. Please run DRC on both boards.

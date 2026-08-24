@@ -1,0 +1,25 @@
+SplitChoc64 diode polarity audit / hand-solder correction
+
+Checked: DL1-DL29 and DR1-DR35 (64 total)
+
+Electrical / polarity mapping
+- Schematic diode symbol: pin 1 = K (cathode), pin 2 = A (anode).
+- PCB: pad 1 = K side / per-key intermediate net.
+- PCB: pad 2 = A side / COL net.
+- All 64 diodes use the same mapping.
+
+Package correction
+- Previous purchase specification 1N4148W / LCSC C81598 is SOD-123.
+- Existing PCB pad geometry is the SOD-323 hand-solder style: pad centers +/-1.25 mm.
+- Existing 3D model was already KiCad D_SOD-323.
+- Purchase specification changed to JSCJ 1N4148WS / LCSC C2128, SOD-323.
+- Pad positions and copper routing were NOT changed.
+
+Silkscreen
+- Added a cathode bar and 'K' on B.SilkS at pad 1 for every DL/DR footprint.
+- During hand soldering, align the diode's physical cathode band with the PCB K/bar mark.
+
+Validation
+- 64/64 diode structural/polarity audit passed.
+- Only diode value/part metadata, 3D package consistency, and B.SilkS polarity marks were changed.
+- No new KiCad DRC/ERC was run by ChatGPT. Run final DRC after opening the project.

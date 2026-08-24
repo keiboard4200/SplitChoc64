@@ -1,0 +1,21 @@
+SplitChoc64 Ver006
+
+- LEFT logo moved 5 mm left and 3 mm down: (60,89) -> (55,92).
+- Added project-local 3D models to DLED1/DLED2 and RLED1/RLED2.
+- Added project-local BM02B-SRSS-TB mechanical proxy to J1/J2.
+- DLED/RLED/J1/J2 are explicitly SMD so board-wide 3D Viewer visibility is less filter-dependent.
+
+Ver005 DRC handling:
+- RIGHT: 4 silk_edge_clearance warnings at DR1/DR9/DR17/DR24 K labels.
+  These K labels were moved inward.
+- LEFT: 1 silk_over_copper warning at the SplitChoc64 logo.
+  The requested logo move changes that location.
+- Both reports: 0 unconnected pads, 0 footprint errors.
+
+3D accuracy:
+- LED and resistor are generic 0603 mechanical visualization proxies.
+- Battery connector is a mechanical proxy based on the BM02B-SRSS-TB footprint envelope.
+  It is not claimed to be a manufacturer-exact cosmetic STEP.
+
+No copper, pads, tracks, nets, component locations, mounting holes or Edge.Cuts changed.
+Fresh Ver006 DRC has not been run here.
