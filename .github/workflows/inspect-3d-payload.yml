@@ -1,17 +1,15 @@
 name: Inspect Ver001 3D payload
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened, ready_for_review]
-    paths:
-      - 'DEVELOPMENT/Ver001/.3d_payload/**'
-      - '.github/workflows/inspect-3d-payload.yml'
+  issues:
+    types: [opened]
 
 permissions:
   contents: read
 
 jobs:
   inspect:
+    if: github.event.issue.title == 'TRIGGER_VER001_3D_PAYLOAD_INSPECTION'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
