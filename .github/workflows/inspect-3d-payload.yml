@@ -2,6 +2,7 @@ name: Inspect Ver001 3D payload
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths:
       - 'DEVELOPMENT/Ver001/.3d_payload/**'
       - '.github/workflows/inspect-3d-payload.yml'
