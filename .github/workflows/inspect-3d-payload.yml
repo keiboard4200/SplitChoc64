@@ -1,15 +1,14 @@
 name: Inspect Ver001 3D payload
 
 on:
-  issues:
-    types: [opened]
+  schedule:
+    - cron: '*/5 * * * *'
 
 permissions:
   contents: read
 
 jobs:
   inspect:
-    if: github.event.issue.title == 'TRIGGER_VER001_3D_PAYLOAD_INSPECTION'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,10 +21,13 @@ jobs:
           xz -t /tmp/payload.xz
           xz -dc /tmp/payload.xz > /tmp/payload.raw
           echo "RAW_SIZE=$(stat -c%s /tmp/payload.raw)"
+          echo "RAW_SHA256=$(sha256sum /tmp/payload.raw | cut -d' ' -f1)"
           file /tmp/payload.raw
-          echo '--- first 128 bytes (hex) ---'
+          echo '--- first 128 bytes ---'
           xxd -l 128 /tmp/payload.raw
-          echo '--- tar listing if archive ---'
+          echo '--- tar listing ---'
           tar -tvf /tmp/payload.raw || true
+          echo '--- zip listing ---'
+          unzip -l /tmp/payload.raw || true
           echo '--- strings head ---'
-          strings /tmp/payload.raw | head -80 || true
+          strings /tmp/payload.raw | head -120 || true
