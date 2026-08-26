@@ -29,3 +29,4 @@ jobs:
           tar -tvf /tmp/payload.raw || true
           echo '--- strings head ---'
           strings /tmp/payload.raw | head -80 || true
+# trigger inspection
