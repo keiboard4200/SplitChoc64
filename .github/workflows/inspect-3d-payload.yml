@@ -1,8 +1,9 @@
 name: Inspect Ver001 3D payload
 
 on:
-  push:
+  pull_request:
     paths:
+      - 'DEVELOPMENT/Ver001/.3d_payload/**'
       - '.github/workflows/inspect-3d-payload.yml'
 
 permissions:
@@ -29,4 +30,3 @@ jobs:
           tar -tvf /tmp/payload.raw || true
           echo '--- strings head ---'
           strings /tmp/payload.raw | head -80 || true
-# trigger inspection
