@@ -1,4 +1,4 @@
-name: Package current Ver001 FFC unrouted data
+name: TEMP Inspect Ver001 3D payload
 on:
   push:
     paths:
@@ -6,19 +6,26 @@ on:
 permissions:
   contents: read
 jobs:
-  package:
+  inspect:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Prepare package
+      - name: Inspect staged exact 3D payload
+        shell: bash
         run: |
-          mkdir -p package
-          cp -a DEVELOPMENT/Ver001 package/Ver001
-          rm -f package/Ver001/FFC_DRC_CHECK.txt package/Ver001/FFC_PLACEMENT_INSPECT.txt
-          printf '%s\n' 'SplitChoc64 Ver001 - FFC footprints added, FFC nets intentionally unrouted for Freerouting.' > package/README_FREEROUTING.txt
-      - name: Upload package
-        uses: actions/upload-artifact@v4
-        with:
-          name: SplitChoc64_Ver001_FFC_UNROUTED
-          path: package/
-          compression-level: 9
+          set -euxo pipefail
+          cat DEVELOPMENT/Ver001/.3d_payload/part*.b64 > /tmp/payload.b64
+          base64 -d /tmp/payload.b64 > /tmp/payload.xz
+          xz -t /tmp/payload.xz
+          xz -dc /tmp/payload.xz > /tmp/payload.raw
+          echo "RAW_SIZE=$(stat -c%s /tmp/payload.raw)"
+          echo "RAW_SHA256=$(sha256sum /tmp/payload.raw | cut -d' ' -f1)"
+          file /tmp/payload.raw
+          echo '--- HEX ---'
+          xxd -l 128 /tmp/payload.raw
+          echo '--- TAR ---'
+          tar -tvf /tmp/payload.raw || true
+          echo '--- ZIP ---'
+          unzip -l /tmp/payload.raw || true
+          echo '--- STRINGS ---'
+          strings /tmp/payload.raw | head -120 || true
