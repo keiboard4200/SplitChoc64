@@ -1,0 +1,23 @@
+SplitChoc64 Ver001 LED verification
+
+Mechanical placement
+- LED package target: ROHM SMLD12WBN1W1 class, 1.6 x 0.8 x ~0.55 mm.
+- LED centers remain at each switch-local (0, -5.15 mm), transformed by switch rotation.
+- This position is within the intended Kailh Choc LED-window region used for the V1/V2 hybrid layout.
+- No dedicated PCB opening is added.
+
+Silkscreen
+- Added visible F.SilkS user text: LED
+- Removed the old cathode line at local x=-0.95 mm because it crossed pad 1.
+- New cathode line: local x=-1.45 mm, y=-0.45..+0.45 mm, width 0.12 mm.
+- Pad 1 local copper/mask x extent: -1.15..-0.35 mm.
+- Centerline clearance from pad/mask edge: 0.30 mm; closest silk line edge clearance: ~0.24 mm.
+
+Schematic cross-check
+- Repository schematic is older than the uploaded Ver001 PCB state.
+- Repository LEFT schematic still contains J3 as 7-pin and old JOY signal naming.
+- Uploaded PCB U1 already uses L_EXT_A, L_EXT_B, L_BL_PWM, L_EXT_SDA, L_EXT_SCL etc.
+- Therefore an LED-only schematic edit would preserve an existing PCB/schematic mismatch.
+- Schematic was intentionally NOT overwritten in this package; a current synchronized schematic source is required before making the full schematic update safely.
+
+No LED routing was added.

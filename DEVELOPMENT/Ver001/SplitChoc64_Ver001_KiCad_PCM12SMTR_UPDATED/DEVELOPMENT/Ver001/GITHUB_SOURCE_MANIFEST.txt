@@ -1,0 +1,9 @@
+GitHub source reference: keiboard4200/SplitChoc64
+Development source: DEVELOPMENT/Ver001/
+Observed on main:
+LEFT/SplitChoc64_LEFT.kicad_pcb  SHA 517805d91ffc7dfee862ce9ff3cd1c11b7b4197f (replaced locally by current LED V2 PCB)
+LEFT/SplitChoc64_LEFT.kicad_sch  SHA 867448531cf9ff9ce038e7af99e9dabd8a779b8e (schematic logic revised locally)
+RIGHT/SplitChoc64_RIGHT.kicad_pcb SHA cff488b411fa1473897049f8a8d1454350f88c98 (replaced locally by current LED V2 PCB)
+RIGHT/SplitChoc64_RIGHT.kicad_sch SHA 0cae08821d9cddb820fec96ad85828beb7d90e2e (schematic logic revised locally)
+
+GitHub was used as read-only source. No commit/push/update was performed.
