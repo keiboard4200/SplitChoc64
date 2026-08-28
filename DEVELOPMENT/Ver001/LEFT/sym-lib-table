@@ -1,3 +1,0 @@
-(sym_lib_table
-  (lib (name "PCM12SMTR")(type "KiCad")(uri "${KIPRJMOD}/../0_COMMON/PCM12SMTR.kicad_sym")(options "")(descr ""))
-)
