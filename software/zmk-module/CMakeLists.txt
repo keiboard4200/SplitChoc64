@@ -1,1 +1,2 @@
-target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/joy_runtime.c)
+# SplitChoc64 Ver001 uses the external PAW3222 ZMK driver.
+# No local application source is required by the active Ver001 module.

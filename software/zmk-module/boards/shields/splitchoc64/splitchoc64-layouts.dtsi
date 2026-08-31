@@ -3,7 +3,7 @@
 / {
     default_layout: default_layout {
         compatible = "zmk,physical-layout";
-        display-name = "SplitChoc64 Ver012";
+        display-name = "SplitChoc64 Ver001";
         keys =
           <&key_physical_attrs 100 100 0 0 0 0 0>
         , <&key_physical_attrs 100 100 100 0 0 0 0>

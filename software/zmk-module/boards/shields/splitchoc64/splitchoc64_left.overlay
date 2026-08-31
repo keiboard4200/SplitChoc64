@@ -1,7 +1,7 @@
 #include "splitchoc64.dtsi"
 
 &kscan0 {
-    /* LEFT Ver012 peripheral: COL0..5 = D10,D11,D12,D13,D14,D15 */
+    /* LEFT Ver001 peripheral: COL0..5 = D10,D11,D12,D13,D14,D15 */
     col-gpios
         = <&gpio1 15 GPIO_ACTIVE_HIGH>
         , <&gpio0 15 GPIO_ACTIVE_HIGH>

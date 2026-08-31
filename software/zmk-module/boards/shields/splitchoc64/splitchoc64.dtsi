@@ -8,7 +8,7 @@
         diode-direction = "col2row";
         wakeup-source;
 
-        /* Ver012 U1/U2:
+        /* Ver001 U1/U2 matrix rows:
          * ROW0=D3/P0.29
          * ROW1=D6/P1.11
          * ROW2=D7/P1.12
@@ -29,7 +29,7 @@
         rows = <5>;
         columns = <14>;
 
-        /* Key order is exactly the user KLE, left-to-right / top-to-bottom.
+        /* Key order follows the SplitChoc64 physical layout.
          * Global columns 0..5 are LEFT.
          * Global columns 6..13 are RIGHT (right overlay col-offset=6).
          */
@@ -49,92 +49,6 @@
             RC(4,0) RC(4,1) RC(4,2) RC(4,3) RC(4,4)
             RC(4,6) RC(4,7) RC(4,8) RC(4,9) RC(4,10) RC(4,11)
         >;
-    };
-
-
-    joy_toggle: joy_toggle {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <0>;
-        display-name = "JOY On/Off";
-    };
-
-    joy_angle_inc: joy_angle_inc {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <1>;
-        display-name = "JOY Angle +5 deg";
-    };
-
-    joy_angle_dec: joy_angle_dec {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <2>;
-        display-name = "JOY Angle -5 deg";
-    };
-
-    joy_speed_inc: joy_speed_inc {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <3>;
-        display-name = "JOY Max Speed +";
-    };
-
-    joy_speed_dec: joy_speed_dec {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <4>;
-        display-name = "JOY Max Speed -";
-    };
-
-    joy_reset: joy_reset {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <5>;
-        display-name = "JOY Reset Defaults";
-    };
-
-
-    joy_deadzone_inc: joy_deadzone_inc {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <6>;
-        display-name = "JOY Deadzone +";
-    };
-
-    joy_deadzone_dec: joy_deadzone_dec {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <7>;
-        display-name = "JOY Deadzone -";
-    };
-
-    joy_min_speed_inc: joy_min_speed_inc {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <8>;
-        display-name = "JOY Min Speed +";
-    };
-
-    joy_min_speed_dec: joy_min_speed_dec {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <9>;
-        display-name = "JOY Min Speed -";
-    };
-
-    joy_curve_inc: joy_curve_inc {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <10>;
-        display-name = "JOY Curve +";
-    };
-
-    joy_curve_dec: joy_curve_dec {
-        compatible = "splitchoc64,behavior-joy-config";
-        #binding-cells = <0>;
-        command = <11>;
-        display-name = "JOY Curve -";
     };
 
     chosen {

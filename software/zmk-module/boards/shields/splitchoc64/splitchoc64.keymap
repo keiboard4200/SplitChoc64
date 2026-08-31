@@ -23,7 +23,9 @@
             display-name = "Lay1";
             /*
              * Hold the left Fn key for a left-hand numpad and right-hand
-             * mouse buttons/scroll controls.
+             * mouse buttons/scroll controls. The Ver001 trackball remains
+             * normal pointer movement while these explicit mouse controls
+             * are available from the layer.
              */
             bindings = <
             &kp KP_NUM &kp KP_SLASH &kp KP_MULTIPLY &kp KP_MINUS &kp KP_PLUS &trans &trans &trans &trans &trans &trans &trans &trans &trans
@@ -53,12 +55,12 @@
             display-name = "Lay3";
             /*
              * Activated only while Lay1 and Lay2 are both active.
-             * Bluetooth profile numbers shown to the user are 1..5,
-             * while BT_SEL arguments are zero-based 0..4.
+             * Ver000 joystick-only tuning controls were removed for Ver001.
+             * Bluetooth/output management and Studio unlock are retained.
              */
             bindings = <
-            &joy_toggle &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &joy_angle_dec &joy_angle_inc &joy_speed_dec &joy_speed_inc &joy_reset &bt BT_PRV &bt BT_NXT &bt BT_CLR
-            &out OUT_TOG &out OUT_USB &out OUT_BLE &trans &trans &trans &joy_deadzone_dec &joy_deadzone_inc &joy_min_speed_dec &joy_min_speed_inc &joy_curve_dec &joy_curve_inc &trans &trans
+            &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &trans &trans &trans &trans &trans &bt BT_PRV &bt BT_NXT &bt BT_CLR
+            &out OUT_TOG &out OUT_USB &out OUT_BLE &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &studio_unlock &trans

@@ -13,18 +13,18 @@ SplitChoc64/
 │  │  ├─ Ver000/
 │  │  └─ Ver001/
 │  └─ trackball-addon/
-├─ software/                 # ZMK build/config/module source and firmware variants
+├─ software/                 # ZMK build/config/module source and archived firmware variants
 │  ├─ build.yaml
 │  ├─ west.yml
-│  ├─ zmk-module/
+│  ├─ zmk-module/            # active Ver001 ZMK module
 │  ├─ firmware/
-│  │  ├─ joystick/
-│  │  └─ trackball/
+│  │  ├─ joystick/           # legacy Ver000/2765 implementation
+│  │  └─ trackball/          # Ver001 PAW3222 documentation
 │  └─ tools/
 ├─ docs/                     # Project documentation
 ├─ archive/                  # Historical/original import data
 ├─ DEVELOPMENT/              # Development snapshots retained for traceability
-├─ zephyr/module.yml         # Small Zephyr entry point that redirects to software/zmk-module
+├─ zephyr/module.yml         # Zephyr entry point redirecting to software/zmk-module
 ├─ .github/                  # GitHub Actions
 └─ README.md
 ```
@@ -32,19 +32,17 @@ SplitChoc64/
 ## Hardware baseline
 
 - **Ver000**: first manufactured SplitChoc64 production hardware baseline (legacy internal name: Ver012).
-- **Ver001**: subsequent manufactured revision, stored under `hardware/main-pcb/Ver001/`.
+- **Ver001**: current manufactured hardware/firmware baseline, stored under `hardware/main-pcb/Ver001/`.
 - Kailh Choc V2 hot-swap switches.
 - Seeed XIAO nRF52840 Plus on both halves.
 
-## Pointing-device variants
+## Active Ver001 pointing device
 
-### Joystick
+Ver001 uses the RIGHT-side PAW3222 trackball through the PCB-mounted 6-pin FFC interface. The active ZMK module under `software/zmk-module/` is configured for this hardware.
 
-The joystick firmware variant is stored under `software/firmware/joystick/`.
+The older 2765 analog-joystick implementation is retained only as a legacy reference under `software/firmware/joystick/`; it is not compiled into the active Ver001 firmware.
 
-### Trackball
-
-The trackball variant uses the Torabo-tsuki LP 19 mm mechanical concept and PAW3222-class sensor integration. Trackball firmware is stored separately under `software/firmware/trackball/`.
+Detailed Ver001 trackball wiring and firmware notes are in `software/firmware/trackball/README.md`.
 
 ## ZMK build
 
@@ -54,16 +52,20 @@ GitHub Actions reads:
 - West/config path: `software/`
 - SplitChoc64 Zephyr/ZMK module: `software/zmk-module/`
 
-`zephyr/module.yml` remains at repository root only because ZMK/Zephyr module discovery expects the module entry point there. The actual source is organized under `software/`.
+`zephyr/module.yml` remains at repository root because ZMK/Zephyr module discovery expects the module entry point there. The implementation is organized under `software/`.
 
 ## Firmware identity
 
 - Shield: `splitchoc64_left` / `splitchoc64_right`
-- RIGHT: Central
+- RIGHT: Central / USB-BLE host / PAW3222 trackball
 - LEFT: Peripheral
 - Bluetooth name: `SplitChoc64`
 - ZMK Studio: retained
 - `settings_reset` build: retained
+
+## Validation status
+
+GitHub Actions validates LEFT, RIGHT, and `settings_reset` builds. Physical PAW3222 direction, CPI and feel must still be tuned on the assembled Ver001 hardware.
 
 ## License
 
