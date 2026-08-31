@@ -1,6 +1,6 @@
 name: zmk-keyboard-splitchoc64
 build:
-  cmake: .
+  cmake: software/zmk-module
   settings:
-    board_root: .
-    dts_root: .
+    board_root: software/zmk-module
+    dts_root: software/zmk-module
