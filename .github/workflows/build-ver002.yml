@@ -2,10 +2,8 @@ name: Build clean Ver002 source
 
 on:
   push:
-    branches:
-      - release/ver002
-    paths:
-      - .github/workflows/build-ver002.yml
+    branches: [release/ver002]
+    paths: [.github/workflows/build-ver002.yml]
 
 permissions:
   contents: write
@@ -17,7 +15,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Promote reviewed Ver002
+      - name: Diagnose reviewed Ver002 patch
         shell: bash
         run: |
           set -euo pipefail
@@ -25,92 +23,18 @@ jobs:
           DST=hardware/main-pcb/Ver002
           rm -rf "$DST"
           cp -a "$SRC" "$DST"
-
-          # Do not carry historical/editor/manufacturing clutter into Ver002.
-          rm -rf "$DST/1_RIGHT/SplitChoc64_RIGHT-backups" \
-                 "$DST/2_LEFT/SplitChoc64_LEFT-backups" \
-                 "$DST/5_MANIFUCTUR"
-          rm -f "$DST/1_RIGHT/SplitChoc64_RIGHT.kicad_prl" \
-                "$DST/2_LEFT/SplitChoc64_LEFT.kicad_prl" \
-                "$DST/1_RIGHT/fp-info-cache" \
-                "$DST/2_LEFT/fp-info-cache" \
-                "$DST/XIAO_PIN_NAME_FIX_VERIFICATION.txt"
-
-          # Review4 saved these edited KiCad files with LF line endings; normalize only them.
+          rm -rf "$DST/1_RIGHT/SplitChoc64_RIGHT-backups" "$DST/2_LEFT/SplitChoc64_LEFT-backups" "$DST/5_MANIFUCTUR"
+          rm -f "$DST/1_RIGHT/SplitChoc64_RIGHT.kicad_prl" "$DST/2_LEFT/SplitChoc64_LEFT.kicad_prl" "$DST/1_RIGHT/fp-info-cache" "$DST/2_LEFT/fp-info-cache" "$DST/XIAO_PIN_NAME_FIX_VERIFICATION.txt"
           python3 - <<'PY'
           from pathlib import Path
-          root = Path('hardware/main-pcb/Ver002')
-          rels = [
-              '1_RIGHT/SC64.kicad_sym',
-              '1_RIGHT/SplitChoc64.kicad_sym',
-              '1_RIGHT/SplitChoc64_RIGHT.kicad_pcb',
-              '1_RIGHT/SplitChoc64_RIGHT.kicad_sch',
-              '2_LEFT/SC64.kicad_sym',
-              '2_LEFT/SplitChoc64.kicad_sym',
-              '2_LEFT/SplitChoc64_LEFT.kicad_pcb',
-              '2_LEFT/SplitChoc64_LEFT.kicad_sch',
-          ]
+          root=Path('hardware/main-pcb/Ver002')
+          rels=['1_RIGHT/SC64.kicad_sym','1_RIGHT/SplitChoc64.kicad_sym','1_RIGHT/SplitChoc64_RIGHT.kicad_pcb','1_RIGHT/SplitChoc64_RIGHT.kicad_sch','2_LEFT/SC64.kicad_sym','2_LEFT/SplitChoc64.kicad_sym','2_LEFT/SplitChoc64_LEFT.kicad_pcb','2_LEFT/SplitChoc64_LEFT.kicad_sch']
           for rel in rels:
-              p = root / rel
-              p.write_bytes(p.read_bytes().replace(b'\r\n', b'\n'))
+              p=root/rel
+              p.write_bytes(p.read_bytes().replace(b'\r\n',b'\n'))
           PY
-
+          echo PATCH_SHA
+          sha256sum .ver002-core.patch
           (cd "$DST" && git apply ../../../.ver002-core.patch)
-
-          cat > "$DST/README.md" <<'EOF'
-          # SplitChoc64 Ver002
-
-          Clean GitHub release source promoted from the user-reviewed XIAO nRF52840 Plus correction.
-
-          - `0_COMMON`: shared footprints / 3D assets
-          - `1_RIGHT`: RIGHT KiCad project + ERC/DRC reports
-          - `2_LEFT`: LEFT KiCad project + ERC/DRC reports
-          - `3_PLATE`: accepted TopPlate STEP files
-          - `4_CASE`: accepted BottomCase / BatteryLid / trackball mechanical STEP files
-          - Manufacturing exports are intentionally not carried forward from Ver001; regenerate them from Ver002 when needed.
-
-          Validation status confirmed by the user in KiCad 9.0 before promotion:
-          - LEFT: ERC 0 errors / 0 warnings; DRC 0 violations / 0 unconnected / 0 footprint errors
-          - RIGHT: ERC 0 errors / 0 warnings; DRC 0 violations / 0 unconnected / 0 footprint errors
-
-          Ver002 changes:
-          - Correct XIAO nRF52840 Plus pad 28/29 geometry for bottom-side mounting.
-          - Remove unverified custom USB D-/D+ pads 30/31.
-          - Preserve project-specific large through-hole access pads 32/33 for front-side BAT/GND soldering.
-          - Keep the reviewed schematic connectivity and ERC/DRC rules unchanged.
-
-          Ver001 remains unchanged as historical source.
-          EOF
-
-          # Byte-for-byte checks of the eight reviewed electrical source files.
-          cat > /tmp/ver002-reviewed.sha256 <<'EOF'
-          971f3152e1d1aa56c9ba7ca60ad59b4f9b1ffe208fe75800a790c7998be918b6  1_RIGHT/SC64.kicad_sym
-          b819f28f3aaf28d984812e9ad5d0615fa259780b56958fed0ee3802c498ec07e  1_RIGHT/SplitChoc64.kicad_sym
-          2b9f8f2189f53a76ab4c8bf9bd314c9598cd25c2fdc225c81586d3d91af66932  1_RIGHT/SplitChoc64_RIGHT.kicad_pcb
-          613f2d472c882b40296ec153ad8be5def208627ee3702bb30f2b64811d49845a  1_RIGHT/SplitChoc64_RIGHT.kicad_sch
-          971f3152e1d1aa56c9ba7ca60ad59b4f9b1ffe208fe75800a790c7998be918b6  2_LEFT/SC64.kicad_sym
-          d0752c4233b110b37af5accaca16261298eabe2a6cd9cf3af0a37287743cf6bd  2_LEFT/SplitChoc64.kicad_sym
-          f7a34da26dee9a0e8b6eaff50aaad0b8f13aefd60962369f0abe8335abf692e7  2_LEFT/SplitChoc64_LEFT.kicad_pcb
-          a7e2afaacc10574003b309843685429faa60106c01c45c833ebabdb165e722e7  2_LEFT/SplitChoc64_LEFT.kicad_sch
-          EOF
-          (cd "$DST" && sha256sum -c /tmp/ver002-reviewed.sha256)
-
-          # Regenerate a clean manifest for the promoted tree itself.
-          python3 - <<'PY'
-          from pathlib import Path
-          import hashlib
-          root = Path('hardware/main-pcb/Ver002')
-          out = root / 'SHA256SUMS.txt'
-          lines = []
-          for p in sorted(x for x in root.rglob('*') if x.is_file() and x != out):
-              lines.append(f"{hashlib.sha256(p.read_bytes()).hexdigest()}  {p.relative_to(root).as_posix()}")
-          out.write_text('\n'.join(lines) + '\n')
-          PY
-
-          # Temporary promotion machinery must not remain in the final branch tree.
-          git rm -f .ver002-core.patch .github/workflows/build-ver002.yml
-          git add "$DST"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Promote reviewed SplitChoc64 hardware to Ver002"
-          git push origin HEAD:release/ver002
+          echo OUTPUT_SHA
+          (cd "$DST" && sha256sum 1_RIGHT/SC64.kicad_sym 1_RIGHT/SplitChoc64.kicad_sym 1_RIGHT/SplitChoc64_RIGHT.kicad_pcb 1_RIGHT/SplitChoc64_RIGHT.kicad_sch 2_LEFT/SC64.kicad_sym 2_LEFT/SplitChoc64.kicad_sym 2_LEFT/SplitChoc64_LEFT.kicad_pcb 2_LEFT/SplitChoc64_LEFT.kicad_sch)
