@@ -23,52 +23,57 @@ jobs:
           DST=hardware/main-pcb/Ver002
           rm -rf "$DST"
           cp -a "$SRC" "$DST"
-
-          rm -rf "$DST/1_RIGHT/SplitChoc64_RIGHT-backups" \
-                 "$DST/2_LEFT/SplitChoc64_LEFT-backups" \
-                 "$DST/5_MANIFUCTUR"
-          rm -f "$DST/1_RIGHT/SplitChoc64_RIGHT.kicad_prl" \
-                "$DST/2_LEFT/SplitChoc64_LEFT.kicad_prl" \
-                "$DST/1_RIGHT/fp-info-cache" \
-                "$DST/2_LEFT/fp-info-cache" \
-                "$DST/XIAO_PIN_NAME_FIX_VERIFICATION.txt"
+          rm -rf "$DST/1_RIGHT/SplitChoc64_RIGHT-backups" "$DST/2_LEFT/SplitChoc64_LEFT-backups" "$DST/5_MANIFUCTUR"
+          rm -f "$DST/1_RIGHT/SplitChoc64_RIGHT.kicad_prl" "$DST/2_LEFT/SplitChoc64_LEFT.kicad_prl" "$DST/1_RIGHT/fp-info-cache" "$DST/2_LEFT/fp-info-cache" "$DST/XIAO_PIN_NAME_FIX_VERIFICATION.txt"
 
           python3 - <<'PY'
           from pathlib import Path
+          import re
           root=Path('hardware/main-pcb/Ver002')
           rels=['1_RIGHT/SC64.kicad_sym','1_RIGHT/SplitChoc64.kicad_sym','1_RIGHT/SplitChoc64_RIGHT.kicad_pcb','1_RIGHT/SplitChoc64_RIGHT.kicad_sch','2_LEFT/SC64.kicad_sym','2_LEFT/SplitChoc64.kicad_sym','2_LEFT/SplitChoc64_LEFT.kicad_pcb','2_LEFT/SplitChoc64_LEFT.kicad_sch']
           for rel in rels:
               p=root/rel
               p.write_bytes(p.read_bytes().replace(b'\r\n',b'\n'))
+
+          for side in ['1_RIGHT','2_LEFT']:
+              for fn in ['SC64.kicad_sym','SplitChoc64.kicad_sym']:
+                  p=root/side/fn
+                  s=p.read_text()
+                  s='\n'.join(line for line in s.split('\n') if not ((('(number "30"' in line) or ('(number "31"' in line)) and 'USB D' in line))
+                  p.write_text(s)
+
+          for side,fn in [('1_RIGHT','SplitChoc64_RIGHT.kicad_sch'),('2_LEFT','SplitChoc64_LEFT.kicad_sch')]:
+              p=root/side/fn
+              s=p.read_text()
+              s='\n'.join(line for line in s.split('\n') if not ((('(number "30"' in line) or ('(number "31"' in line)) and 'USB D' in line))
+              s=re.sub(r' \(pin "30" \(uuid [^)]+\)\)', '', s)
+              s=re.sub(r' \(pin "31" \(uuid [^)]+\)\)', '', s)
+              if side=='1_RIGHT':
+                  s=s.replace('  (no_connect (at 368.30 87.63) (uuid d94ad075-756f-4bdd-a725-a15c51d6591f))\n','')
+                  s=s.replace('  (label "R_COL6" (at 368.30 90.17 0) (effects (font (size 0.90 0.90))) (uuid 99124084-c960-4c3a-9744-cac552ba5fd9))\n','')
+              else:
+                  s=s.replace('  (no_connect (at 368.30 87.63) (uuid 80a648a1-d5d6-4d18-8919-bf0112845246))\n','')
+                  s=s.replace('  (no_connect (at 368.30 90.17) (uuid 07437c02-c764-450d-9340-9423a160f443))\n','')
+              p.write_text(s)
+
+          for side,fn,batnet,gndnet in [
+              ('1_RIGHT','SplitChoc64_RIGHT.kicad_pcb','22 "R_BAT_SW"','14 "R_GND"'),
+              ('2_LEFT','SplitChoc64_LEFT.kicad_pcb','19 "L_BAT_SW"','18 "L_GND"')]:
+              p=root/side/fn
+              s=p.read_text()
+              for num,at,net in [('28','-5.517823 0.993988 180',batnet),('29','-5.517823 -1.006012 180',gndnet)]:
+                  pat=rf'\t\t\(pad "{num}" smd circle\n\t\t\t\(at [^\n]+\)\n\t\t\t\(size 1\.7 1\.7\)\n\t\t\t\(layers "B\.Cu" "B\.Mask" "B\.Paste"\)\n\t\t\t\(uuid "([^"]+)"\)\n\t\t\)'
+                  m=re.search(pat,s)
+                  assert m, (side,num)
+                  uuid=m.group(1)
+                  new=f'\t\t(pad "{num}" smd roundrect\n\t\t\t(at {at})\n\t\t\t(size 2.5 1.1)\n\t\t\t(layers "B.Cu" "B.Mask" "B.Paste")\n\t\t\t(roundrect_rratio 0.1)\n\t\t\t(net {net})\n\t\t\t(thermal_bridge_angle 45)\n\t\t\t(uuid "{uuid}")\n\t\t)'
+                  s=s[:m.start()]+new+s[m.end():]
+              for num in ('30','31'):
+                  pat=rf'\n\t\t\(pad "{num}" smd circle\n\t\t\t\(at [^\n]+\)\n\t\t\t\(size 1\.7 1\.7\)\n\t\t\t\(layers "B\.Cu" "B\.Mask" "B\.Paste"\)\n\t\t\t\(uuid "[^"]+"\)\n\t\t\)'
+                  s,n=re.subn(pat,'',s,count=1)
+                  assert n==1, (side,num)
+              p.write_text(s)
           PY
-
-          # Apply the reviewed delta explicitly under Ver002, never Ver001.
-          git apply --directory="$DST" .ver002-core.patch
-
-          cat > "$DST/README.md" <<'EOF'
-          # SplitChoc64 Ver002
-
-          Clean GitHub release source promoted from the user-reviewed XIAO nRF52840 Plus correction.
-
-          - `0_COMMON`: shared footprints / 3D assets
-          - `1_RIGHT`: RIGHT KiCad project + ERC/DRC reports
-          - `2_LEFT`: LEFT KiCad project + ERC/DRC reports
-          - `3_PLATE`: accepted TopPlate STEP files
-          - `4_CASE`: accepted BottomCase / BatteryLid / trackball mechanical STEP files
-          - Manufacturing exports are intentionally not carried forward from Ver001; regenerate them from Ver002 when needed.
-
-          Validation confirmed by the user in KiCad 9.0 before promotion:
-          - LEFT: ERC 0/0; DRC 0/0
-          - RIGHT: ERC 0/0; DRC 0/0
-
-          Ver002 changes:
-          - Correct XIAO nRF52840 Plus pad 28/29 geometry for bottom-side mounting.
-          - Remove unverified custom USB D-/D+ pads 30/31.
-          - Preserve project-specific large through-hole access pads 32/33 for front-side BAT/GND soldering.
-          - Keep reviewed schematic connectivity and ERC/DRC rules unchanged.
-
-          Ver001 remains unchanged as historical source.
-          EOF
 
           cat > /tmp/ver002-reviewed.sha256 <<'EOF'
           971f3152e1d1aa56c9ba7ca60ad59b4f9b1ffe208fe75800a790c7998be918b6  1_RIGHT/SC64.kicad_sym
@@ -82,6 +87,23 @@ jobs:
           EOF
           (cd "$DST" && sha256sum -c /tmp/ver002-reviewed.sha256)
 
+          cat > "$DST/README.md" <<'EOF'
+          # SplitChoc64 Ver002
+
+          Clean GitHub source promoted from the user-reviewed XIAO nRF52840 Plus correction.
+
+          - `0_COMMON`: shared footprints / 3D assets
+          - `1_RIGHT`: RIGHT KiCad project + ERC/DRC reports
+          - `2_LEFT`: LEFT KiCad project + ERC/DRC reports
+          - `3_PLATE`: accepted TopPlate STEP files
+          - `4_CASE`: accepted BottomCase / BatteryLid / trackball mechanical STEP files
+          - Manufacturing exports are intentionally not carried forward from Ver001; regenerate them from Ver002 when needed.
+
+          Validation confirmed by the user in KiCad 9.0 before promotion: LEFT/RIGHT ERC 0/0 and DRC 0/0.
+
+          Ver002 corrects XIAO nRF52840 Plus pads 28/29, removes unverified pads 30/31, preserves the project-specific front-side solder access pads 32/33, and leaves Ver001 unchanged as historical source.
+          EOF
+
           python3 - <<'PY'
           from pathlib import Path
           import hashlib
@@ -93,7 +115,6 @@ jobs:
           out.write_text('\n'.join(lines)+'\n')
           PY
 
-          # Remove temporary promotion machinery so the PR contains only Ver002.
           git rm -f .ver002-core.patch .github/workflows/build-ver002.yml
           git add "$DST"
           git config user.name "github-actions[bot]"
