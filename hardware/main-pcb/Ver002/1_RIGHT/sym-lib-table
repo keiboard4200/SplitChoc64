@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name "SplitChoc64")(type "KiCad")(uri "${KIPRJMOD}/SplitChoc64.kicad_sym")(options "")(descr "SplitChoc64 Ver001 local schematic symbols"))
+)
