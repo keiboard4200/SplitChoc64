@@ -1,0 +1,49 @@
+SplitChoc64 Ver001 — XIAO nRF52840 Plus pin-name correction review package
+==========================================================================
+
+Purpose
+-------
+Correct schematic/library pin labels for the Seeed Studio XIAO nRF52840 Plus
+without changing PCB copper, pad geometry, placement, routing, or 3D models.
+
+Corrected pin names
+-------------------
+Pad 24: AUX24 -> SWDIO
+Pad 25: AUX25 -> SWDCLK
+Pad 26: RESET -> EN
+Pad 27: GND (unchanged)
+Pad 28: AUX28 -> VBAT
+Pad 29: AUX29 -> GND
+
+Files intentionally edited
+--------------------------
+1_RIGHT/SplitChoc64.kicad_sym
+1_RIGHT/SC64.kicad_sym
+1_RIGHT/SplitChoc64_RIGHT.kicad_sch
+2_LEFT/SplitChoc64.kicad_sym
+2_LEFT/SC64.kicad_sym
+2_LEFT/SplitChoc64_LEFT.kicad_sch
+
+Intentionally NOT changed
+-------------------------
+- LEFT/RIGHT .kicad_pcb files
+- U1/U2 footprint geometry and all pad coordinates/sizes
+- pads 30..33
+- PCB routing and net assignments
+- all STEP/3D model files
+- case/top plate/battery lid/trackball geometry
+- ERC/DRC rule settings
+
+Baseline checks
+---------------
+Canonical GitHub hardware/main-pcb/Ver001 PCB blob SHA values checked before packaging:
+LEFT  2_LEFT/SplitChoc64_LEFT.kicad_pcb  f4d9ea4f736a971030b46df9c57ce9df1f895ebf
+RIGHT 1_RIGHT/SplitChoc64_RIGHT.kicad_pcb dea28b0c6e13e364c5b489c4f8c7c8187acd633a
+
+The package PCB files retain those exact Git blob SHA values.
+The XIAO STEP model remains unchanged.
+
+Validation limitation
+---------------------
+No local KiCad CLI is available in this chat runtime, so ERC/DRC is not claimed here.
+Open the ZIP in KiCad 9.0 and run ERC/DRC locally before GitHub replacement.
