@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name "SplitChoc64_FFC")(type "KiCad")(uri "${KIPRJMOD}/../0_COMMON/SplitChoc64_FFC.pretty")(options "")(descr "SplitChoc64 FFC"))
+)
