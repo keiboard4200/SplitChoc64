@@ -1,0 +1,158 @@
+name: Apply XIAO pin-name fix
+
+on:
+  push:
+    branches:
+      - fix/xiao-nrf52840-plus-pin-names
+    paths:
+      - .github/workflows/apply-xiao-pinname-fix.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/xiao-nrf52840-plus-pin-names
+          fetch-depth: 0
+
+      - name: Apply reviewed pin-name-only changes
+        shell: python
+        run: |
+          from pathlib import Path
+          import hashlib
+
+          root = Path('hardware/main-pcb/Ver001')
+          targets = [
+              root / '1_RIGHT/SC64.kicad_sym',
+              root / '1_RIGHT/SplitChoc64.kicad_sym',
+              root / '1_RIGHT/SplitChoc64_RIGHT.kicad_sch',
+              root / '2_LEFT/SC64.kicad_sym',
+              root / '2_LEFT/SplitChoc64.kicad_sym',
+              root / '2_LEFT/SplitChoc64_LEFT.kicad_sch',
+          ]
+          replacements = {
+              'AUX24': 'SWDIO',
+              'AUX25': 'SWDCLK',
+              'RESET': 'EN',
+              'AUX28': 'VBAT',
+              'AUX29': 'GND',
+          }
+          expected_sha256 = {
+              str(root / '1_RIGHT/SC64.kicad_sym'): 'b338a7b736b245a4b3d6ae0a336ca12e81936df08ec2320dcd372c7f0901120e',
+              str(root / '1_RIGHT/SplitChoc64.kicad_sym'): '231b407389c2fd2b108f79dd2c7302ad654ff7a880fc8b816f3d3d08bfd5868b',
+              str(root / '1_RIGHT/SplitChoc64_RIGHT.kicad_sch'): '7a493f55839a706fe6ccd26ec064d2498577af4642aa6f5cd2728c924c13cdcf',
+              str(root / '2_LEFT/SC64.kicad_sym'): 'b338a7b736b245a4b3d6ae0a336ca12e81936df08ec2320dcd372c7f0901120e',
+              str(root / '2_LEFT/SplitChoc64.kicad_sym'): '854487e9cc753624d17ea054d49e15b7e302c70463acfc6991ff0351eef67e8f',
+              str(root / '2_LEFT/SplitChoc64_LEFT.kicad_sch'): 'd9692c7e7592bfe1d2aa61011d03d403ceca13d00523ae4658cc9e43c2a728d3',
+          }
+
+          for path in targets:
+              text = path.read_text(encoding='utf-8')
+              for old, new in replacements.items():
+                  count = text.count(f'name "{old}"')
+                  if count != 1:
+                      raise SystemExit(f'{path}: expected exactly one {old}, got {count}')
+                  text = text.replace(f'name "{old}"', f'name "{new}"')
+              path.write_text(text, encoding='utf-8', newline='\n')
+              digest = hashlib.sha256(path.read_bytes()).hexdigest()
+              expected = expected_sha256[str(path)]
+              if digest != expected:
+                  raise SystemExit(f'{path}: SHA256 mismatch {digest} != {expected}')
+
+          verification = '''SplitChoc64 Ver001 — XIAO nRF52840 Plus pin-name correction review package
+==========================================================================
+
+Purpose
+-------
+Correct schematic/library pin labels for the Seeed Studio XIAO nRF52840 Plus
+without changing PCB copper, pad geometry, placement, routing, or 3D models.
+
+Corrected pin names
+-------------------
+Pad 24: AUX24 -> SWDIO
+Pad 25: AUX25 -> SWDCLK
+Pad 26: RESET -> EN
+Pad 27: GND (unchanged)
+Pad 28: AUX28 -> VBAT
+Pad 29: AUX29 -> GND
+
+Files intentionally edited
+--------------------------
+1_RIGHT/SplitChoc64.kicad_sym
+1_RIGHT/SC64.kicad_sym
+1_RIGHT/SplitChoc64_RIGHT.kicad_sch
+2_LEFT/SplitChoc64.kicad_sym
+2_LEFT/SC64.kicad_sym
+2_LEFT/SplitChoc64_LEFT.kicad_sch
+
+Intentionally NOT changed
+-------------------------
+- LEFT/RIGHT .kicad_pcb files
+- U1/U2 footprint geometry and all pad coordinates/sizes
+- pads 30..33
+- PCB routing and net assignments
+- all STEP/3D model files
+- case/top plate/battery lid/trackball geometry
+- ERC/DRC rule settings
+
+Baseline checks
+---------------
+Canonical GitHub hardware/main-pcb/Ver001 PCB blob SHA values checked before packaging:
+LEFT  2_LEFT/SplitChoc64_LEFT.kicad_pcb  f4d9ea4f736a971030b46df9c57ce9df1f895ebf
+RIGHT 1_RIGHT/SplitChoc64_RIGHT.kicad_pcb dea28b0c6e13e364c5b489c4f8c7c8187acd633a
+
+The package PCB files retain those exact Git blob SHA values.
+The XIAO STEP model remains unchanged.
+
+Validation limitation
+---------------------
+No local KiCad CLI is available in this chat runtime, so ERC/DRC is not claimed here.
+Open the ZIP in KiCad 9.0 and run ERC/DRC locally before GitHub replacement.
+'''
+          verify_path = root / 'XIAO_PIN_NAME_FIX_VERIFICATION.txt'
+          verify_path.write_text(verification, encoding='utf-8', newline='\n')
+          vhash = hashlib.sha256(verify_path.read_bytes()).hexdigest()
+          if vhash != 'd28b5efdfa5053e266e0a89e858506cf0f2cad84d5542676919581f5d0e7027e':
+              raise SystemExit(f'verification SHA256 mismatch: {vhash}')
+
+          checksum_path = root / 'SHA256SUMS.txt'
+          lines = checksum_path.read_text(encoding='utf-8').splitlines()
+          replacements_hash = {**expected_sha256, str(verify_path): vhash}
+          seen = set()
+          out = []
+          for line in lines:
+              parts = line.split(None, 1)
+              if len(parts) == 2 and parts[1] in replacements_hash:
+                  out.append(f'{replacements_hash[parts[1]]}  {parts[1]}')
+                  seen.add(parts[1])
+              else:
+                  out.append(line)
+          for path, digest in replacements_hash.items():
+              if path not in seen:
+                  out.append(f'{digest}  {path}')
+          checksum_path.write_text('\n'.join(out) + '\n', encoding='utf-8', newline='\n')
+
+      - name: Ensure PCB and STEP data were untouched
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git hash-object hardware/main-pcb/Ver001/2_LEFT/SplitChoc64_LEFT.kicad_pcb)" = "f4d9ea4f736a971030b46df9c57ce9df1f895ebf"
+          test "$(git hash-object hardware/main-pcb/Ver001/1_RIGHT/SplitChoc64_RIGHT.kicad_pcb)" = "dea28b0c6e13e364c5b489c4f8c7c8187acd633a"
+          test "$(git hash-object hardware/main-pcb/Ver001/2_LEFT/3dmodels/xiao-nrf52840-plus-v2.step)" = "98db66e79b72cf0c05dadd099019ba547d7dd8ac"
+          test "$(git hash-object hardware/main-pcb/Ver001/1_RIGHT/3dmodels/xiao-nrf52840-plus-v2.step)" = "98db66e79b72cf0c05dadd099019ba547d7dd8ac"
+
+      - name: Commit reviewed delta and remove temporary workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm .github/workflows/apply-xiao-pinname-fix.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add hardware/main-pcb/Ver001 .github/workflows/apply-xiao-pinname-fix.yml
+          git diff --cached --check
+          git commit -m "Fix XIAO nRF52840 Plus pin names"
+          git push origin HEAD:fix/xiao-nrf52840-plus-pin-names
