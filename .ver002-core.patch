@@ -1,0 +1,208 @@
+diff --git a/1_RIGHT/SC64.kicad_sym b/1_RIGHT/SC64.kicad_sym
+index 27b5336..d4654f7 100644
+--- a/1_RIGHT/SC64.kicad_sym
++++ b/1_RIGHT/SC64.kicad_sym
+@@ -92,8 +92,6 @@
+         (pin passive line(at 23 2.50 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "27"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 23 5.00 180)(length 5)(name "VBAT"(effects(font(size 0.7 0.7))))(number "28"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 23 7.50 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "29"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 23 10.00 180)(length 5)(name "USB D-"(effects(font(size 0.7 0.7))))(number "30"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 23 12.50 180)(length 5)(name "USB D+"(effects(font(size 0.7 0.7))))(number "31"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 23 15.00 180)(length 5)(name "BAT"(effects(font(size 0.7 0.7))))(number "32"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 23 17.50 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "33"(effects(font(size 0.7 0.7)))))
+       )
+diff --git a/1_RIGHT/SplitChoc64.kicad_sym b/1_RIGHT/SplitChoc64.kicad_sym
+index c05e6a8..8a5cce5 100644
+--- a/1_RIGHT/SplitChoc64.kicad_sym
++++ b/1_RIGHT/SplitChoc64.kicad_sym
+@@ -95,8 +95,6 @@
+         (pin passive line(at 30.48 3.81 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "27"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 6.35 180)(length 5)(name "VBAT"(effects(font(size 0.7 0.7))))(number "28"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 8.89 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "29"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 30.48 11.43 180)(length 5)(name "USB D-"(effects(font(size 0.7 0.7))))(number "30"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 30.48 13.97 180)(length 5)(name "USB D+"(effects(font(size 0.7 0.7))))(number "31"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 16.51 180)(length 5)(name "BAT"(effects(font(size 0.7 0.7))))(number "32"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 19.05 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "33"(effects(font(size 0.7 0.7)))))
+       )
+diff --git a/1_RIGHT/SplitChoc64_RIGHT.kicad_pcb b/1_RIGHT/SplitChoc64_RIGHT.kicad_pcb
+index 6f7a920..023d33a 100644
+--- a/1_RIGHT/SplitChoc64_RIGHT.kicad_pcb
++++ b/1_RIGHT/SplitChoc64_RIGHT.kicad_pcb
+@@ -98632,30 +98632,24 @@
+ 			(layers "B.Cu" "B.Mask" "B.Paste")
+ 			(uuid "7f23012d-0c99-4082-a216-7240a342e73c")
+ 		)
+-		(pad "28" smd circle
+-			(at 3.556 1.27)
+-			(size 1.7 1.7)
++		(pad "28" smd roundrect
++			(at -5.517823 0.993988 180)
++			(size 2.5 1.1)
+ 			(layers "B.Cu" "B.Mask" "B.Paste")
++			(roundrect_rratio 0.1)
++			(net 22 "R_BAT_SW")
++			(thermal_bridge_angle 45)
+ 			(uuid "6fc1edb2-0f4f-43bc-a3b4-139ad46aac24")
+ 		)
+-		(pad "29" smd circle
+-			(at 3.556 -1.27)
+-			(size 1.7 1.7)
++		(pad "29" smd roundrect
++			(at -5.517823 -1.006012 180)
++			(size 2.5 1.1)
+ 			(layers "B.Cu" "B.Mask" "B.Paste")
++			(roundrect_rratio 0.1)
++			(net 14 "R_GND")
++			(thermal_bridge_angle 45)
+ 			(uuid "f6b43154-7083-4aec-90c9-12e841a37ec4")
+ 		)
+-		(pad "30" smd circle
+-			(at 1.016 1.27)
+-			(size 1.7 1.7)
+-			(layers "B.Cu" "B.Mask" "B.Paste")
+-			(uuid "e900d8e2-a955-4623-92c3-03b46b1cf659")
+-		)
+-		(pad "31" smd circle
+-			(at 1.016 -1.27)
+-			(size 1.7 1.7)
+-			(layers "B.Cu" "B.Mask" "B.Paste")
+-			(uuid "a1bf7a03-f547-4525-9908-9475a7c65d02")
+-		)
+ 		(pad "32" thru_hole oval
+ 			(at -5.51782 1.593988 180)
+ 			(size 4.2 2.6)
+diff --git a/1_RIGHT/SplitChoc64_RIGHT.kicad_sch b/1_RIGHT/SplitChoc64_RIGHT.kicad_sch
+index 0d04ace..6a03ec4 100644
+--- a/1_RIGHT/SplitChoc64_RIGHT.kicad_sch
++++ b/1_RIGHT/SplitChoc64_RIGHT.kicad_sch
+@@ -98,8 +98,6 @@
+         (pin passive line(at 30.48 3.81 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "27"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 6.35 180)(length 5)(name "VBAT"(effects(font(size 0.7 0.7))))(number "28"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 8.89 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "29"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 30.48 11.43 180)(length 5)(name "USB D-"(effects(font(size 0.7 0.7))))(number "30"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 30.48 13.97 180)(length 5)(name "USB D+"(effects(font(size 0.7 0.7))))(number "31"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 16.51 180)(length 5)(name "BAT"(effects(font(size 0.7 0.7))))(number "32"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 19.05 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "33"(effects(font(size 0.7 0.7)))))
+       )
+@@ -164,7 +162,7 @@
+ (property "Reference" "U2" (at 337.82 76.20 0)(effects(font(size .80 .80))))
+ (property "Value" "XIAO nRF52840 Plus" (at 337.82 105.41 0)(effects(font(size .62 .62))))
+ (property "Footprint" "" (at 337.82 101.60 0)(effects(font(size 1 1)) hide))
+-(pin "1" (uuid d37ac52f-42aa-4d09-9d20-14c974268f1b)) (pin "2" (uuid 71c4fa15-4e4b-4c11-94d2-5ecc320ed528)) (pin "3" (uuid 4450c581-2cea-42d7-b456-e7c8341df65a)) (pin "4" (uuid 615b3581-b79f-49af-b5af-219980f70bef)) (pin "5" (uuid 5b92ac09-fc0d-4330-a278-7f222f396720)) (pin "6" (uuid 61468a07-0f8c-496b-a7b0-1070d563b534)) (pin "7" (uuid 8a448197-dd07-4438-b2b9-c0913a21d0e9)) (pin "8" (uuid 71b883f7-7152-4d24-a0bf-11a7acc92078)) (pin "9" (uuid 5b42a186-e08a-486e-885e-555034704a99)) (pin "10" (uuid 10234edb-b782-42aa-ae0b-9135adcfbad5)) (pin "11" (uuid 80efb7b3-1b6f-4628-9a01-0f145298e916)) (pin "12" (uuid 64666b20-8e43-4de3-a3e6-f3d44f5a3793)) (pin "13" (uuid 06673e1d-224e-44cb-acaf-233cb749bb1d)) (pin "14" (uuid 35c0fd69-92c2-4fe3-ae0f-687a9eb18941)) (pin "15" (uuid 0a4d7f45-c3c0-4520-82d2-00cae787243d)) (pin "16" (uuid ad4a67c3-085f-49fc-abb0-eff460b1f0c6)) (pin "17" (uuid 1ff8bb33-e9cd-4291-9fee-0c7e1ac25ae9)) (pin "18" (uuid 7a1f8bb7-d3ef-4786-aef3-b5b172d7b920)) (pin "19" (uuid 04fcbccc-3b09-4883-88a3-6d9e7dcc2774)) (pin "20" (uuid 2e11f8e6-d92b-4246-a041-208ca4138261)) (pin "21" (uuid 9de55a4d-5e8e-4f6e-a783-c88dd56d534d)) (pin "22" (uuid 6c4ba91f-37f4-415a-a940-28caf49cad0e)) (pin "23" (uuid 16989d3b-ae18-475b-b3c1-2012f71a1d18)) (pin "24" (uuid 079b1ad5-36bd-417b-8796-535415d0bf07)) (pin "25" (uuid 8eca6e70-853b-4b25-87c0-9c515d1b6dff)) (pin "26" (uuid d491b123-2b24-4557-92af-4af6966de01f)) (pin "27" (uuid 30b32736-ba92-404b-bd06-8a6a460c179a)) (pin "28" (uuid 9bde1413-d1d9-4b84-80bc-c3bd8c8f7346)) (pin "29" (uuid 16e84113-c7b5-46ef-8cf3-4d63ab51e026)) (pin "30" (uuid 9dbf9759-e989-49c9-8479-c55a0454fc51)) (pin "31" (uuid 40c872a7-05ee-4d4b-9e23-b52b09206a1c)) (pin "32" (uuid d0fab281-04e6-44a8-968e-94a6a93b7add)) (pin "33" (uuid 0d432ee0-d093-4ed1-8f4a-8309833b04ed))
++(pin "1" (uuid d37ac52f-42aa-4d09-9d20-14c974268f1b)) (pin "2" (uuid 71c4fa15-4e4b-4c11-94d2-5ecc320ed528)) (pin "3" (uuid 4450c581-2cea-42d7-b456-e7c8341df65a)) (pin "4" (uuid 615b3581-b79f-49af-b5af-219980f70bef)) (pin "5" (uuid 5b92ac09-fc0d-4330-a278-7f222f396720)) (pin "6" (uuid 61468a07-0f8c-496b-a7b0-1070d563b534)) (pin "7" (uuid 8a448197-dd07-4438-b2b9-c0913a21d0e9)) (pin "8" (uuid 71b883f7-7152-4d24-a0bf-11a7acc92078)) (pin "9" (uuid 5b42a186-e08a-486e-885e-555034704a99)) (pin "10" (uuid 10234edb-b782-42aa-ae0b-9135adcfbad5)) (pin "11" (uuid 80efb7b3-1b6f-4628-9a01-0f145298e916)) (pin "12" (uuid 64666b20-8e43-4de3-a3e6-f3d44f5a3793)) (pin "13" (uuid 06673e1d-224e-44cb-acaf-233cb749bb1d)) (pin "14" (uuid 35c0fd69-92c2-4fe3-ae0f-687a9eb18941)) (pin "15" (uuid 0a4d7f45-c3c0-4520-82d2-00cae787243d)) (pin "16" (uuid ad4a67c3-085f-49fc-abb0-eff460b1f0c6)) (pin "17" (uuid 1ff8bb33-e9cd-4291-9fee-0c7e1ac25ae9)) (pin "18" (uuid 7a1f8bb7-d3ef-4786-aef3-b5b172d7b920)) (pin "19" (uuid 04fcbccc-3b09-4883-88a3-6d9e7dcc2774)) (pin "20" (uuid 2e11f8e6-d92b-4246-a041-208ca4138261)) (pin "21" (uuid 9de55a4d-5e8e-4f6e-a783-c88dd56d534d)) (pin "22" (uuid 6c4ba91f-37f4-415a-a940-28caf49cad0e)) (pin "23" (uuid 16989d3b-ae18-475b-b3c1-2012f71a1d18)) (pin "24" (uuid 079b1ad5-36bd-417b-8796-535415d0bf07)) (pin "25" (uuid 8eca6e70-853b-4b25-87c0-9c515d1b6dff)) (pin "26" (uuid d491b123-2b24-4557-92af-4af6966de01f)) (pin "27" (uuid 30b32736-ba92-404b-bd06-8a6a460c179a)) (pin "28" (uuid 9bde1413-d1d9-4b84-80bc-c3bd8c8f7346)) (pin "29" (uuid 16e84113-c7b5-46ef-8cf3-4d63ab51e026)) (pin "32" (uuid d0fab281-04e6-44a8-968e-94a6a93b7add)) (pin "33" (uuid 0d432ee0-d093-4ed1-8f4a-8309833b04ed))
+ (instances(project "SplitChoc64_RIGHT"(path "/faf1e9c2-e7cb-43d0-bd09-3e32de66e54b"(reference "U2")(unit 1)))))
+   (label "R_EXT_A" (at 307.34 81.28 180) (effects (font (size 0.90 0.90))) (uuid ae16ee70-70a2-4f82-b254-da8ec21898ea))
+   (label "R_EXT_B" (at 307.34 83.82 180) (effects (font (size 0.90 0.90))) (uuid 66f0ea8c-cdfb-4a3d-ba5c-ce98054f77a1))
+@@ -185,8 +183,6 @@
+   (label "R_COL3" (at 307.34 121.92 180) (effects (font (size 0.90 0.90))) (uuid 95a40fbb-422d-45c9-8bee-436fd0b7456c))
+   (label "R_COL4" (at 368.30 82.55 0) (effects (font (size 0.90 0.90))) (uuid f1dc27f8-7d25-438c-8821-30623832bb7a))
+   (label "R_COL5" (at 368.30 85.09 0) (effects (font (size 0.90 0.90))) (uuid 0e2d37db-d060-4711-b37e-f86ebd852601))
+-  (no_connect (at 368.30 87.63) (uuid d94ad075-756f-4bdd-a725-a15c51d6591f))
+-  (label "R_COL6" (at 368.30 90.17 0) (effects (font (size 0.90 0.90))) (uuid 99124084-c960-4c3a-9744-cac552ba5fd9))
+   (label "R_COL7" (at 368.30 92.71 0) (effects (font (size 0.90 0.90))) (uuid c2ddf5a8-0205-4305-a70e-a629206877dd))
+   (label "R_LED_CTRL" (at 368.30 95.25 0) (effects (font (size 0.90 0.90))) (uuid 49d1232c-061f-4261-8ddc-c5c2a435eda6))
+   (no_connect (at 368.30 97.79) (uuid c0eb9c5b-24a5-4b4b-b7de-03861ffaa526))
+diff --git a/2_LEFT/SC64.kicad_sym b/2_LEFT/SC64.kicad_sym
+index 27b5336..d4654f7 100644
+--- a/2_LEFT/SC64.kicad_sym
++++ b/2_LEFT/SC64.kicad_sym
+@@ -92,8 +92,6 @@
+         (pin passive line(at 23 2.50 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "27"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 23 5.00 180)(length 5)(name "VBAT"(effects(font(size 0.7 0.7))))(number "28"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 23 7.50 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "29"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 23 10.00 180)(length 5)(name "USB D-"(effects(font(size 0.7 0.7))))(number "30"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 23 12.50 180)(length 5)(name "USB D+"(effects(font(size 0.7 0.7))))(number "31"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 23 15.00 180)(length 5)(name "BAT"(effects(font(size 0.7 0.7))))(number "32"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 23 17.50 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "33"(effects(font(size 0.7 0.7)))))
+       )
+diff --git a/2_LEFT/SplitChoc64.kicad_sym b/2_LEFT/SplitChoc64.kicad_sym
+index efe6f01..3b50bfd 100644
+--- a/2_LEFT/SplitChoc64.kicad_sym
++++ b/2_LEFT/SplitChoc64.kicad_sym
+@@ -95,8 +95,6 @@
+         (pin passive line(at 30.48 3.81 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "27"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 6.35 180)(length 5)(name "VBAT"(effects(font(size 0.7 0.7))))(number "28"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 8.89 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "29"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 30.48 11.43 180)(length 5)(name "USB D-"(effects(font(size 0.7 0.7))))(number "30"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 30.48 13.97 180)(length 5)(name "USB D+"(effects(font(size 0.7 0.7))))(number "31"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 16.51 180)(length 5)(name "BAT"(effects(font(size 0.7 0.7))))(number "32"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 19.05 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "33"(effects(font(size 0.7 0.7)))))
+       )
+diff --git a/2_LEFT/SplitChoc64_LEFT.kicad_pcb b/2_LEFT/SplitChoc64_LEFT.kicad_pcb
+index a6d05a3..8348b1d 100644
+--- a/2_LEFT/SplitChoc64_LEFT.kicad_pcb
++++ b/2_LEFT/SplitChoc64_LEFT.kicad_pcb
+@@ -83749,30 +83749,24 @@
+ 			(layers "B.Cu" "B.Mask" "B.Paste")
+ 			(uuid "0c02f9b8-67f4-4f52-b8b6-2fa6f39563f4")
+ 		)
+-		(pad "28" smd circle
+-			(at 3.556 1.27)
+-			(size 1.7 1.7)
++		(pad "28" smd roundrect
++			(at -5.517823 0.993988 180)
++			(size 2.5 1.1)
+ 			(layers "B.Cu" "B.Mask" "B.Paste")
++			(roundrect_rratio 0.1)
++			(net 19 "L_BAT_SW")
++			(thermal_bridge_angle 45)
+ 			(uuid "8f48b132-0f10-42a2-b160-b3bc2094f5eb")
+ 		)
+-		(pad "29" smd circle
+-			(at 3.556 -1.27)
+-			(size 1.7 1.7)
++		(pad "29" smd roundrect
++			(at -5.517823 -1.006012 180)
++			(size 2.5 1.1)
+ 			(layers "B.Cu" "B.Mask" "B.Paste")
++			(roundrect_rratio 0.1)
++			(net 18 "L_GND")
++			(thermal_bridge_angle 45)
+ 			(uuid "a4656e3f-5cf6-4d02-909d-a47684728a6a")
+ 		)
+-		(pad "30" smd circle
+-			(at 1.016 1.27)
+-			(size 1.7 1.7)
+-			(layers "B.Cu" "B.Mask" "B.Paste")
+-			(uuid "9cb983c0-c5d3-4c7c-aaf2-d15b9d6ad7c1")
+-		)
+-		(pad "31" smd circle
+-			(at 1.016 -1.27)
+-			(size 1.7 1.7)
+-			(layers "B.Cu" "B.Mask" "B.Paste")
+-			(uuid "f2dd416f-3bcd-45cd-ad71-79c699036104")
+-		)
+ 		(pad "32" thru_hole oval
+ 			(at -5.51782 1.593988 180)
+ 			(size 4.2 2.6)
+diff --git a/2_LEFT/SplitChoc64_LEFT.kicad_sch b/2_LEFT/SplitChoc64_LEFT.kicad_sch
+index 8a5ac6a..b0bd43a 100644
+--- a/2_LEFT/SplitChoc64_LEFT.kicad_sch
++++ b/2_LEFT/SplitChoc64_LEFT.kicad_sch
+@@ -98,8 +98,6 @@
+         (pin passive line(at 30.48 3.81 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "27"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 6.35 180)(length 5)(name "VBAT"(effects(font(size 0.7 0.7))))(number "28"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 8.89 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "29"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 30.48 11.43 180)(length 5)(name "USB D-"(effects(font(size 0.7 0.7))))(number "30"(effects(font(size 0.7 0.7)))))
+-        (pin passive line(at 30.48 13.97 180)(length 5)(name "USB D+"(effects(font(size 0.7 0.7))))(number "31"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 16.51 180)(length 5)(name "BAT"(effects(font(size 0.7 0.7))))(number "32"(effects(font(size 0.7 0.7)))))
+         (pin passive line(at 30.48 19.05 180)(length 5)(name "GND"(effects(font(size 0.7 0.7))))(number "33"(effects(font(size 0.7 0.7)))))
+       )
+@@ -164,7 +162,7 @@
+ (property "Reference" "U1" (at 337.82 76.20 0)(effects(font(size .80 .80))))
+ (property "Value" "XIAO nRF52840 Plus" (at 337.82 105.41 0)(effects(font(size .62 .62))))
+ (property "Footprint" "" (at 337.82 101.60 0)(effects(font(size 1 1)) hide))
+-(pin "1" (uuid faeef1d0-16d9-4bef-ae02-e3b0f51aa3c5)) (pin "2" (uuid fce3d445-007f-4f02-aea4-98119e6b774d)) (pin "3" (uuid 9cb53e97-d337-4074-9fce-0d3e22bc786c)) (pin "4" (uuid c09706f1-715d-4117-ad24-e9b9d425f03c)) (pin "5" (uuid 8e0b6305-f831-46a9-9e96-515a30433f69)) (pin "6" (uuid 3b4bdbd9-d1b7-4577-ba92-5907d9d1c43d)) (pin "7" (uuid eed5c837-80d2-49a0-bb48-dca6b62eb397)) (pin "8" (uuid b66a3c3f-300e-4ba8-a748-370f4e5aeaef)) (pin "9" (uuid 1f42c65d-aeab-49d4-802a-0252c398402f)) (pin "10" (uuid 520d786c-09d5-4f5b-a500-290502aba1a3)) (pin "11" (uuid 8274438a-cf76-4eb1-9ca2-3528d8c05c69)) (pin "12" (uuid 522bf4c8-6f8f-4b3e-be14-959368013a1f)) (pin "13" (uuid a2d44858-1372-445e-a413-4d1473f8e6a0)) (pin "14" (uuid def16e42-c1df-45d8-ae69-7703c4afbd00)) (pin "15" (uuid f03fe72e-ef93-48d5-a98a-7cbed0195557)) (pin "16" (uuid ac46d609-e1ff-4481-a0df-4034ae9ff3cf)) (pin "17" (uuid 609ac383-6b12-4090-8ed7-dff5a95610ef)) (pin "18" (uuid 4b8438bf-0321-4700-82ba-c2bc76100dc8)) (pin "19" (uuid 77c8483f-7b36-4228-abab-48b9bd4622fa)) (pin "20" (uuid b15e9112-d193-463e-a11d-f468a12d0efe)) (pin "21" (uuid da469340-ffc8-45f1-8b5f-afce8090c410)) (pin "22" (uuid abd1a164-0794-477b-a464-7774522157fe)) (pin "23" (uuid 9ac3ed79-b53c-47b4-b7d3-16fa21c048e7)) (pin "24" (uuid 1bfcb96f-f986-411d-8ceb-3acdfc30c55c)) (pin "25" (uuid a2e89e62-bd1c-4f21-afbb-5728bb9df0c4)) (pin "26" (uuid 364dfde3-3fba-4a96-8713-d4b147e940d6)) (pin "27" (uuid 1135c41a-4bab-4960-b13b-703a7740328b)) (pin "28" (uuid c6a683a3-97a3-451f-9b01-9974cb5a46b2)) (pin "29" (uuid 42a1e03b-6cf2-491f-aa3d-f301e1310464)) (pin "30" (uuid 3ae4ecd4-09bc-403d-84ec-dc12d2c38520)) (pin "31" (uuid 8a7fbe45-da38-41a4-b63f-afc55af9533f)) (pin "32" (uuid 127b789c-6bdd-4e2f-8a7c-b647441fccd4)) (pin "33" (uuid 8b416375-1b1e-4ae1-b50c-9bcc8308b148))
++(pin "1" (uuid faeef1d0-16d9-4bef-ae02-e3b0f51aa3c5)) (pin "2" (uuid fce3d445-007f-4f02-aea4-98119e6b774d)) (pin "3" (uuid 9cb53e97-d337-4074-9fce-0d3e22bc786c)) (pin "4" (uuid c09706f1-715d-4117-ad24-e9b9d425f03c)) (pin "5" (uuid 8e0b6305-f831-46a9-9e96-515a30433f69)) (pin "6" (uuid 3b4bdbd9-d1b7-4577-ba92-5907d9d1c43d)) (pin "7" (uuid eed5c837-80d2-49a0-bb48-dca6b62eb397)) (pin "8" (uuid b66a3c3f-300e-4ba8-a748-370f4e5aeaef)) (pin "9" (uuid 1f42c65d-aeab-49d4-802a-0252c398402f)) (pin "10" (uuid 520d786c-09d5-4f5b-a500-290502aba1a3)) (pin "11" (uuid 8274438a-cf76-4eb1-9ca2-3528d8c05c69)) (pin "12" (uuid 522bf4c8-6f8f-4b3e-be14-959368013a1f)) (pin "13" (uuid a2d44858-1372-445e-a413-4d1473f8e6a0)) (pin "14" (uuid def16e42-c1df-45d8-ae69-7703c4afbd00)) (pin "15" (uuid f03fe72e-ef93-48d5-a98a-7cbed0195557)) (pin "16" (uuid ac46d609-e1ff-4481-a0df-4034ae9ff3cf)) (pin "17" (uuid 609ac383-6b12-4090-8ed7-dff5a95610ef)) (pin "18" (uuid 4b8438bf-0321-4700-82ba-c2bc76100dc8)) (pin "19" (uuid 77c8483f-7b36-4228-abab-48b9bd4622fa)) (pin "20" (uuid b15e9112-d193-463e-a11d-f468a12d0efe)) (pin "21" (uuid da469340-ffc8-45f1-8b5f-afce8090c410)) (pin "22" (uuid abd1a164-0794-477b-a464-7774522157fe)) (pin "23" (uuid 9ac3ed79-b53c-47b4-b7d3-16fa21c048e7)) (pin "24" (uuid 1bfcb96f-f986-411d-8ceb-3acdfc30c55c)) (pin "25" (uuid a2e89e62-bd1c-4f21-afbb-5728bb9df0c4)) (pin "26" (uuid 364dfde3-3fba-4a96-8713-d4b147e940d6)) (pin "27" (uuid 1135c41a-4bab-4960-b13b-703a7740328b)) (pin "28" (uuid c6a683a3-97a3-451f-9b01-9974cb5a46b2)) (pin "29" (uuid 42a1e03b-6cf2-491f-aa3d-f301e1310464)) (pin "32" (uuid 127b789c-6bdd-4e2f-8a7c-b647441fccd4)) (pin "33" (uuid 8b416375-1b1e-4ae1-b50c-9bcc8308b148))
+ (instances(project "SplitChoc64_LEFT"(path "/faf1e9c2-e7cb-43d0-bd09-3e32de66e54b"(reference "U1")(unit 1)))))
+   (label "L_EXT_A" (at 307.34 81.28 180) (effects (font (size 0.90 0.90))) (uuid 8ea750cf-555d-4346-b26c-94db9cac817d))
+   (label "L_EXT_B" (at 307.34 83.82 180) (effects (font (size 0.90 0.90))) (uuid 33374d6e-6ca7-41ce-822f-c1c969e4bd7e))
+@@ -185,8 +183,6 @@
+   (label "L_COL3" (at 307.34 121.92 180) (effects (font (size 0.90 0.90))) (uuid f674df66-c0f3-4840-bde5-aacd375a7e89))
+   (label "L_COL4" (at 368.30 82.55 0) (effects (font (size 0.90 0.90))) (uuid 3be8e305-98ef-4747-9bb6-8266661eec4f))
+   (label "L_COL5" (at 368.30 85.09 0) (effects (font (size 0.90 0.90))) (uuid 2c762545-998d-48a0-b90c-cea4e7948874))
+-  (no_connect (at 368.30 87.63) (uuid 80a648a1-d5d6-4d18-8919-bf0112845246))
+-  (no_connect (at 368.30 90.17) (uuid 07437c02-c764-450d-9340-9423a160f443))
+   (no_connect (at 368.30 92.71) (uuid d82b17ad-6546-4829-932c-7b61f1ef6148))
+   (label "L_LED_CTRL" (at 368.30 95.25 0) (effects (font (size 0.90 0.90))) (uuid 08e813ba-3fc2-4d2a-b79d-ce19db770121))
+   (no_connect (at 368.30 97.79) (uuid 240ca97c-ffed-4127-9332-71a8357833d6))
