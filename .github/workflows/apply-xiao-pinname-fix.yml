@@ -20,8 +20,9 @@ jobs:
           fetch-depth: 0
 
       - name: Apply reviewed pin-name-only changes
-        shell: python
+        shell: bash
         run: |
+          python - <<'PY'
           from pathlib import Path
           import hashlib
 
@@ -135,6 +136,7 @@ Open the ZIP in KiCad 9.0 and run ERC/DRC locally before GitHub replacement.
               if path not in seen:
                   out.append(f'{digest}  {path}')
           checksum_path.write_text('\n'.join(out) + '\n', encoding='utf-8', newline='\n')
+          PY
 
       - name: Ensure PCB and STEP data were untouched
         shell: bash
