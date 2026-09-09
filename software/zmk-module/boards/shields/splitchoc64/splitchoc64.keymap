@@ -61,6 +61,11 @@
             compatible = "zmk,behavior-mouse-button-toggle";
             #binding-cells = <0>;
         };
+
+        paw_cpi: paw_cpi {
+            compatible = "zmk,behavior-paw3222-cpi";
+            #binding-cells = <1>;
+        };
     };
 
     drag_lock_listener: drag_lock_listener {
@@ -108,7 +113,7 @@
             display-name = "Adjust/System";
             bindings = <
             &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &bl BL_TOG &bl BL_DEC &bl BL_INC &bl BL_CYCLE &trans &bt BT_PRV &bt BT_NXT &safe_bt_clear
-            &out OUT_TOG &out OUT_USB &out OUT_BLE &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            &out OUT_TOG &out OUT_USB &out OUT_BLE &paw_cpi 0 &paw_cpi 1 &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &safe_bootloader &trans &trans &trans &trans &trans &trans &trans &trans &studio_unlock &safe_bootloader
