@@ -4,13 +4,12 @@
 #include <stdint.h>
 
 #include <zephyr/device.h>
+#include <zephyr/devicetree.h>
 #include <zephyr/drivers/spi.h>
 #include <zephyr/kernel.h>
 
 #include <drivers/behavior.h>
 #include <zmk/behavior.h>
-
-#include <paw3222.h>
 
 #define PAW3222_CPI_X_REG 0x0d
 #define PAW3222_CPI_STEP 38U
@@ -20,6 +19,8 @@
 #if DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
 
 #if DT_HAS_COMPAT_STATUS_OKAY(pixart_paw3222)
+#include <paw3222.h>
+
 #define PAW3222_NODE DT_COMPAT_GET_ANY_STATUS_OKAY(pixart_paw3222)
 #define PAW3222_SPI_MODE                                                                            \
     (SPI_OP_MODE_MASTER | SPI_WORD_SET(8) | SPI_MODE_CPOL | SPI_MODE_CPHA | SPI_TRANSFER_MSB)
