@@ -3,9 +3,12 @@
 #include <stdbool.h>
 
 #include <zephyr/device.h>
+#include <zephyr/kernel.h>
+
+#if IS_ENABLED(CONFIG_INPUT)
 #include <zephyr/dt-bindings/input/input-event-codes.h>
 #include <zephyr/input/input.h>
-#include <zephyr/kernel.h>
+#endif
 
 #include <drivers/behavior.h>
 #include <zmk/behavior.h>
@@ -19,13 +22,18 @@ struct mouse_button_toggle_data {
 static int on_keymap_binding_pressed(struct zmk_behavior_binding *binding,
                                      struct zmk_behavior_binding_event event)
 {
+    ARG_UNUSED(event);
+
+#if IS_ENABLED(CONFIG_INPUT)
     const struct device *dev = zmk_behavior_get_binding(binding->behavior_dev);
     struct mouse_button_toggle_data *data = dev->data;
 
-    ARG_UNUSED(event);
-
     data->pressed = !data->pressed;
     return input_report_key(dev, INPUT_BTN_0, data->pressed ? 1 : 0, true, K_FOREVER);
+#else
+    ARG_UNUSED(binding);
+    return ZMK_BEHAVIOR_OPAQUE;
+#endif
 }
 
 static int on_keymap_binding_released(struct zmk_behavior_binding *binding,
