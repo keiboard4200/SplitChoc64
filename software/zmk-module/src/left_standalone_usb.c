@@ -231,12 +231,20 @@ static int standalone_position_listener(const zmk_event_t *eh) {
         return ZMK_EV_EVENT_BUBBLE;
     }
 
-    if (layer1_active) {
-        struct numfn_state *numfn = find_numfn(position);
-        if (numfn) {
-            handle_numfn(numfn, ev->state);
-            return ZMK_EV_EVENT_BUBBLE;
-        }
+    /*
+     * A numfn key is bound at press time.  Its release must complete even if
+     * LEFT Fn was released first and Layer 1 is no longer active, otherwise a
+     * held F-key could remain logically pressed.
+     */
+    struct numfn_state *numfn = find_numfn(position);
+    if (!ev->state && numfn && numfn->pressed) {
+        handle_numfn(numfn, false);
+        return ZMK_EV_EVENT_BUBBLE;
+    }
+
+    if (layer1_active && numfn) {
+        handle_numfn(numfn, ev->state);
+        return ZMK_EV_EVENT_BUBBLE;
     }
 
     if (ev->state) {
