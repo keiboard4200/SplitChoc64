@@ -7,7 +7,9 @@
 #include <zephyr/init.h>
 #include <zephyr/kernel.h>
 
+#include <zmk/activity.h>
 #include <zmk/event_manager.h>
+#include <zmk/events/activity_state_changed.h>
 
 #define STATUS_LED_NODE DT_ALIAS(status_led)
 
@@ -59,14 +61,19 @@ static void status_led_apply(bool solid_on, uint32_t period_ms)
 
 /*
  * Central / host-facing RIGHT LED policy:
- *   solid ON       = USB or BLE host connected
- *   slow blink 1 s = bonded BLE profile selected but currently disconnected
+ *   solid ON          = USB or BLE host connected
+ *   slow blink 1 s    = bonded BLE profile selected but disconnected
  *   fast blink 250 ms = open BLE profile / pairing-ready state
- *   OFF            = no usable endpoint state
+ *   OFF               = no usable endpoint state or deep sleep
  */
 static void status_led_update_central(void)
 {
     struct zmk_endpoint_instance selected = zmk_endpoint_get_selected();
+
+    if (zmk_activity_get_state() == ZMK_ACTIVITY_SLEEP) {
+        status_led_apply(false, 0U);
+        return;
+    }
 
     if (selected.transport == ZMK_TRANSPORT_USB) {
         status_led_apply(true, 0U);
@@ -112,9 +119,15 @@ ZMK_SUBSCRIPTION(splitchoc64_status_led_endpoint, zmk_ble_active_profile_changed
  * Peripheral LEFT LED policy:
  *   solid ON       = split link to RIGHT central established
  *   slow blink 1 s = waiting for the central half
+ *   OFF            = deep sleep
  */
 static void status_led_update_peripheral(void)
 {
+    if (zmk_activity_get_state() == ZMK_ACTIVITY_SLEEP) {
+        status_led_apply(false, 0U);
+        return;
+    }
+
     if (zmk_split_bt_peripheral_is_connected()) {
         status_led_apply(true, 0U);
     } else {
@@ -133,6 +146,22 @@ ZMK_LISTENER(splitchoc64_status_led_peripheral, status_led_peripheral_listener);
 ZMK_SUBSCRIPTION(splitchoc64_status_led_peripheral, zmk_split_peripheral_status_changed);
 
 #endif
+
+static int status_led_activity_listener(const zmk_event_t *eh)
+{
+    ARG_UNUSED(eh);
+
+#if defined(CONFIG_ZMK_SPLIT_ROLE_CENTRAL)
+    status_led_update_central();
+#else
+    status_led_update_peripheral();
+#endif
+
+    return ZMK_EV_EVENT_BUBBLE;
+}
+
+ZMK_LISTENER(splitchoc64_status_led_activity, status_led_activity_listener);
+ZMK_SUBSCRIPTION(splitchoc64_status_led_activity, zmk_activity_state_changed);
 
 static int splitchoc64_status_led_init(void)
 {
