@@ -6,11 +6,31 @@
 #include <dt-bindings/zmk/backlight.h>
 
 / {
+    behaviors {
+        numfn: numfn {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <250>;
+            bindings = <&kp>, <&kp>;
+        };
+
+        mouse_exit_kp: mouse_exit_kp {
+            compatible = "zmk,behavior-macro-one-param";
+            #binding-cells = <1>;
+            wait-ms = <0>;
+            tap-ms = <5>;
+            bindings =
+                <&to 0>,
+                <&macro_param_1to1 &kp MACRO_PLACEHOLDER>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
         lay0 {
-            display-name = "Lay0";
+            display-name = "Base";
             bindings = <
             &kp ESC &kp N1 &kp N2 &kp N3 &kp N4 &kp N5 &kp N6 &kp N7 &kp N8 &kp N9 &kp N0 &kp MINUS &kp EQUAL &kp BSPC
             &kp TAB &kp Q &kp W &kp E &kp R &kp T &kp Y &kp U &kp I &kp O &kp P &kp LBKT &kp RBKT &kp BSLH
@@ -21,55 +41,46 @@
         };
 
         lay1 {
-            display-name = "Lay1";
-            /*
-             * Hold the left Fn key for a left-hand numpad and right-hand
-             * mouse buttons/scroll controls. The Ver001 trackball remains
-             * normal pointer movement while these explicit mouse controls
-             * are available from the layer.
-             */
+            display-name = "Num/Nav";
             bindings = <
-            &kp KP_NUM &kp KP_SLASH &kp KP_MULTIPLY &kp KP_MINUS &kp KP_PLUS &trans &trans &trans &trans &trans &trans &trans &trans &trans
-            &trans &kp KP_N7 &kp KP_N8 &kp KP_N9 &kp KP_PLUS &trans &mkp MB4 &msc SCRL_LEFT &msc SCRL_UP &msc SCRL_DOWN &msc SCRL_RIGHT &mkp MB5 &trans &trans
-            &trans &kp KP_N4 &kp KP_N5 &kp KP_N6 &kp KP_ENTER &trans &trans &mkp LCLK &mkp MCLK &mkp RCLK &trans &trans &trans
-            &trans &kp KP_N1 &kp KP_N2 &kp KP_N3 &kp KP_ENTER &trans &trans &trans &trans &trans &trans &trans
-            &trans &kp KP_N0 &kp KP_DOT &trans &trans &mkp LCLK &trans &mkp RCLK &mkp MCLK &mkp MB4 &mkp MB5
+            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            &kp BSPC &numfn F7 KP_N7 &numfn F8 KP_N8 &numfn F9 KP_N9 &kp FSLH &kp MINUS &trans &kp HOME &kp UP &kp END &kp PG_UP &kp PG_DN &kp INS &kp DEL
+            &kp ENTER &numfn F4 KP_N4 &numfn F5 KP_N5 &numfn F6 KP_N6 &kp KP_MULTIPLY &kp KP_PLUS &trans &kp LEFT &kp DOWN &kp RIGHT &trans &trans &trans
+            &tog 4 &numfn F1 KP_N1 &numfn F2 KP_N2 &numfn F3 KP_N3 &numfn F10 KP_N0 &kp KP_DOT &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
         };
 
         lay2 {
-            display-name = "Lay2";
-            /*
-             * Hold the right Fn key for F1-F12 and right-hand navigation.
-             * I/J/K/L form an inverted-T arrow cluster.
-             */
+            display-name = "Edit/Symbol";
             bindings = <
-            &trans &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &trans
-            &trans &trans &trans &trans &trans &trans &trans &kp PG_UP &kp UP &kp PG_DN &trans &kp INS &kp DEL &trans
-            &trans &trans &trans &trans &trans &trans &kp HOME &kp LEFT &kp DOWN &kp RIGHT &kp END &kp DEL &trans
-            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &kp F11 &kp F12 &trans
+            &trans &kp LS(N9) &kp LS(N0) &kp LBKT &kp RBKT &kp LS(LBKT) &trans &kp HOME &kp PG_UP &kp PG_DN &kp END &kp INS &kp DEL &trans
+            &trans &kp LS(COMMA) &kp LS(DOT) &kp EQUAL &kp KP_PLUS &kp LS(RBKT) &trans &kp LC(LEFT) &kp LC(RIGHT) &kp BSPC &trans &trans &trans
+            &trans &kp LS(MINUS) &kp MINUS &kp LS(BSLH) &kp BSLH &kp GRAVE &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             >;
         };
 
         lay3 {
-            display-name = "Lay3";
-            /*
-             * Activated only while Lay1 and Lay2 are both active.
-             * Backlight controls are global across both split halves:
-             * toggle, brightness down/up (10% step), and cycle brightness.
-             * Bluetooth/output management and Studio unlock are retained.
-             * The two outer Ctrl positions are source-local bootloader keys:
-             * left Ctrl enters the LEFT XIAO bootloader, right Ctrl enters the
-             * RIGHT XIAO bootloader. This also works while using BLE; flashing
-             * the UF2 itself still requires USB access to the selected XIAO.
-             */
+            display-name = "Adjust/System";
             bindings = <
             &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &bl BL_TOG &bl BL_DEC &bl BL_INC &bl BL_CYCLE &trans &bt BT_PRV &bt BT_NXT &bt BT_CLR
             &out OUT_TOG &out OUT_USB &out OUT_BLE &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &bootloader &trans &trans &trans &trans &trans &trans &trans &trans &studio_unlock &bootloader
+            >;
+        };
+
+        lay4 {
+            display-name = "Mouse";
+            bindings = <
+            &mouse_exit_kp ESC &mouse_exit_kp N1 &mouse_exit_kp N2 &mouse_exit_kp N3 &mouse_exit_kp N4 &mouse_exit_kp N5 &mouse_exit_kp N6 &mouse_exit_kp N7 &mouse_exit_kp N8 &mouse_exit_kp N9 &mouse_exit_kp N0 &mouse_exit_kp MINUS &mouse_exit_kp EQUAL &mouse_exit_kp BSPC
+            &mouse_exit_kp TAB &mouse_exit_kp Q &mouse_exit_kp W &mouse_exit_kp E &mouse_exit_kp R &mouse_exit_kp T &mouse_exit_kp Y &mkp MB4 &mkp MB5 &mouse_exit_kp O &mouse_exit_kp P &mouse_exit_kp LBKT &mouse_exit_kp RBKT &mouse_exit_kp BSLH
+            &mouse_exit_kp CAPS &mouse_exit_kp A &mouse_exit_kp S &mouse_exit_kp D &mouse_exit_kp F &mouse_exit_kp G &mouse_exit_kp H &mkp LCLK &mkp RCLK &mkp MCLK &mouse_exit_kp SEMI &mouse_exit_kp SQT &mouse_exit_kp ENTER
+            &to 0 &mouse_exit_kp Z &mouse_exit_kp X &mouse_exit_kp C &mouse_exit_kp V &mouse_exit_kp B &mouse_exit_kp N &none &mouse_exit_kp COMMA &mouse_exit_kp DOT &mouse_exit_kp FSLH &to 0
+            &to 0 &to 0 &to 0 &to 0 &mouse_exit_kp SPACE &mouse_exit_kp SPACE &mo 2 &to 0 &to 0 &to 0 &to 0
             >;
         };
     };
