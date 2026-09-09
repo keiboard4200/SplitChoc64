@@ -43,11 +43,11 @@ static uint32_t active_code[POSITION_COUNT];
 
 /* Global SplitChoc64 positions belonging to the LEFT half. */
 static const uint32_t base_code[POSITION_COUNT] = {
-    [0] = ESC,    [1] = N1,     [2] = N2,     [3] = N3,     [4] = N4,    [5] = N5,
-    [14] = TAB,   [15] = Q,     [16] = W,     [17] = E,     [18] = R,    [19] = T,
-    [28] = CAPS,  [29] = A,     [30] = S,     [31] = D,     [32] = F,    [33] = G,
-    [41] = LSHIFT,[42] = Z,     [43] = X,     [44] = C,     [45] = V,    [46] = B,
-    [53] = LCTRL, [54] = LGUI,  [55] = LALT,  [57] = SPACE,
+    [0] = ESC,     [1] = N1,    [2] = N2,    [3] = N3,    [4] = N4,    [5] = N5,
+    [14] = TAB,    [15] = Q,    [16] = W,    [17] = E,    [18] = R,    [19] = T,
+    [28] = CAPS,   [29] = A,    [30] = S,    [31] = D,    [32] = F,    [33] = G,
+    [41] = LSHIFT, [42] = Z,    [43] = X,    [44] = C,    [45] = V,    [46] = B,
+    [53] = LCTRL,  [54] = LGUI, [55] = LALT, [57] = SPACE,
 };
 
 /* Layer 1 entries which replace Base directly.  Zero means transparent. */
@@ -123,11 +123,16 @@ static void reset_local_state(void) {
         numfn_keys[i].hold_sent = false;
     }
 
-    /* Clear ZMK's local HID state so reconnect cannot resurrect a held key. */
-    memset(zmk_hid_get_keyboard_report(), 0, sizeof(struct zmk_hid_keyboard_report));
-    memset(zmk_hid_get_consumer_report(), 0, sizeof(struct zmk_hid_consumer_report));
-    zmk_hid_unregister_mods(0xFF);
+    /*
+     * Clear only HID report bodies/state.  Do not memset the report structs:
+     * their report_id fields are initialized by ZMK and must survive USB mode
+     * changes/reconnects.
+     */
+    zmk_hid_unregister_mods(zmk_hid_get_explicit_mods());
     zmk_hid_implicit_modifiers_release();
+    zmk_hid_masked_modifiers_clear();
+    zmk_hid_keyboard_clear();
+    zmk_hid_consumer_clear();
 }
 
 static int set_split_transport_enabled(bool enabled) {
