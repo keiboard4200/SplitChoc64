@@ -42,6 +42,20 @@
                 <&macro_param_1to1>,
                 <&macro_release &mo MACRO_PLACEHOLDER>;
         };
+
+        safe_bt_clear: safe_bt_clear {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <350>;
+            bindings = <&none>, <&bt BT_CLR>;
+        };
+
+        safe_bootloader: safe_bootloader {
+            compatible = "zmk,behavior-tap-dance";
+            #binding-cells = <0>;
+            tapping-term-ms = <350>;
+            bindings = <&none>, <&bootloader>;
+        };
     };
 
     keymap {
@@ -83,11 +97,11 @@
         lay3 {
             display-name = "Adjust/System";
             bindings = <
-            &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &bl BL_TOG &bl BL_DEC &bl BL_INC &bl BL_CYCLE &trans &bt BT_PRV &bt BT_NXT &bt BT_CLR
+            &trans &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &bl BL_TOG &bl BL_DEC &bl BL_INC &bl BL_CYCLE &trans &bt BT_PRV &bt BT_NXT &safe_bt_clear
             &out OUT_TOG &out OUT_USB &out OUT_BLE &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-            &bootloader &trans &trans &trans &trans &trans &trans &trans &trans &studio_unlock &bootloader
+            &safe_bootloader &trans &trans &trans &trans &trans &trans &trans &trans &studio_unlock &safe_bootloader
             >;
         };
 
