@@ -19,7 +19,8 @@
 #if DT_HAS_COMPAT_STATUS_OKAY(DT_DRV_COMPAT)
 
 #if DT_HAS_COMPAT_STATUS_OKAY(pixart_paw3222)
-#include <paw3222.h>
+/* Public API exposed by zmk-driver-paw3222/include/paw3222.h. */
+int paw32xx_set_resolution(const struct device *dev, uint16_t res_cpi);
 
 #define PAW3222_NODE DT_COMPAT_GET_ANY_STATUS_OKAY(pixart_paw3222)
 #define PAW3222_SPI_MODE                                                                            \
