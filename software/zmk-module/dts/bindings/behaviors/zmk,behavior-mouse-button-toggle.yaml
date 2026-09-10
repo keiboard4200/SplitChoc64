@@ -1,0 +1,5 @@
+description: Toggle a mouse button state on each behavior press
+
+compatible: "zmk,behavior-mouse-button-toggle"
+
+include: zero_param.yaml

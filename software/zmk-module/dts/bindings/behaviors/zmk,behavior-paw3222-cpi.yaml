@@ -1,0 +1,5 @@
+description: Adjust PAW3222 CPI relative to the sensor's current register value
+
+compatible: "zmk,behavior-paw3222-cpi"
+
+include: one_param.yaml
