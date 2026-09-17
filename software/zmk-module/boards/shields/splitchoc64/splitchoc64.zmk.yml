@@ -5,6 +5,7 @@ type: shield
 requires: [xiao_ble]
 features:
   - keys
+  - studio
 siblings:
   - splitchoc64_left
   - splitchoc64_right
