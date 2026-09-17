@@ -90,7 +90,7 @@
         lay1 {
             display-name = "Num/Nav";
             bindings = <
-            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
+            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &kp DEL
             &kp BSPC &numfn F7 KP_N7 &numfn F8 KP_N8 &numfn F9 KP_N9 &kp FSLH &kp MINUS &trans &kp HOME &kp UP &kp END &kp PG_UP &kp PG_DN &kp INS &kp DEL
             &kp ENTER &numfn F4 KP_N4 &numfn F5 KP_N5 &numfn F6 KP_N6 &kp KP_MULTIPLY &kp KP_PLUS &trans &kp LEFT &kp DOWN &kp RIGHT &trans &trans &trans
             &tog 4 &numfn F1 KP_N1 &numfn F2 KP_N2 &numfn F3 KP_N3 &numfn F10 KP_N0 &kp KP_DOT &trans &trans &trans &trans &trans &trans
@@ -101,7 +101,7 @@
         lay2 {
             display-name = "Edit/Symbol";
             bindings = <
-            &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &kp F11 &kp F12 &trans
+            &trans &kp F1 &kp F2 &kp F3 &kp F4 &kp F5 &kp F6 &kp F7 &kp F8 &kp F9 &kp F10 &kp F11 &kp F12 &kp DEL
             &trans &kp LS(N9) &kp LS(N0) &kp LBKT &kp RBKT &kp LS(LBKT) &trans &kp HOME &kp PG_UP &kp PG_DN &kp END &kp INS &kp DEL &trans
             &trans &kp LS(COMMA) &kp LS(DOT) &kp EQUAL &kp LS(EQUAL) &kp LS(RBKT) &trans &kp LC(LEFT) &kp LC(RIGHT) &kp BSPC &trans &trans &trans
             &trans &kp LS(MINUS) &kp MINUS &kp LS(BSLH) &kp BSLH &kp GRAVE &trans &trans &trans &trans &trans &trans
