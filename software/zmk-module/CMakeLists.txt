@@ -4,7 +4,12 @@
 target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/status_led.c)
 target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/behavior_mouse_button_toggle.c)
 target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/behavior_paw3222_cpi.c)
-target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/emergency_bootloader.c)
+
+# Emergency bootloader is specific to the physical SplitChoc64 halves.
+# Do not compile it for utility builds such as settings_reset.
+if(CONFIG_SHIELD_SPLITCHOC64_LEFT OR CONFIG_SHIELD_SPLITCHOC64_RIGHT)
+  target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/emergency_bootloader.c)
+endif()
 
 # ZMK intentionally excludes its host-side HID/keymap path from split peripherals.
 # LEFT keeps the normal peripheral role, but additionally exposes only its local
