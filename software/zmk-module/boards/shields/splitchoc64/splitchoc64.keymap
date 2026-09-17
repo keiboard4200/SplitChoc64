@@ -147,7 +147,7 @@
             &out OUT_TOG &out OUT_USB &out OUT_BLE &paw_cpi 0 &paw_cpi 1 &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
             &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans &trans
-            &safe_bootloader &trans &trans &trans &trans &trans &trans &trans &trans &studio_unlock &safe_bootloader
+            &safe_bootloader &trans &trans &trans &trans &trans &trans &studio_unlock &trans &trans &safe_bootloader
             >;
         };
 
