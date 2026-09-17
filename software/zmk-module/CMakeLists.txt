@@ -4,6 +4,7 @@
 target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/status_led.c)
 target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/behavior_mouse_button_toggle.c)
 target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/behavior_paw3222_cpi.c)
+target_sources(app PRIVATE ${CMAKE_CURRENT_LIST_DIR}/src/emergency_bootloader.c)
 
 # ZMK intentionally excludes its host-side HID/keymap path from split peripherals.
 # LEFT keeps the normal peripheral role, but additionally exposes only its local
